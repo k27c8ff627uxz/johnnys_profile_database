@@ -1,0 +1,10 @@
+{
+  "name": "johnnys_profile_database",
+  "version": "0.0.0",
+  "description": "ジャニーズのデータベースです。",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k27c8ff627uxz/johnnys_profile_database.git"
+  },
+  "author": "k27c8"
+}
