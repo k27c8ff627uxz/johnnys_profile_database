@@ -1,12 +1,10 @@
 import React from 'react';
-import MainFrameworkPC from './MainFrameworks/MainFrameworkPC';
-import MainFrameworkMobile from './MainFrameworks/MainFrameworkMobile';
+import MainFramework from './MainFrameworks/MainFramework';
 
 const App: React.FC = () => {
   return (
     <React.Fragment>
-      <MainFrameworkPC drawerWidth={240}/>
-      <MainFrameworkMobile drawerWidth={240}/>
+      <MainFramework drawerWidth={240}/>
     </React.Fragment>
   );
 };

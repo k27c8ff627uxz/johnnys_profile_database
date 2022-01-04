@@ -7,22 +7,42 @@ import {
 } from '@mui/icons-material';
 
 export interface MainAppBarProps {
-  isDrawerOpen: boolean;
-  handleOpenDrawer: () => void;
+  isPCDrawerOpen: boolean;
+  isMobileDrawerOpen: boolean;
+  handleOpenPCDrawer: () => void;
+  handleOpenMobileDrawer: () => void;
 }
 
 const MainAppBar: React.FC<MainAppBarProps> = (props) => {
-  const { isDrawerOpen, handleOpenDrawer } = props;
+  const {
+    isPCDrawerOpen,
+    isMobileDrawerOpen,
+    handleOpenPCDrawer,
+    handleOpenMobileDrawer,
+  } = props;
 
   return (
     <React.Fragment>
-      {!isDrawerOpen &&
+      {!isPCDrawerOpen &&
         <IconButton
+          sx={{ display: { xs: 'none', md: 'inline' } }}
           size='large'
           edge='start'
           color='inherit'
           aria-label='menu'
-          onClick={() => handleOpenDrawer()}
+          onClick={() => handleOpenPCDrawer()}
+        >
+          <MenuIcon />
+        </IconButton>
+      }
+      {!isMobileDrawerOpen &&
+        <IconButton
+          sx={{ display: { xs: 'inline', md: 'none' } }}
+          size='large'
+          edge='start'
+          color='inherit'
+          aria-label='menu'
+          onClick={() => handleOpenMobileDrawer()}
         >
           <MenuIcon />
         </IconButton>
