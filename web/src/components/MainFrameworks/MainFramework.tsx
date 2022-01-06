@@ -101,7 +101,7 @@ const MainFramework: React.FC<MainFrameworkProps> = (props) => {
           '& .MuiDrawer-paper': { width: drawerWidth },
         }}
       >
-        <MainMenu />
+        <MainMenu handleSelected={() => { setDrawerOpen('none'); }} />
       </Drawer>
       <MainBox drawerWidth={drawerWidth} isPCDrawerOpen={isDrawerOpen === 'pc'}>
         <Toolbar />

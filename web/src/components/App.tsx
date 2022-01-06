@@ -1,11 +1,12 @@
 import React from 'react';
 import MainFramework from './MainFrameworks/MainFramework';
+import { BrowserRouter } from 'react-router-dom';
 
 const App: React.FC = () => {
   return (
-    <React.Fragment>
+    <BrowserRouter>
       <MainFramework drawerWidth={240}/>
-    </React.Fragment>
+    </BrowserRouter>
   );
 };
 
