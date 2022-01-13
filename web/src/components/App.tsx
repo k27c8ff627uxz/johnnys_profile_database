@@ -1,12 +1,12 @@
 import React from 'react';
 import MainFramework from './MainFrameworks/MainFramework';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MainFramework drawerWidth={240}/>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
