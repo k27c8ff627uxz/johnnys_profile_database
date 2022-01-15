@@ -3,7 +3,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "firebase deploy --project $FIREBASE_PROJECT"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

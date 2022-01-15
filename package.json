@@ -2,9 +2,16 @@
   "name": "johnnys_profile_database",
   "version": "0.0.0",
   "description": "ジャニーズのデータベースです。",
+  "scripts": {
+    "login": "firebase login",
+    "logout": "firebase logout"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/k27c8ff627uxz/johnnys_profile_database.git"
   },
-  "author": "k27c8"
+  "author": "k27c8",
+  "devDependencies": {
+    "firebase-tools": "^10.1.0"
+  }
 }
