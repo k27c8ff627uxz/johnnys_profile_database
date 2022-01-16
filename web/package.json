@@ -1,10 +1,10 @@
 {
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": ". ../env/.env.${PRODUCT_STAGE} && react-scripts start",
+    "build": ". ../env/.env.${PRODUCT_STAGE} && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "firebase deploy --project $FIREBASE_PROJECT"
+    "deploy": ". ../env/.env.${PRODUCT_STAGE} && firebase deploy --project ${FIREBASE_PROJECT}"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
