@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   AppBar,
   Box,
+  CssBaseline,
   Divider,
   Drawer,
   IconButton,
@@ -53,6 +54,7 @@ const MainFramework: React.FC<MainFrameworkProps> = (props) => {
 
   return (
     <Box>
+      <CssBaseline />
       <AppBar
         position='fixed'
         sx={
