@@ -1,0 +1,18 @@
+{
+  "main": "build/index.js",
+  "engines": {
+    "node": "16"
+  },
+  "scripts": {
+    "build": "tsc",
+    "deploy": ". ../env/.env.${PRODUCT_STAGE} && firebase deploy --only functions --project ${FIREBASE_PROJECT}"
+  },
+  "dependencies": {
+    "firebase": "^9.6.3",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.16.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}
