@@ -49,23 +49,28 @@ const Login: React.FC = () => {
   return (
     <Container maxWidth='sm'>
       <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
-        Login
+        ログイン
       </Typography>
       {loginError && (
-        <ErrorMessage>
-          Fail to Login !!
-        </ErrorMessage>
+        <>
+          <ErrorMessage>
+            ログインに失敗しました。
+          </ErrorMessage>
+          <ErrorMessage>
+            もう一度メールアドレスとパスワードを確認して下さい。
+          </ErrorMessage>
+        </>
       )}
       <form onSubmit={onSubmit}>
         <LoginTextField
-          label='E-mail'
+          label='メールアドレス'
           variant='standard'
           fullWidth
           value={email}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
         />
         <LoginTextField
-          label='Password'
+          label='パスワード'
           type='password'
           variant='standard'
           fullWidth
@@ -78,7 +83,7 @@ const Login: React.FC = () => {
             variant='contained'
             disabled={!email || !password || isLoading}
           >
-            Login
+            ログイン
           </SubmitButton>
         </Box>
       </form>
