@@ -1,8 +1,32 @@
 import React from 'react';
 import MainFramework from './MainFrameworks/MainFramework';
 import { HashRouter } from 'react-router-dom';
+import {
+  getAuth,
+  signOut,
+} from 'firebase/auth';
 import * as firebase from 'firebase/app';
 import InitializingError from './InitializingError';
+import AccountContainer from '../models/account';
+
+const AccountFramework: React.FC = () => {
+  const { setUserInfo, resetUserInfo } = AccountContainer.useContainer();
+  const auth = getAuth();
+  auth.onAuthStateChanged(user => {
+    if (user === null) {
+      resetUserInfo();
+    } else {
+      setUserInfo({uid: user.uid});
+    }
+  });
+
+  return (
+    <MainFramework
+      drawerWidth={240}
+      handleSignOut={() => signOut(auth) }
+    />
+  );
+};
 
 const App: React.FC = () => {
 
@@ -22,7 +46,9 @@ const App: React.FC = () => {
 
   return (
     <HashRouter>
-      <MainFramework drawerWidth={240}/>
+      <AccountContainer.Provider>
+        <AccountFramework />
+      </AccountContainer.Provider>
     </HashRouter>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -31,6 +32,8 @@ const Login: React.FC = () => {
   const [loginError, setLoginError] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const onSubmit = () => {
     setLoading(true);
     const auth = getAuth();
@@ -39,8 +42,9 @@ const Login: React.FC = () => {
       auth,
       email,
       password,
-    ).then(
-    ).catch(() => {
+    ).then(() => {
+      navigate('/');
+    }).catch(() => {
       setLoginError(true);
       setLoading(false);
     });

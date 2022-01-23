@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Button,
   IconButton,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import {
+  AccountCircle as AccountCircleIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
+import AccountContainer from '../../models/account';
 
 export interface MainAppBarProps {
   isPCDrawerOpen: boolean;
   isMobileDrawerOpen: boolean;
   handleOpenPCDrawer: () => void;
   handleOpenMobileDrawer: () => void;
+  handleSignOut: () => void;
 }
 
 const MainAppBar: React.FC<MainAppBarProps> = (props) => {
@@ -19,7 +26,11 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
     isMobileDrawerOpen,
     handleOpenPCDrawer,
     handleOpenMobileDrawer,
+    handleSignOut,
   } = props;
+
+  const { uid } = AccountContainer.useContainer();
+  const [userMenuAnchor, setUserMenuAnchor] = useState<Element | null>(null);
 
   return (
     <React.Fragment>
@@ -47,6 +58,26 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
           <MenuIcon />
         </IconButton>
       }
+      <span style={{flexGrow: 1}} />
+      {uid !== null && <Button
+        startIcon={<AccountCircleIcon />}
+        endIcon={<KeyboardArrowDownIcon />}
+        color='inherit'
+        onClick={(event) => setUserMenuAnchor(event.currentTarget)}
+      >
+        User
+      </Button>}
+      <Menu
+        anchorEl={userMenuAnchor}
+        open={userMenuAnchor !== null}
+        onClose={() => setUserMenuAnchor(null)}
+      >
+        <MenuItem
+          onClick={() => { handleSignOut(); setUserMenuAnchor(null); } }
+        >
+          ログアウト
+        </MenuItem>
+      </Menu>
     </React.Fragment>
   );
 };
