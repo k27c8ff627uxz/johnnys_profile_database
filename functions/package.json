@@ -5,6 +5,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "eslint": "eslint src",
     "deploy": ". ../env/.env.${PRODUCT_STAGE} && firebase deploy --only functions --project ${FIREBASE_PROJECT}"
   },
   "dependencies": {
@@ -13,6 +14,8 @@
     "firebase-functions": "^3.16.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "eslint": "^8.6.0",
     "typescript": "^4.5.4"
   }
 }
