@@ -12,6 +12,9 @@
   },
   "author": "k27c8",
   "devDependencies": {
-    "firebase-tools": "^10.1.0"
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "eslint-plugin-react": "^7.28.0",
+    "firebase-tools": "^10.1.0",
+    "lint": "^0.7.0"
   }
 }

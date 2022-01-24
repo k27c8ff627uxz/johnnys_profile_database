@@ -1,5 +1,5 @@
 module.exports = {
-  'parser': '@typescript-eslint/parser',
+  'parser': '@typescript-eslint/parser', 
   'extends': [
     'plugin:@typescript-eslint/recommended',
   ],
@@ -11,5 +11,10 @@ module.exports = {
     'linebreak-style': [ 2, 'unix' ],
     'eol-last': ['error', 'always'],
     '@typescript-eslint/no-var-requires': 0,
+  },
+  'settings': {
+    'react': {
+      'version': 'detect',
+    },
   },
 };
