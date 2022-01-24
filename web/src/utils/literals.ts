@@ -4,6 +4,7 @@ const literals = {
     profileList: '/profile_list',
     account: {
       login: '/account/login',
+      signup: '/account/signup',
     },
   },
 };
