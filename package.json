@@ -4,7 +4,8 @@
   "description": "ジャニーズのデータベースです。",
   "scripts": {
     "login": "firebase login",
-    "logout": "firebase logout"
+    "logout": "firebase logout",
+    "copy_common": "cpx common/**/*.ts web/src/common; cpx common/**/*.ts functions/src/common"
   },
   "repository": {
     "type": "git",
@@ -13,6 +14,7 @@
   "author": "k27c8",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "cpx": "^1.5.0",
     "eslint-plugin-react": "^7.28.0",
     "firebase-tools": "^10.1.0",
     "lint": "^0.7.0"
