@@ -7,8 +7,8 @@ import {
 import Dashboard from '../pages/Dashboard';
 import ProfileList from '../pages/ProfileList';
 import Error404 from '../pages/Error404';
-import Login from '../accounts/Login';
-import SignUp from '../accounts/SignUp';
+import Login from '../pages/accounts/Login';
+import SignUp from '../pages/accounts/SignUp';
 import literals from '../../utils/literals';
 
 const MainContents: React.FC = () => {
