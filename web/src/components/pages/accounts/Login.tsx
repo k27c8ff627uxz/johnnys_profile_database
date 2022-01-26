@@ -12,6 +12,8 @@ import {
   getAuth,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import FrameworkViewContainer from 'models/frameworkView';
+import literals from 'utils/literals';
 
 const LoginTextField = styled(TextField)(() => ({
   margin: '10px',
@@ -27,15 +29,15 @@ const ErrorMessage = styled(Typography)(({ theme }) => ({
 }));
 
 const Login: React.FC = () => {
+  const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
-  const [isLoading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    setLoading(true);
+    beginLoading();
     const auth = getAuth();
 
     signInWithEmailAndPassword(
@@ -43,10 +45,11 @@ const Login: React.FC = () => {
       email,
       password,
     ).then(() => {
+      finishLoading();
       navigate('/');
     }).catch(() => {
       setLoginError(true);
-      setLoading(false);
+      finishLoading();
     });
   };
 

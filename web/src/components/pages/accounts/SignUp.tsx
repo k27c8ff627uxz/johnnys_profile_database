@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { createAccountRequest, createAccountResult } from 'common/api/account/createAccount';
+import FrameworkViewContainer from 'models/frameworkView';
 import literals from 'utils/literals';
 
 const SignupTextField = styled(TextField)(() => ({
@@ -26,19 +27,19 @@ const SubmitButton = styled(Button)(() => ({
 }));
 
 const SignUp: React.FC = () => {
+  const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [signUpError, setSignUpError] = useState(false);
-  const [isLoading, setLoading] = useState(false);
   const [successToCreateAccount, setSuccessToCreateAccount] = useState(false);
 
   const functions = getFunctions();
 
   const onSubmit = async () => {
     const call = httpsCallable<createAccountRequest, createAccountResult>(functions, 'createAccount');
-    setLoading(true);
+    beginLoading();
 
     // アカウント作成
     try {
@@ -52,18 +53,19 @@ const SignUp: React.FC = () => {
       
       if(!result.result) {
         setSignUpError(true);
-        setLoading(false);
+        finishLoading();
         console.error(result.errorMessage);
         return;
       }
     } catch(e) {
       console.log(e);
       setSignUpError(true);
-      setLoading(false);
+      finishLoading();
       return;
     }
 
     // アカウント作成に成功したので、その旨を表示する画面に移行
+    finishLoading();
     setSuccessToCreateAccount(true);
   };
 

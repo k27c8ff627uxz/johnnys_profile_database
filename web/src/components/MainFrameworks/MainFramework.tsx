@@ -6,6 +6,7 @@ import {
   Divider,
   Drawer,
   IconButton,
+  LinearProgress,
   Toolbar,
 } from '@mui/material';
 import {
@@ -15,6 +16,7 @@ import { styled } from '@mui/material/styles';
 import MainAppBar from './MainAppBar';
 import MainMenu from './MainMenu';
 import MainContents from './MainContents';
+import FrameworkViewContainer from 'models/frameworkView';
 
 const DrawerHeader = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -50,6 +52,7 @@ export interface MainFrameworkProps {
 }
 
 const MainFramework: React.FC<MainFrameworkProps> = (props) => {
+  const { isLoading } = FrameworkViewContainer.useContainer();
   const { drawerWidth, handleSignOut } = props;
   const [isDrawerOpen, setDrawerOpen] = useState<'none' | 'mobile' | 'pc'>('none');
 
@@ -109,6 +112,7 @@ const MainFramework: React.FC<MainFrameworkProps> = (props) => {
       </Drawer>
       <MainBox drawerWidth={drawerWidth} isPCDrawerOpen={isDrawerOpen === 'pc'}>
         <Toolbar />
+        {isLoading && <LinearProgress />}
         <MainContents />
       </MainBox>
     </Box>

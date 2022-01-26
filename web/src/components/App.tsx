@@ -8,6 +8,7 @@ import {
 import * as firebase from 'firebase/app';
 import InitializingError from './InitializingError';
 import AccountContainer from 'models/account';
+import FrameworkViewContainer from 'models/frameworkView';
 
 const AccountFramework: React.FC = () => {
   const { setUserInfo, resetUserInfo } = AccountContainer.useContainer();
@@ -47,7 +48,9 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <AccountContainer.Provider>
-        <AccountFramework />
+        <FrameworkViewContainer.Provider>
+          <AccountFramework />
+        </FrameworkViewContainer.Provider>
       </AccountContainer.Provider>
     </HashRouter>
   );
