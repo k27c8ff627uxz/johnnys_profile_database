@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth';
 import * as firebase from 'firebase/app';
 import InitializingError from './InitializingError';
-import AccountContainer from '../models/account';
+import AccountContainer from 'models/account';
 
 const AccountFramework: React.FC = () => {
   const { setUserInfo, resetUserInfo } = AccountContainer.useContainer();
@@ -16,7 +16,7 @@ const AccountFramework: React.FC = () => {
     if (user === null) {
       resetUserInfo();
     } else {
-      setUserInfo({uid: user.uid});
+      setUserInfo(user);
     }
   });
 

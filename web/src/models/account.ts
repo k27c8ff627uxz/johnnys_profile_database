@@ -1,20 +1,22 @@
 import { useState } from 'react';
 import { createContainer } from 'unstated-next';
+import {
+  User,
+} from 'firebase/auth';
 
 const useAccountContainer = () => {
-  const [uid, setUid] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  const setUserInfo = (params: {uid: string}) => {
-    const { uid } = params;
-    setUid(uid);
+  const setUserInfo = (user: User) => {
+    setUser(user);
   };
 
   const resetUserInfo = () => {
-    setUid(null);
+    setUser(null);
   };
 
   return {
-    uid,
+    uid: user === null ? null : user.uid,
     setUserInfo,
     resetUserInfo,
   };
