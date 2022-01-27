@@ -44,9 +44,13 @@ const Login: React.FC = () => {
       auth,
       email,
       password,
-    ).then(() => {
+    ).then((credential) => {
       finishLoading();
-      navigate('/');
+      if (credential.user.emailVerified) {
+        navigate('/');
+      } else {
+        navigate(literals.path.account.sendVerifying);
+      }
     }).catch(() => {
       setLoginError(true);
       finishLoading();

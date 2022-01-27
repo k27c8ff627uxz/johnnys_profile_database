@@ -5,6 +5,8 @@ const literals = {
     account: {
       login: '/account/login',
       signup: '/account/signup',
+      sendVerifying: '/account/send_verify',
+      action: '/account/action',
     },
   },
 };
