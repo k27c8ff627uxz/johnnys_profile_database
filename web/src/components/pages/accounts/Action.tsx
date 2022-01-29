@@ -5,6 +5,7 @@ import {
   Typography,
 } from '@mui/material';
 import VerifyEmail from './actions/VerifyEmail';
+import ResetPassword from './actions/ResetPassword';
 
 const Action: React.FC = () => {
   const searchParams = useSearchParams()[0];
@@ -14,6 +15,14 @@ const Action: React.FC = () => {
     return (
       <Container sx={{textAlign: 'center'}}>
         <VerifyEmail
+          code={searchParams.get('oobCode')}
+        />
+      </Container>
+    );
+  case 'resetPassword':
+    return (
+      <Container sx={{textAlign: 'center'}}>
+        <ResetPassword
           code={searchParams.get('oobCode')}
         />
       </Container>

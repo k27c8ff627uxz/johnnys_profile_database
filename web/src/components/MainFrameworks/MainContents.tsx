@@ -10,6 +10,7 @@ import Error404 from '../pages/Error404';
 import Login from '../pages/accounts/Login';
 import SignUp from '../pages/accounts/SignUp';
 import SendVerificationEmail from '../pages/accounts/SendVerificationEmail';
+import ResetPassword from '../pages/accounts/ResetPassword';
 import Action from '../pages/accounts/Action';
 import literals from '../../utils/literals';
 
@@ -22,6 +23,7 @@ const MainContents: React.FC = () => {
       <Route path={literals.path.account.login} element={<Login />} />
       <Route path={literals.path.account.signup} element={<SignUp />} />
       <Route path={literals.path.account.sendVerifying} element={<SendVerificationEmail />} />
+      <Route path={literals.path.account.resetPassword} element={<ResetPassword />} />
       <Route path={literals.path.account.action} element={<Action />} />
       <Route path='*' element={<Error404 />} />
     </Routes>

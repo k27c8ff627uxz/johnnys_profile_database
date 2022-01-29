@@ -6,6 +6,7 @@ const literals = {
       login: '/account/login',
       signup: '/account/signup',
       sendVerifying: '/account/send_verify',
+      resetPassword: '/account/reset_password',
       action: '/account/action',
     },
   },
