@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -26,6 +27,12 @@ const SubmitButton = styled(Button)(() => ({
 const ErrorMessage = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.error.main,
+}));
+
+const AdditionalMessage = styled(Typography)(() => ({
+  margin: '5',
+  textAlign: 'center',
+  fontSize: 'small',
 }));
 
 const Login: React.FC = () => {
@@ -59,8 +66,8 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container maxWidth='sm'>
-      <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
+    <Container maxWidth='sm' sx={{textAlign: 'center'}}>
+      <Typography variant='h4' sx={{m: 2}}>
         ログイン
       </Typography>
       {loginError && (
@@ -99,6 +106,12 @@ const Login: React.FC = () => {
           </SubmitButton>
         </Box>
       </form>
+      <AdditionalMessage>
+        新規アカウント作成は<Link to={literals.path.account.signup}>こちら</Link>へ
+      </AdditionalMessage>
+      <AdditionalMessage>
+        パスワードを忘れてしまった方は<Link to={literals.path.account.resetPassword}>こちら</Link>へ
+      </AdditionalMessage>
     </Container>
   );
 };
