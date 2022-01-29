@@ -29,7 +29,7 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
     handleSignOut,
   } = props;
 
-  const { uid } = AccountContainer.useContainer();
+  const { userInfo } = AccountContainer.useContainer();
   const [userMenuAnchor, setUserMenuAnchor] = useState<Element | null>(null);
 
   return (
@@ -59,13 +59,13 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
         </IconButton>
       }
       <span style={{flexGrow: 1}} />
-      {uid !== null && <Button
+      {userInfo !== null && <Button
         startIcon={<AccountCircleIcon />}
         endIcon={<KeyboardArrowDownIcon />}
         color='inherit'
         onClick={(event) => setUserMenuAnchor(event.currentTarget)}
       >
-        User
+        {userInfo.name}
       </Button>}
       <Menu
         anchorEl={userMenuAnchor}

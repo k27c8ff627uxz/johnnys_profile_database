@@ -9,7 +9,9 @@ const useAccountContainer = () => {
   const [user, setUser] = useState<User | null>(null);
 
   return {
-    uid: user ? (user.emailVerified ? user.uid : null) : null,
+    userInfo : (user && user.emailVerified) ? {
+      name: user.displayName,
+    } : null,
 
     setUserInfo: (user: User) => {
       setUser(user);
