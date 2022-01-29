@@ -37,7 +37,8 @@ const SignUp: React.FC = () => {
 
   const functions = getFunctions();
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const call = httpsCallable<createAccountRequest, createAccountResult>(functions, 'createAccount');
     beginLoading();
 

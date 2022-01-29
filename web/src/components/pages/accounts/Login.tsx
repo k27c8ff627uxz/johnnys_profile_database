@@ -36,7 +36,8 @@ const Login: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = () => {
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     beginLoading();
     const auth = getAuth();
 
