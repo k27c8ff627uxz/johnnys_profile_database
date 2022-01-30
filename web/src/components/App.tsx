@@ -1,33 +1,10 @@
 import React from 'react';
-import MainFramework from './MainFrameworks/MainFramework';
 import { HashRouter } from 'react-router-dom';
-import {
-  getAuth,
-  signOut,
-} from 'firebase/auth';
 import * as firebase from 'firebase/app';
 import InitializingError from './InitializingError';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
-
-const AccountFramework: React.FC = () => {
-  const { setUserInfo, resetUserInfo } = AccountContainer.useContainer();
-  const auth = getAuth();
-  auth.onAuthStateChanged(user => {
-    if (user === null) {
-      resetUserInfo();
-    } else {
-      setUserInfo(user);
-    }
-  });
-
-  return (
-    <MainFramework
-      drawerWidth={240}
-      handleSignOut={() => signOut(auth) }
-    />
-  );
-};
+import AccountFramework from './AccountFramework';
 
 const App: React.FC = () => {
 
