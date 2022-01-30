@@ -5,12 +5,14 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import {
   AccountCircle as AccountCircleIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
 import AccountContainer from '../../models/account';
+import literals from 'utils/literals';
 
 export interface MainAppBarProps {
   isPCDrawerOpen: boolean;
@@ -31,6 +33,8 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
 
   const { userInfo } = AccountContainer.useContainer();
   const [userMenuAnchor, setUserMenuAnchor] = useState<Element | null>(null);
+
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
@@ -72,6 +76,11 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
         open={userMenuAnchor !== null}
         onClose={() => setUserMenuAnchor(null)}
       >
+        <MenuItem
+          onClick={() => { navigate(literals.path.account.profile); setUserMenuAnchor(null); }}
+        >
+          プロフィール
+        </MenuItem>
         <MenuItem
           onClick={() => { handleSignOut(); setUserMenuAnchor(null); } }
         >

@@ -5,9 +5,11 @@ import {
   Route,
 } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
 import Dashboard from '../pages/Dashboard';
 import ProfileList from '../pages/ProfileList';
 import Error404 from '../pages/Error404';
+import UserProfile from 'components/pages/accounts/UserProfile';
 import Login from '../pages/accounts/Login';
 import SignUp from '../pages/accounts/SignUp';
 import SendVerificationEmail from '../pages/accounts/SendVerificationEmail';
@@ -21,6 +23,7 @@ const MainContents: React.FC = () => {
       <Route path='/' element={<Navigate to={literals.path.dashboard} />} />
       <Route path={literals.path.dashboard} element={<Dashboard />} />
       <Route path={literals.path.profileList} element={<ProfileList />} />
+      <Route path={literals.path.account.profile} element={<PrivateRoute component={<UserProfile />} />} />
       <Route path={literals.path.account.login} element={<PublicRoute component={<Login />} />} />
       <Route path={literals.path.account.signup} element={<PublicRoute component={<SignUp />} />} />
       <Route path={literals.path.account.sendVerifying} element={<PublicRoute component={<SendVerificationEmail />} />} />

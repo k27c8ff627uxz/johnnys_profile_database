@@ -10,7 +10,8 @@ const useAccountContainer = () => {
 
   return {
     userInfo : (user && user.emailVerified) ? {
-      name: user.displayName,
+      name: user.displayName ?? '',
+      email: user.email ?? '',
     } : null,
 
     setUserInfo: (user: User) => {
@@ -19,6 +20,13 @@ const useAccountContainer = () => {
 
     resetUserInfo: () => {
       setUser(null);
+    },
+
+    reload: async () => {
+      if (!user) {
+        return;
+      }
+      await user.reload();
     },
 
     sendEmailVerification: async () => {
