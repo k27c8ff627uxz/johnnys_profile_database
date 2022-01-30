@@ -82,6 +82,11 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
           プロフィール
         </MenuItem>
         <MenuItem
+          onClick={() => { navigate(literals.path.account.changePassword); setUserMenuAnchor(null); }}
+        >
+          パスワード変更
+        </MenuItem>
+        <MenuItem
           onClick={() => { handleSignOut(); setUserMenuAnchor(null); } }
         >
           ログアウト
