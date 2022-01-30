@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Snackbar,
@@ -11,8 +11,10 @@ import MainFramework from './MainFrameworks/MainFramework';
 import AccountContainer from 'models/account';
 
 const AccountFramework: React.FC = () => {
-  const { setUserInfo, resetUserInfo } = AccountContainer.useContainer();
+  const { setCurrentUser, resetCurrentUser } = AccountContainer.useContainer();
   const [isLogoutOpen, setLogoutOpen] = useState(false);
+  const [onAuthStateChangeNotSet, setOnAuthStateChangeNotSet] = useState(true);
+
   const auth = getAuth();
 
   const onSignOut = async () => {
@@ -24,13 +26,19 @@ const AccountFramework: React.FC = () => {
     }
   };
 
-  auth.onAuthStateChanged(user => {
-    if (user === null) {
-      resetUserInfo();
-    } else {
-      setUserInfo(user);
+  useEffect(() => {
+    // setStateでレンダリング毎に呼ばれるのを防ぐため
+    if(onAuthStateChangeNotSet) {
+      auth.onAuthStateChanged(user => {
+        if (user === null) {
+          resetCurrentUser();
+        } else {
+          setCurrentUser(user);
+        }
+      });
+      setOnAuthStateChangeNotSet(false);
     }
-  });
+  }, [onAuthStateChangeNotSet]);
 
   return (
     <React.Fragment>

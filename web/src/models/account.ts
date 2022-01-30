@@ -5,21 +5,35 @@ import {
   sendEmailVerification,
 } from 'firebase/auth';
 
+interface UserInfo {
+  name: string;
+  email: string;
+}
+
 const useAccountContainer = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
-  return {
-    userInfo : (user && user.emailVerified) ? {
+  const updateUserInfo = (user: User) => {
+    setUserInfo({
       name: user.displayName ?? '',
       email: user.email ?? '',
-    } : null,
+    });
+  };
 
-    setUserInfo: (user: User) => {
+  return {
+    userInfo,
+
+    setCurrentUser: (user: User) => {
       setUser(user);
+      if(user.emailVerified) {
+        updateUserInfo(user);
+      }
     },
 
-    resetUserInfo: () => {
+    resetCurrentUser: () => {
       setUser(null);
+      setUserInfo(null);
     },
 
     reload: async () => {
@@ -27,6 +41,7 @@ const useAccountContainer = () => {
         return;
       }
       await user.reload();
+      updateUserInfo(user);
     },
 
     sendEmailVerification: async () => {
