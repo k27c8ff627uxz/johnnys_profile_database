@@ -3,28 +3,16 @@ import {
   Box,
   Button,
   Container,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { createAccountRequest, createAccountResult } from 'common/api/account/createAccount';
 import FrameworkViewContainer from 'models/frameworkView';
+import { MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
-
-const SignupTextField = styled(TextField)(() => ({
-  margin: '10px',
-}));
-
-const ErrorMessage = styled(Typography)(({ theme }) => ({
-  textAlign: 'center',
-  color: theme.palette.error.main,
-}));
-
-const SubmitButton = styled(Button)(() => ({
-  marginTop: '10px',
-}));
 
 const SignUp: React.FC = () => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
@@ -104,53 +92,52 @@ const SignUp: React.FC = () => {
       <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
         アカウント作成
       </Typography>
-      {signUpError && (
-        <>
-          <ErrorMessage>
-            アカウント作成に失敗しました。
-          </ErrorMessage>
-        </>
-      )}
+      {signUpError && <MyErrorMessage text={[
+        'アカウント作成に失敗しました。',
+      ]} />}
       <form onSubmit={onSubmit}>
-        <SignupTextField
-          label='ニックネーム'
-          variant='standard'
-          fullWidth
-          value={name}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
-        />
-        <SignupTextField
-          label='メールアドレス'
-          variant='standard'
-          fullWidth
-          value={email}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-        />
-        <SignupTextField
-          label='パスワード'
-          type='password'
-          variant='standard'
-          fullWidth
-          value={password}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
-        /> 
-        <SignupTextField
-          label='パスワード(確認用)'
-          type='password'
-          variant='standard'
-          fullWidth
-          value={passwordConfirm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(event.target.value)}
-        />
-        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-          <SubmitButton
-            type='submit'
-            variant='contained'
-            disabled={checkVerify()}
-          >
-            アカウント作成
-          </SubmitButton>
-        </Box>
+        <Stack spacing={2}>
+          <TextField
+            label='ニックネーム'
+            variant='standard'
+            fullWidth
+            value={name}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
+          />
+          <TextField
+            label='メールアドレス'
+            variant='standard'
+            fullWidth
+            value={email}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+          />
+          <TextField
+            label='パスワード'
+            type='password'
+            variant='standard'
+            fullWidth
+            value={password}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+          /> 
+          <TextField
+            label='パスワード(確認用)'
+            type='password'
+            variant='standard'
+            fullWidth
+            value={passwordConfirm}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(event.target.value)}
+          />
+          <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+            <Button
+              type='submit'
+              variant='contained'
+              disabled={checkVerify()}
+              sx={{textAlign: 'left'}}
+            >
+              アカウント作成
+            </Button>
+          </Box>
+        </Stack>
       </form>
     </Container>
   );

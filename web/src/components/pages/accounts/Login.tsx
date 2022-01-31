@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -14,20 +15,8 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import FrameworkViewContainer from 'models/frameworkView';
+import { MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
-
-const LoginTextField = styled(TextField)(() => ({
-  margin: '10px',
-}));
-
-const SubmitButton = styled(Button)(() => ({
-  marginTop: '10px',
-}));
-
-const ErrorMessage = styled(Typography)(({ theme }) => ({
-  textAlign: 'center',
-  color: theme.palette.error.main,
-}));
 
 const AdditionalMessage = styled(Typography)(() => ({
   margin: '5',
@@ -70,41 +59,37 @@ const Login: React.FC = () => {
       <Typography variant='h4' sx={{m: 2}}>
         ログイン
       </Typography>
-      {loginError && (
-        <>
-          <ErrorMessage>
-            ログインに失敗しました。
-          </ErrorMessage>
-          <ErrorMessage>
-            もう一度メールアドレスとパスワードを確認して下さい。
-          </ErrorMessage>
-        </>
-      )}
+      {loginError && <MyErrorMessage text={[
+        'ログインに失敗しました。',
+        'もう一度メールアドレスとパスワードを確認して下さい。',
+      ]} />}
       <form onSubmit={onSubmit}>
-        <LoginTextField
-          label='メールアドレス'
-          variant='standard'
-          fullWidth
-          value={email}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-        />
-        <LoginTextField
-          label='パスワード'
-          type='password'
-          variant='standard'
-          fullWidth
-          value={password}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
-        />
-        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-          <SubmitButton
-            type='submit'
-            variant='contained'
-            disabled={!email || !password || isLoading}
-          >
-            ログイン
-          </SubmitButton>
-        </Box>
+        <Stack spacing={2}>
+          <TextField
+            label='メールアドレス'
+            variant='standard'
+            fullWidth
+            value={email}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+          />
+          <TextField
+            label='パスワード'
+            type='password'
+            variant='standard'
+            fullWidth
+            value={password}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+          />
+          <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+            <Button
+              type='submit'
+              variant='contained'
+              disabled={!email || !password || isLoading}
+            >
+              ログイン
+            </Button>
+          </Box>
+        </Stack>
       </form>
       <AdditionalMessage>
         新規アカウント作成は<Link to={literals.path.account.signup}>こちら</Link>へ

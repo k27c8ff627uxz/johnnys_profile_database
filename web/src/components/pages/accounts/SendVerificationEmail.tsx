@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Alert,
   Button,
   Container,
-  Snackbar,
   Typography,
 } from '@mui/material';
+import { MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
 
@@ -40,16 +39,12 @@ const SendVerificationEmail: React.FC = () => {
       <Button disabled={isLoading} variant='contained' onClick={onVerifyClick}>
         有効化メール送信
       </Button>
-      <Snackbar open={isSendOpen === 'success'} autoHideDuration={6000} onClose={closeSendOpen}>
-        <Alert onClose={closeSendOpen} severity='success' sx={{ width: '100%' }}>
-          確認メールが送信されました。
-        </Alert>
-      </Snackbar>
-      <Snackbar open={isSendOpen === 'error'} autoHideDuration={6000} onClose={closeSendOpen}>
-        <Alert onClose={closeSendOpen} severity='error' sx={{ width: '100%' }}>
-          確認メールの送信に失敗しました。
-        </Alert>
-      </Snackbar>
+      <MySuccessSnackbar open={isSendOpen === 'success'} autoHideDuration={6000} onClose={closeSendOpen}>
+        確認メールが送信されました。
+      </MySuccessSnackbar>
+      <MyErrorSnackbar open={isSendOpen === 'error'} autoHideDuration={6000} onClose={closeSendOpen}>
+        確認メールの送信に失敗しました。
+      </MyErrorSnackbar>
     </Container>
   );
 };

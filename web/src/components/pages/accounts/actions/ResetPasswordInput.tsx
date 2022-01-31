@@ -2,18 +2,10 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
-const ResetField = styled(TextField)(() => ({
-  margin: '10px',
-}));
-
-const SubmitButton = styled(Button)(() => ({
-  marginTop: '10px',
-}));
 
 const ResetPasswordInput: React.FC<{
   onSetPassword: (password: string) => void,
@@ -52,31 +44,33 @@ const ResetPasswordInput: React.FC<{
         以下に新しいパスワードを入力して下さい。
       </Typography>
       <form onSubmit={onSubmit}>
-        <ResetField
-          label='パスワード'
-          type='password'
-          variant='standard'
-          fullWidth
-          value={password}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
-        /> 
-        <ResetField
-          label='パスワード(確認用)'
-          type='password'
-          variant='standard'
-          fullWidth
-          value={passwordConfirm}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(event.target.value)}
-        />
-        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-          <SubmitButton
-            type='submit'
-            variant='contained'
-            disabled={checkVerify()}
-          >
-            パスワード設定
-          </SubmitButton>
-        </Box>
+        <Stack>
+          <TextField
+            label='パスワード'
+            type='password'
+            variant='standard'
+            fullWidth
+            value={password}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+          /> 
+          <TextField
+            label='パスワード(確認用)'
+            type='password'
+            variant='standard'
+            fullWidth
+            value={passwordConfirm}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(event.target.value)}
+          />
+          <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+            <Button
+              type='submit'
+              variant='contained'
+              disabled={checkVerify()}
+            >
+              パスワード設定
+            </Button>
+          </Box>
+        </Stack>
       </form>
     </React.Fragment>
   );

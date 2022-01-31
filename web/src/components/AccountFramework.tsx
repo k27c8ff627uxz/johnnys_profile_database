@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
-  Snackbar,
-} from '@mui/material';
-import {
   getAuth,
   signOut,
 } from 'firebase/auth';
+import { MySuccessSnackbar } from 'utils/mycomponents';
 import MainFramework from './MainFrameworks/MainFramework';
 import AccountContainer from 'models/account';
 
@@ -46,11 +43,9 @@ const AccountFramework: React.FC = () => {
         drawerWidth={240}
         handleSignOut={onSignOut}
       />
-      <Snackbar open={isLogoutOpen} autoHideDuration={6000} onClose={() => setLogoutOpen(false)}>
-        <Alert onClose={() => setLogoutOpen(false)} severity='success' sx={{ width: '100%' }}>
-          ログアウトしました。
-        </Alert>
-      </Snackbar>
+      <MySuccessSnackbar open={isLogoutOpen} autoHideDuration={6000} onClose={() => setLogoutOpen(false)}>
+        ログアウトしました。
+      </MySuccessSnackbar>
     </React.Fragment>
   );
 };
