@@ -6,6 +6,7 @@ import {
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
+  deleteUser,
 } from 'firebase/auth';
 
 type UserInfo = {
@@ -81,6 +82,14 @@ const useAccountContainer = () => {
         console.error(e);
         return 'failCredential';
       }
+    },
+
+    deleteUser: async () => {
+      if (user === null || userInfo.state === 'undefined' || userInfo.state === 'logout') {
+        return;
+      }
+
+      await deleteUser(user);
     },
   };
 };

@@ -9,6 +9,7 @@ const literals = {
       sendVerifying: '/account/send_verify',
       resetPassword: '/account/reset_password',
       changePassword: '/account/change_password',
+      deleteAccount: '/account/delete_account',
       action: '/account/action',
     },
   },

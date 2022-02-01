@@ -7,11 +7,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
 import { updateAccountRequest, updateAccountResult } from 'common/api/account/updateAccount';
 import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
+import literals from 'utils/literals';
 
 const UserProfile: React.FC = () => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
@@ -22,6 +24,8 @@ const UserProfile: React.FC = () => {
   const [name, setName] = useState(userInfo.name);
   const [errorState, setErrorState] = useState<'APIError' | 'AccessError' | null>(null);
   const [isSuccessOpen, setSuccessOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const checkVerify = () => {
     if (!name) {
@@ -106,6 +110,17 @@ const UserProfile: React.FC = () => {
           </Box>
         </Stack>
       </form>
+      <Box sx={{display: 'flex', justifyContent: 'flex-end', marginY: 4}}>
+        <Button
+          type='submit'
+          variant='contained'
+          color='error'
+          disabled={checkVerify()}
+          onClick={() => navigate(literals.path.account.deleteAccount)}
+        >
+          アカウント削除
+        </Button>
+      </Box>
       <MySuccessSnackbar open={isSuccessOpen} autoHideDuration={6000} onClose={() => setSuccessOpen(false)}>
         正常に更新されました。
       </MySuccessSnackbar>
