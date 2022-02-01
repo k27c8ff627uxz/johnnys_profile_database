@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {
   Typography,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
 import {
   applyActionCode,
   getAuth,
 } from 'firebase/auth';
+import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
-import literals from 'utils/literals';
 
 const VerifyEmail: React.FC<{
   code: string | null,
 }> = (params) => {
   const { code } = params;
+  const { reload } = AccountContainer.useContainer();
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [state, setState] = useState<'doing' | 'success' | 'failVerifying' | 'nothingCode' | null>(null);
   const [isExcuted, setExcuted] = useState(false);
@@ -36,6 +36,7 @@ const VerifyEmail: React.FC<{
     applyActionCode(auth, code)
       .then(() => {
         setState('success');
+        reload().then();
       }).catch((e) => {
         console.log(e);
         setState('failVerifying');
@@ -63,7 +64,7 @@ const VerifyEmail: React.FC<{
           メールの確認が正常に完了しました。
         </Typography>
         <Typography sx={{textAlign: 'center', m: 2}}>
-          <Link to={literals.path.account.login}>ログインページ</Link>より、再度ログインを行って下さい。
+          引き続きWebページをお楽しみ下さい。
         </Typography>
       </>
     );
