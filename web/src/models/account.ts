@@ -8,17 +8,23 @@ import {
   reauthenticateWithCredential,
 } from 'firebase/auth';
 
-interface UserInfo {
+type UserInfo = {
+  state: 'login';
   name: string;
   email: string;
-}
+} | {
+  state: 'logout';
+} | {
+  state: 'undefined'
+};
 
 const useAccountContainer = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo>({state: 'undefined'});
 
   const updateUserInfo = (user: User) => {
     setUserInfo({
+      state: 'login',
       name: user.displayName ?? '',
       email: user.email ?? '',
     });
@@ -36,7 +42,7 @@ const useAccountContainer = () => {
 
     resetCurrentUser: () => {
       setUser(null);
-      setUserInfo(null);
+      setUserInfo({state: 'logout'});
     },
 
     reload: async () => {
@@ -55,7 +61,7 @@ const useAccountContainer = () => {
     },
 
     updatePassword: async (currentPassword: string, newPassword: string): Promise<'success' | 'failCredential' | 'failChange' | 'unknown'> => {
-      if (user === null || userInfo === null) {
+      if (user === null || userInfo.state === 'undefined' || userInfo.state === 'logout') {
         return 'unknown';
       }
       const credential = EmailAuthProvider.credential(

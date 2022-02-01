@@ -16,7 +16,7 @@ import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
 const UserProfile: React.FC = () => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const { userInfo, reload } = AccountContainer.useContainer();
-  if (userInfo === null) {
+  if (userInfo.state === 'undefined' || userInfo.state === 'logout') {
     throw new Error('Unreach');
   }
   const [name, setName] = useState(userInfo.name);

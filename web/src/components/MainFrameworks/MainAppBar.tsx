@@ -63,7 +63,7 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
         </IconButton>
       }
       <span style={{flexGrow: 1}} />
-      {userInfo !== null && <Button
+      {userInfo.state === 'login' && <Button
         startIcon={<AccountCircleIcon />}
         endIcon={<KeyboardArrowDownIcon />}
         color='inherit'
