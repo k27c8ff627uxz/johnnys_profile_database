@@ -1,9 +1,9 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { createAccountRequest, createAccountResult } from 'common/api/account/createAccount';
+import { CreateAccountRequest, CreateAccountResponse } from 'common/api/account/createAccount';
 
 const createAccount = functions.https.onCall(
-  async (params: createAccountRequest): Promise<createAccountResult> => {
+  async (params: CreateAccountRequest): Promise<CreateAccountResponse> => {
     const { name, email, password } = params;
 
     try {

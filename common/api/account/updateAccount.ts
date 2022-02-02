@@ -1,9 +1,9 @@
 
-export type updateAccountRequest = {
+export type UpdateAccountRequest = {
   name?: string;
 }
 
-export type updateAccountResult = {
+export type UpdateAccountResponse = {
   result: 'success';
   userRecord: {
     uid: string;

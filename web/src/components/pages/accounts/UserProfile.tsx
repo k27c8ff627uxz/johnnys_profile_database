@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
-import { updateAccountRequest, updateAccountResult } from 'common/api/account/updateAccount';
+import { UpdateAccountRequest, UpdateAccountResponse } from 'common/api/account/updateAccount';
 import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
@@ -40,7 +40,7 @@ const UserProfile: React.FC = () => {
     // プロフィール変更
     beginLoading();
     const functions = getFunctions();
-    const call = httpsCallable<updateAccountRequest, updateAccountResult>(functions, 'updateAccount');
+    const call = httpsCallable<UpdateAccountRequest, UpdateAccountResponse>(functions, 'updateAccount');
     call({
       name,
     }).then((res) => {

@@ -1,11 +1,11 @@
 
-export type createAccountRequest = {
+export type CreateAccountRequest = {
   name: string;
   email: string;
   password: string;
 }
 
-export type createAccountResult = {
+export type CreateAccountResponse = {
   result: true;
 } | {
   result: false;

@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
-import { createAccountRequest, createAccountResult } from 'common/api/account/createAccount';
+import { CreateAccountRequest, CreateAccountResponse } from 'common/api/account/createAccount';
 import FrameworkViewContainer from 'models/frameworkView';
 import { MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
@@ -27,7 +27,7 @@ const SignUp: React.FC = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const call = httpsCallable<createAccountRequest, createAccountResult>(functions, 'createAccount');
+    const call = httpsCallable<CreateAccountRequest, CreateAccountResponse>(functions, 'createAccount');
     beginLoading();
 
     // アカウント作成

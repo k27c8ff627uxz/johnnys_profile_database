@@ -1,10 +1,10 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { updateAccountRequest, updateAccountResult } from 'common/api/account/updateAccount';
+import { UpdateAccountRequest, UpdateAccountResponse } from 'common/api/account/updateAccount';
 import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 
 const updateAccount = functions.https.onCall(
-  async (params: updateAccountRequest, context): Promise<updateAccountResult> => {
+  async (params: UpdateAccountRequest, context): Promise<UpdateAccountResponse> => {
     const uid = context.auth?.uid;
     const { name } = params;
 
