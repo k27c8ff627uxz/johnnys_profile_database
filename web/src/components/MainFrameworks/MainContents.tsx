@@ -25,12 +25,12 @@ const MainContents: React.FC = () => {
       <Route path='/' element={<Navigate to={literals.path.dashboard} />} />
       <Route path={literals.path.dashboard} element={<Dashboard />} />
       <Route path={literals.path.profileList} element={<ProfileList />} />
-      <Route path={literals.path.account.profile} element={<PrivateRoute component={<UserProfile />} />} />
+      <Route path={literals.path.account.profile} element={<PrivateRoute component={(authInfo) => <UserProfile authInfo={authInfo} />} />} />
       <Route path={literals.path.account.login} element={<PublicRoute component={<Login />} />} />
       <Route path={literals.path.account.signup} element={<PublicRoute component={<SignUp />} />} />
       <Route path={literals.path.account.sendVerifying} element={<PublicRoute component={<SendVerificationEmail />} />} />
       <Route path={literals.path.account.resetPassword} element={<ResetPassword />} />
-      <Route path={literals.path.account.changePassword} element={<PrivateRoute component={<ChangePassword />} />} />
+      <Route path={literals.path.account.changePassword} element={<PrivateRoute component={() => <ChangePassword />} />} />
       <Route path={literals.path.account.deleteAccount} element={<DeleteAccount />} />
       <Route path={literals.path.account.action} element={<Action />} />
       <Route path='*' element={<Error404 />} />

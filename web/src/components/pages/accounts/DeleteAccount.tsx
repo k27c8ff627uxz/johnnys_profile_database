@@ -14,12 +14,12 @@ import { MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const DeleteAccount: React.FC = () => {
-  const { userInfo, deleteUser } = AccountContainer.useContainer();
+  const { authInfo, deleteUser } = AccountContainer.useContainer();
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [successDelete, setSuccessDelete] = useState(false);
   const [verifyText, setVerifyText] = useState('');
 
-  if (userInfo.state !== 'login') {
+  if (authInfo.state !== 'login') {
     if (successDelete) {
       return (
         <Container maxWidth='sm' sx={{textAlign: 'center', marginY: 2}}>
@@ -31,7 +31,7 @@ const DeleteAccount: React.FC = () => {
     return <Navigate to={literals.path.account.login} />;
   }
 
-  const checkVerify = verifyText !== userInfo.email;
+  const checkVerify = verifyText !== authInfo.email;
 
   const deleteAction = async () => {
     beginLoading();
@@ -44,7 +44,7 @@ const DeleteAccount: React.FC = () => {
     <Container maxWidth='sm' sx={{textAlign: 'center', marginY: 2}}>
       <Stack spacing={2}>
         <MyErrorMessage text={[
-          `お使いのアカウント「${userInfo.name}」は完全に消去されます。`,
+          `お使いのアカウント「${authInfo.name}」は完全に消去されます。`,
           'この操作は元に戻せません。',
           '削除を了承しましたら、以下にあなたのメールアドレスを入力して「アカウント削除」を押下してください。。',
         ]} />

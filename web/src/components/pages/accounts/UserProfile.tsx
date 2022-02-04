@@ -11,17 +11,17 @@ import { useNavigate } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
+import { AuthInfoLogin } from 'models/auth';
 import { UpdateAccountRequest, UpdateAccountResponse } from 'common/api/account/updateAccount';
 import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
-const UserProfile: React.FC = () => {
+const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
+  const { authInfo } = params;
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
-  const { userInfo, reload } = AccountContainer.useContainer();
-  if (userInfo.state === 'undefined' || userInfo.state === 'logout') {
-    throw new Error('Unreach');
-  }
-  const [name, setName] = useState(userInfo.name);
+  const { reload } = AccountContainer.useContainer();
+
+  const [name, setName] = useState(authInfo.name);
   const [errorState, setErrorState] = useState<'APIError' | 'AccessError' | null>(null);
   const [isSuccessOpen, setSuccessOpen] = useState(false);
 
@@ -90,7 +90,7 @@ const UserProfile: React.FC = () => {
             label='メールアドレス'
             variant='filled'
             fullWidth
-            value={userInfo.email}
+            value={authInfo.email}
           />
           <TextField
             label='ニックネーム'
