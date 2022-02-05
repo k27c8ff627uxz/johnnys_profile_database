@@ -10,10 +10,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { AuthInfoLogout, AuthInfoNotVerify } from 'models/auth';
 import FrameworkViewContainer from 'models/frameworkView';
 import { MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
@@ -24,7 +21,8 @@ const AdditionalMessage = styled(Typography)(() => ({
   fontSize: 'small',
 }));
 
-const Login: React.FC = () => {
+const Login: React.FC<{authInfo: AuthInfoLogout | AuthInfoNotVerify}> = (props) => {
+  const { authInfo } = props;
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,13 +33,8 @@ const Login: React.FC = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     beginLoading();
-    const auth = getAuth();
 
-    signInWithEmailAndPassword(
-      auth,
-      email,
-      password,
-    ).then((credential) => {
+    authInfo.login(email, password).then((credential) => {
       finishLoading();
       if (credential.user.emailVerified) {
         navigate('/');

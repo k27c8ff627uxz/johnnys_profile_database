@@ -4,8 +4,9 @@ import {
 } from 'react-router-dom';
 import Loading from './Loading';
 import AccountContainer from '../../models/account';
+import { AuthInfoLogout, AuthInfoNotVerify } from '../../models/auth';
 
-const PublicRoute: React.FC<{component: React.ReactNode}> = ({ component })=> {
+const PublicRoute: React.FC<{component: (authInfo: AuthInfoLogout | AuthInfoNotVerify) => React.ReactNode}> = ({ component })=> {
   const { authInfo } = AccountContainer.useContainer();
 
   switch(authInfo.state) {
@@ -15,7 +16,7 @@ const PublicRoute: React.FC<{component: React.ReactNode}> = ({ component })=> {
     return <Navigate to='/' />;
   case 'notVerify':
   case 'logout':
-    return <>{component}</>;
+    return <>{component(authInfo)}</>;
   }
 };
 

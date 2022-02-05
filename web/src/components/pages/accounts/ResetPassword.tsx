@@ -7,26 +7,23 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import {
-  getAuth,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
 import { MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
+import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
 
 const ResetPassword: React.FC = () => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [email, setEmail] = useState('');
   const [isSendOpen, setSendOpen] = useState<'none' | 'success'| 'error'>('none');
+  const { sendPasswordResetEmail } = AccountContainer.useContainer();
 
   const closeSendOpen = () => { setSendOpen('none') ;};
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const auth = getAuth();
     beginLoading();
     
-    sendPasswordResetEmail(auth, email)
+    sendPasswordResetEmail(email)
       .then(() => {
         setSendOpen('success');
       }).catch(e => {

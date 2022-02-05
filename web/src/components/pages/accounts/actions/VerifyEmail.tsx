@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Typography,
 } from '@mui/material';
-import {
-  applyActionCode,
-  getAuth,
-} from 'firebase/auth';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
 
@@ -13,12 +9,10 @@ const VerifyEmail: React.FC<{
   code: string | null,
 }> = (params) => {
   const { code } = params;
-  const { reload } = AccountContainer.useContainer();
+  const { reload, applyActionCode } = AccountContainer.useContainer();
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [state, setState] = useState<'doing' | 'success' | 'failVerifying' | 'nothingCode' | null>(null);
   const [isExcuted, setExcuted] = useState(false);
-
-  const auth = getAuth();
 
   useEffect(() => {
     // 初期時しか実行させない
@@ -33,7 +27,7 @@ const VerifyEmail: React.FC<{
     }
 
     beginLoading();
-    applyActionCode(auth, code)
+    applyActionCode(code)
       .then(() => {
         setState('success');
         reload().then();

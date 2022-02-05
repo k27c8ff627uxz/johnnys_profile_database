@@ -3,12 +3,8 @@ import { Link } from 'react-router-dom';
 import {
   Typography,
 } from '@mui/material';
-import {
-  getAuth,
-  confirmPasswordReset,
-  verifyPasswordResetCode,
-} from 'firebase/auth';
 import ResetPasswordInput from './ResetPasswordInput';
+import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
 import literals from 'utils/literals';
 
@@ -23,9 +19,8 @@ const ResetPassword: React.FC<{code: string | null}> = ({code}) => {
     | 'nothingCode'
     | null
   >(null);
+  const { verifyPasswordResetCode, confirmPasswordReset } = AccountContainer.useContainer();
   const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
-
-  const auth = getAuth();
 
   useEffect(() => {
     // 初期時しか実行させない
@@ -40,7 +35,7 @@ const ResetPassword: React.FC<{code: string | null}> = ({code}) => {
     }
 
     beginLoading();
-    verifyPasswordResetCode(auth, code)
+    verifyPasswordResetCode(code)
       .then(() => {
         setState('setPassword');
       }).catch((e) => {
@@ -57,7 +52,7 @@ const ResetPassword: React.FC<{code: string | null}> = ({code}) => {
     }
 
     beginLoading();
-    confirmPasswordReset(auth, code, password)
+    confirmPasswordReset(code, password)
       .then(() => {
         setState('allSuccess');
       }).catch((e) => {
