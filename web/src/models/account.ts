@@ -30,7 +30,7 @@ const useAccountContainer = () => {
     if (user === null) {
       setAuthInfo(new AuthInfoLogout(auth));
     } else if (user.emailVerified) {
-      setAuthInfo(new AuthInfoLogin(user));
+      setAuthInfo(new AuthInfoLogin(auth, user));
     } else {
       setAuthInfo(new AuthInfoNotVerify(auth, user));
     }

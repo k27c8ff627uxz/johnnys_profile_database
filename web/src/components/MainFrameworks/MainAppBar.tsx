@@ -11,7 +11,9 @@ import {
   KeyboardArrowDown as KeyboardArrowDownIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
+import { MySuccessSnackbar } from 'utils/mycomponents';
 import AccountContainer from '../../models/account';
+import { AuthInfoLogin } from 'models/auth';
 import literals from 'utils/literals';
 
 export interface MainAppBarProps {
@@ -19,7 +21,6 @@ export interface MainAppBarProps {
   isMobileDrawerOpen: boolean;
   handleOpenPCDrawer: () => void;
   handleOpenMobileDrawer: () => void;
-  handleSignOut: () => void;
 }
 
 const MainAppBar: React.FC<MainAppBarProps> = (props) => {
@@ -28,13 +29,18 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
     isMobileDrawerOpen,
     handleOpenPCDrawer,
     handleOpenMobileDrawer,
-    handleSignOut,
   } = props;
 
   const { authInfo } = AccountContainer.useContainer();
   const [userMenuAnchor, setUserMenuAnchor] = useState<Element | null>(null);
+  const [isLogoutOpen, setLogoutOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  const onLogout = (authInfo: AuthInfoLogin) => {
+    authInfo.logout()
+      .then(() => setLogoutOpen(true));
+  };
 
   return (
     <React.Fragment>
@@ -63,35 +69,42 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
         </IconButton>
       }
       <span style={{flexGrow: 1}} />
-      {authInfo.state === 'login' && <Button
-        startIcon={<AccountCircleIcon />}
-        endIcon={<KeyboardArrowDownIcon />}
-        color='inherit'
-        onClick={(event) => setUserMenuAnchor(event.currentTarget)}
-      >
-        {authInfo.name}
-      </Button>}
-      <Menu
-        anchorEl={userMenuAnchor}
-        open={userMenuAnchor !== null}
-        onClose={() => setUserMenuAnchor(null)}
-      >
-        <MenuItem
-          onClick={() => { navigate(literals.path.account.profile); setUserMenuAnchor(null); }}
-        >
-          プロフィール
-        </MenuItem>
-        <MenuItem
-          onClick={() => { navigate(literals.path.account.changePassword); setUserMenuAnchor(null); }}
-        >
-          パスワード変更
-        </MenuItem>
-        <MenuItem
-          onClick={() => { handleSignOut(); setUserMenuAnchor(null); } }
-        >
-          ログアウト
-        </MenuItem>
-      </Menu>
+      {authInfo.state === 'login' &&
+        <React.Fragment>
+          <Button
+            startIcon={<AccountCircleIcon />}
+            endIcon={<KeyboardArrowDownIcon />}
+            color='inherit'
+            onClick={(event) => setUserMenuAnchor(event.currentTarget)}
+          >
+            {authInfo.name}
+          </Button>
+          <Menu
+            anchorEl={userMenuAnchor}
+            open={userMenuAnchor !== null}
+            onClose={() => setUserMenuAnchor(null)}
+          >
+            <MenuItem
+              onClick={() => { navigate(literals.path.account.profile); setUserMenuAnchor(null); }}
+            >
+              プロフィール
+            </MenuItem>
+            <MenuItem
+              onClick={() => { navigate(literals.path.account.changePassword); setUserMenuAnchor(null); }}
+            >
+              パスワード変更
+            </MenuItem>
+            <MenuItem
+              onClick={() => { onLogout(authInfo); setUserMenuAnchor(null); } }
+            >
+              ログアウト
+            </MenuItem>
+          </Menu>
+        </React.Fragment>
+      }
+      <MySuccessSnackbar open={isLogoutOpen} autoHideDuration={6000} onClose={() => setLogoutOpen(false)}>
+        ログアウトしました。
+      </MySuccessSnackbar>
     </React.Fragment>
   );
 };

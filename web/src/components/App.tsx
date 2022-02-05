@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import InitializingError from './InitializingError';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
-import AccountFramework from './AccountFramework';
+import MainFramework from './MainFrameworks/MainFramework';
 
 const App: React.FC = () => {
 
@@ -26,7 +26,9 @@ const App: React.FC = () => {
     <HashRouter>
       <AccountContainer.Provider>
         <FrameworkViewContainer.Provider>
-          <AccountFramework />
+          <MainFramework
+            drawerWidth={240}
+          />
         </FrameworkViewContainer.Provider>
       </AccountContainer.Provider>
     </HashRouter>

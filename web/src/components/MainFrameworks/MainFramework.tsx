@@ -48,12 +48,11 @@ const MainBox = styled(Box)<{
 
 export interface MainFrameworkProps {
   drawerWidth: number;
-  handleSignOut: () => void;
 }
 
 const MainFramework: React.FC<MainFrameworkProps> = (props) => {
   const { isLoading } = FrameworkViewContainer.useContainer();
-  const { drawerWidth, handleSignOut } = props;
+  const { drawerWidth } = props;
   const [isDrawerOpen, setDrawerOpen] = useState<'none' | 'mobile' | 'pc'>('none');
 
   return (
@@ -76,7 +75,6 @@ const MainFramework: React.FC<MainFrameworkProps> = (props) => {
             isMobileDrawerOpen={isDrawerOpen === 'mobile'}
             handleOpenPCDrawer={() => setDrawerOpen('pc')}
             handleOpenMobileDrawer={() => setDrawerOpen('mobile')}
-            handleSignOut={handleSignOut}
           />
         </Toolbar>
       </AppBar>

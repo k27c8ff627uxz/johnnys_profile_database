@@ -1,20 +1,24 @@
 import {
   reload as authReload,
   User,
+  signOut,
   deleteUser,
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
+  Auth,
 } from 'firebase/auth';
 
 export class AuthInfoLogin {
   readonly state = 'login';
 
   private user: User;
-  constructor(user: User) {
+  private auth: Auth;
+  constructor(auth: Auth, user: User) {
     if (!user.emailVerified) {
       throw new Error('Account is not verified yet!');
     }
+    this.auth = auth;
     this.user = user;
   }
 
@@ -31,6 +35,10 @@ export class AuthInfoLogin {
   async reload() {
     await authReload(this.user);
     return this.user;
+  }
+
+  async logout() {
+    await signOut(this.auth);
   }
 
   async updatePassword(currentPassword: string, newPassword: string): Promise<'success' | 'failCredential' | 'failChange'> {
