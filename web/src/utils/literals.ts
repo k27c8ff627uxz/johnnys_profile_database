@@ -2,6 +2,7 @@ const literals = {
   path: {
     dashboard: '/dashboard',
     profileList: '/profile_list',
+    userEditor: '/user_editor',
     account: {
       profile: '/account/profile',
       login: '/account/login',

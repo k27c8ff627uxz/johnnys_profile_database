@@ -8,6 +8,7 @@ import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import Dashboard from '../pages/Dashboard';
 import ProfileList from '../pages/ProfileList';
+import UserEditor from '../pages/UserEditor';
 import Error404 from '../pages/Error404';
 import UserProfile from 'components/pages/accounts/UserProfile';
 import Login from '../pages/accounts/Login';
@@ -25,6 +26,7 @@ const MainContents: React.FC = () => {
       <Route path='/' element={<Navigate to={literals.path.dashboard} />} />
       <Route path={literals.path.dashboard} element={<Dashboard />} />
       <Route path={literals.path.profileList} element={<ProfileList />} />
+      <Route path={literals.path.userEditor} element={<PrivateRoute component={() => <UserEditor /> } /> } />
       <Route path={literals.path.account.profile} element={<PrivateRoute component={(authInfo) => <UserProfile authInfo={authInfo} />} />} />
       <Route path={literals.path.account.login} element={<PublicRoute component={(authInfo) => <Login authInfo={authInfo} />} />} />
       <Route path={literals.path.account.signup} element={<PublicRoute component={() => <SignUp />} />} />

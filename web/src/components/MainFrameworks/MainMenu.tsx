@@ -6,10 +6,12 @@ import {
   ListItemText,
 } from '@mui/material';
 import {
+  AccountBox as AccountBoxIcon,
   Dashboard as DashboardIcon,
   Face as FaceIcon,
 } from '@mui/icons-material';
 import { NavLink, useLocation } from 'react-router-dom';
+import AccountContainer from 'models/account';
 import literals from '../../utils/literals';
 
 const ListItemNavLink: React.FC<PropsWithChildren<{
@@ -33,25 +35,32 @@ export interface MainMenuProp {
   handleSelected?: () => void;
 }
 
+const MenuItem: React.FC<{
+  text: string;
+  link: string;
+  icon: React.ReactNode;
+}> = (params) => {
+  const { text, link, icon } = params;
+  return (
+    <ListItemNavLink
+      to={link}
+    >
+      <ListItemIcon>
+        {icon}
+      </ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItemNavLink>
+  );
+};
+
 const MainMenu: React.FC<MainMenuProp> = ({ handleSelected }) => {
+  const { authInfo } = AccountContainer.useContainer();
+
   return (
     <List onClick={handleSelected}>
-      <ListItemNavLink
-        to={literals.path.dashboard}
-      >
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary='Dashboard' />
-      </ListItemNavLink>
-      <ListItemNavLink
-        to={literals.path.profileList}
-      >
-        <ListItemIcon>
-          <FaceIcon />
-        </ListItemIcon>
-        <ListItemText primary='Profile Data' />
-      </ListItemNavLink>
+      <MenuItem text='Dashboard' link={literals.path.dashboard} icon={<DashboardIcon />} />
+      <MenuItem text='Profile Data' link={literals.path.profileList} icon={<FaceIcon />} />
+      {authInfo.state === 'login' && <MenuItem text='User Editor' link={literals.path.userEditor} icon={<AccountBoxIcon />} /> }
     </List>
   );
 };
