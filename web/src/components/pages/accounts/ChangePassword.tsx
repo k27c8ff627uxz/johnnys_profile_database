@@ -8,12 +8,12 @@ import {
   Typography,
 } from '@mui/material';
 import FrameworkViewContainer from 'models/frameworkView';
-import AccountContainer from 'models/account';
+import { AuthInfoLogin } from 'models/auth';
 import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
 
-const ChangePassword: React.FC = () => {
+const ChangePassword: React.FC<{authInfo: AuthInfoLogin}> = (props) => {
+  const { authInfo } = props;
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
-  const { updatePassword } = AccountContainer.useContainer();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
@@ -24,7 +24,7 @@ const ChangePassword: React.FC = () => {
     e.preventDefault();
 
     beginLoading();
-    const result = await updatePassword(currentPassword, newPassword);
+    const result = await authInfo.updatePassword(currentPassword, newPassword);
     finishLoading();
     switch(result) {
     case 'success':
@@ -37,8 +37,6 @@ const ChangePassword: React.FC = () => {
     case 'failCredential':
       setErrorState('failCredential');
       break;
-    case 'unknown':
-      throw new Error('Unreach');
     }
   };
 

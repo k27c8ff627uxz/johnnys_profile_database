@@ -1,6 +1,7 @@
 import {
   reload as authReload,
   User,
+  sendEmailVerification,
 } from 'firebase/auth';
 
 export class AuthInfoNotVerify {
@@ -17,5 +18,9 @@ export class AuthInfoNotVerify {
   async reload() {
     await authReload(this.user);
     return this.user;
+  }
+
+  async sendEmailVerification() {
+    await sendEmailVerification(this.user);
   }
 }

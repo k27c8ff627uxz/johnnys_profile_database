@@ -4,20 +4,26 @@ import {
   Container,
   Typography,
 } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 import { MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
+import literals from 'utils/literals';
 
 const SendVerificationEmail: React.FC = () => {
-  const { sendEmailVerification } = AccountContainer.useContainer();
+  const { authInfo } = AccountContainer.useContainer();
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [isSendOpen, setSendOpen] = useState<'none' | 'success'| 'error'>('none');
+
+  if (authInfo.state !== 'notVerify') {
+    return <Navigate to={literals.path.dashboard} />;
+  }
 
   const closeSendOpen = () => { setSendOpen('none') ;};
 
   const onVerifyClick = () => {
     beginLoading();
-    sendEmailVerification()
+    authInfo.sendEmailVerification()
       .then(() => {
         setSendOpen('success');
       }).catch(e => {

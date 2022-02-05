@@ -14,7 +14,7 @@ import { MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const DeleteAccount: React.FC = () => {
-  const { authInfo, deleteUser } = AccountContainer.useContainer();
+  const { authInfo } = AccountContainer.useContainer();
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [successDelete, setSuccessDelete] = useState(false);
   const [verifyText, setVerifyText] = useState('');
@@ -36,7 +36,7 @@ const DeleteAccount: React.FC = () => {
   const deleteAction = async () => {
     beginLoading();
     setSuccessDelete(true);
-    await deleteUser();
+    await authInfo.deleteUser();
     finishLoading();
   };
 
