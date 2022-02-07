@@ -6,8 +6,10 @@ export type CreateAccountRequest = {
 }
 
 export type CreateAccountResponse = {
-  result: true;
+  result: 'success';
 } | {
-  result: false;
+  result: 'alreadyExist';
+} | {
+  result: 'error';
   errorMessage: string;
 }

@@ -20,7 +20,7 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [signUpError, setSignUpError] = useState(false);
+  const [signUpError, setSignUpError] = useState<'alreadyExist' | 'error' | null>(null);
   const [successToCreateAccount, setSuccessToCreateAccount] = useState(false);
 
   const functions = getFunctions();
@@ -38,24 +38,28 @@ const SignUp: React.FC = () => {
         name,
       });
 
+      finishLoading();
       const result = apiResult.data;
-      
-      if(!result.result) {
-        setSignUpError(true);
-        finishLoading();
+      console.log(result);
+      switch (result.result) {
+      case 'success':
+        setSuccessToCreateAccount(true);
+        setSignUpError(null);
+        break;
+      case 'alreadyExist':
+        setSignUpError('alreadyExist');
+        break;
+      case 'error':
+        setSignUpError('error');
         console.error(result.errorMessage);
-        return;
+        break;
       }
     } catch(e) {
       console.log(e);
-      setSignUpError(true);
+      setSignUpError('error');
       finishLoading();
       return;
     }
-
-    // アカウント作成に成功したので、その旨を表示する画面に移行
-    finishLoading();
-    setSuccessToCreateAccount(true);
   };
 
   const checkVerify = () => {
@@ -92,7 +96,10 @@ const SignUp: React.FC = () => {
       <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
         アカウント作成
       </Typography>
-      {signUpError && <MyErrorMessage text={[
+      {signUpError === 'alreadyExist' && <MyErrorMessage text={[
+        '指定されたメールアドレスは既にアカウント登録されています。',
+      ]} />}
+      {signUpError === 'error' && <MyErrorMessage text={[
         'アカウント作成に失敗しました。',
       ]} />}
       <form onSubmit={onSubmit}>

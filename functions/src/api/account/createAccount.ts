@@ -7,23 +7,34 @@ const createAccount = functions.https.onCall(
     const { name, email, password } = params;
 
     try {
+      // 既にメールが登録されているかチェック
+      const usersResult = await admin.auth().listUsers();
+      if (usersResult.users.find((user) => user.email && user.email.toLocaleLowerCase() === email.toLocaleLowerCase())) {
+        functions.logger.error(`Duplicated signup ${email}`);
+        return {
+          result: 'alreadyExist',
+        };
+      }
+
+      // アカウントの作成
       await admin.auth().createUser({
         email,
         password,
         displayName: name,
       });
+
     } catch(e) {
       functions.logger.info(`Fail to create Account: ${email}`);
       functions.logger.error(e);
       return {
-        result: false,
+        result: 'error',
         errorMessage: e.message,
       };
     }
 
     functions.logger.info(`Success to create Account: ${email}`);
     return {
-      result: true,
+      result: 'success',
     };
   }
 );
