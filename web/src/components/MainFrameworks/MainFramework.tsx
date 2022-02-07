@@ -108,10 +108,12 @@ const MainFramework: React.FC<MainFrameworkProps> = (props) => {
       >
         <MainMenu handleSelected={() => { setDrawerOpen('none'); }} />
       </Drawer>
-      <MainBox drawerWidth={drawerWidth} isPCDrawerOpen={isDrawerOpen === 'pc'}>
+      <MainBox drawerWidth={drawerWidth} isPCDrawerOpen={isDrawerOpen === 'pc'} sx={{display: 'flex', flexDirection: 'column', height: '100%'}}>
         <Toolbar />
         {isLoading && <LinearProgress />}
-        <MainContents />
+        <Box sx={{flexGrow: 1}}>
+          <MainContents />
+        </Box>
       </MainBox>
     </Box>
   );

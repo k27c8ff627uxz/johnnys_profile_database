@@ -48,7 +48,7 @@ const UserEditor: React.FC = () => {
   }, [alreadyLoad]);
   
   return (
-    <Container sx={{textAlign: 'center'}}>
+    <Container sx={{textAlign: 'center', height: '100%', boxSizing:'border-box', paddingY: 3}}>
       <UserTable
         rowData={rows}
       />

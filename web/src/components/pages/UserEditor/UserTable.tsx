@@ -34,7 +34,7 @@ const UserTable: React.FC<Props> = ({rowData}) => {
     <DataGrid
       rows={rowData}
       columns={columns}
-      sx={{height: '100%', marginY: 5}}
+      sx={{flexGrow:1}}
     />
   );
 };
