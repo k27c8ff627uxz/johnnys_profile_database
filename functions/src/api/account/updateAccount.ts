@@ -21,7 +21,7 @@ const updateAccount = functions.https.onCall(
       result = await admin.auth().updateUser(
         uid,
         {
-          displayName: name,
+          ...(name === undefined ? {} : { displayName: name }),
         }
       );
     } catch(e) {

@@ -20,10 +20,12 @@ const UserEditor: React.FC = () => {
       const result = apiResult.data;
       switch (result.result) {
       case 'success':
-        setRows(result.data.map((item, index) => ({
-          id: index,
+        setRows(result.data.map(item => ({
+          id: item.uid,
           name: item.name,
           email: item.email,
+          customClaim: item.customClaim,
+          verified: item.verified,
         })));
         break;
       case 'error':

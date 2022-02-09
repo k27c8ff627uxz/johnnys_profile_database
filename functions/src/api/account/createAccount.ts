@@ -1,6 +1,13 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { CreateAccountRequest, CreateAccountResponse } from 'common/api/account/createAccount';
+import { CustomUserClaim } from 'common/types/CustomUserClaim';
+
+const defaultCustomClaim: CustomUserClaim = {
+  version: '1.0.0',
+  editData: false,
+  userManage: false,
+};
 
 const createAccount = functions.https.onCall(
   async (params: CreateAccountRequest): Promise<CreateAccountResponse> => {
@@ -17,11 +24,13 @@ const createAccount = functions.https.onCall(
       }
 
       // アカウントの作成
-      await admin.auth().createUser({
+      const userRecord = await admin.auth().createUser({
         email,
         password,
         displayName: name,
       });
+
+      await admin.auth().setCustomUserClaims(userRecord.uid, defaultCustomClaim);
 
     } catch(e) {
       functions.logger.info(`Fail to create Account: ${email}`);

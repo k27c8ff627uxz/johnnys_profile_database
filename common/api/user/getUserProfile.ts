@@ -1,3 +1,4 @@
+import { CustomUserClaim } from '../../types/CustomUserClaim';
 
 export type GetUserProfileRequest = {
   uid?: string;
@@ -9,6 +10,8 @@ export type GetUserProfileResponse = {
     uid: string;
     name: string;
     email: string;
+    customClaim: CustomUserClaim;
+    verified: boolean;
   }[];
 } | {
   result: 'notAuthenticated';

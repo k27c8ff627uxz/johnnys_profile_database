@@ -8,18 +8,21 @@ import {
   reauthenticateWithCredential,
   Auth,
 } from 'firebase/auth';
+import { CustomUserClaim } from 'common/types/CustomUserClaim';
 
 export class AuthInfoLogin {
   readonly state = 'login';
 
   private user: User;
   private auth: Auth;
-  constructor(auth: Auth, user: User) {
+  private customUserClaim: CustomUserClaim;
+  constructor(auth: Auth, user: User, customUserClaim: CustomUserClaim) {
     if (!user.emailVerified) {
       throw new Error('Account is not verified yet!');
     }
     this.auth = auth;
     this.user = user;
+    this.customUserClaim = customUserClaim;
   }
 
   get name() {
