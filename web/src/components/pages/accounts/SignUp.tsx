@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Container,
   Stack,
   TextField,
@@ -11,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { CreateAccountRequest, CreateAccountResponse } from 'common/api/account/createAccount';
 import FrameworkViewContainer from 'models/frameworkView';
-import { MyErrorMessage } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const SignUp: React.FC = () => {
@@ -135,14 +134,14 @@ const SignUp: React.FC = () => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(event.target.value)}
           />
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button
+            <ButtonWithProgress
               type='submit'
               variant='contained'
               disabled={checkVerify()}
-              sx={{textAlign: 'left'}}
+              isLoading={isLoading}
             >
               アカウント作成
-            </Button>
+            </ButtonWithProgress>
           </Box>
         </Stack>
       </form>

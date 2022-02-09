@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Container,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
+import { ButtonWithProgress, MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
 
@@ -54,13 +53,14 @@ const ResetPassword: React.FC = () => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
           />
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button
+            <ButtonWithProgress
               type='submit'
               variant='contained'
               disabled={disabled}
+              isLoading={isLoading}
             >
               送信
-            </Button>
+            </ButtonWithProgress>
           </Box>
         </Stack>
       </form>

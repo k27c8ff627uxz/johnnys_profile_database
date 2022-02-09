@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Button,
   Container,
   Typography,
 } from '@mui/material';
 import { Navigate } from 'react-router-dom';
-import { MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
+import { ButtonWithProgress, MySuccessSnackbar, MyErrorSnackbar } from 'utils/mycomponents';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
 import literals from 'utils/literals';
@@ -42,9 +41,9 @@ const SendVerificationEmail: React.FC = () => {
       <Typography sx={{m: 2}}>
         以下のボタンを押すと確認メールが送信されます。
       </Typography>
-      <Button disabled={isLoading} variant='contained' onClick={onVerifyClick}>
+      <ButtonWithProgress disabled={isLoading} variant='contained' onClick={onVerifyClick} isLoading={isLoading}>
         有効化メール送信
-      </Button>
+      </ButtonWithProgress>
       <MySuccessSnackbar open={isSendOpen === 'success'} autoHideDuration={6000} onClose={closeSendOpen}>
         確認メールが送信されました。
       </MySuccessSnackbar>

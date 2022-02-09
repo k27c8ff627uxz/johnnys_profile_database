@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Container,
   Stack,
   TextField,
@@ -9,7 +8,7 @@ import {
 } from '@mui/material';
 import FrameworkViewContainer from 'models/frameworkView';
 import { AuthInfoLogin } from 'models/auth';
-import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
 
 const ChangePassword: React.FC<{authInfo: AuthInfoLogin}> = (props) => {
   const { authInfo } = props;
@@ -96,13 +95,14 @@ const ChangePassword: React.FC<{authInfo: AuthInfoLogin}> = (props) => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => setNewPasswordConfirm(event.target.value)}
           />
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button
+            <ButtonWithProgress
               type='submit'
               variant='contained'
+              isLoading={isLoading}
               disabled={checkVerify()}
             >
               パスワード変更
-            </Button>
+            </ButtonWithProgress>
           </Box>
         </Stack>
       </form>

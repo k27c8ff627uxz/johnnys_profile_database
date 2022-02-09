@@ -13,7 +13,7 @@ import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
 import { AuthInfoLogin } from 'models/auth';
 import { UpdateAccountRequest, UpdateAccountResponse } from 'common/api/account/updateAccount';
-import { MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
@@ -100,13 +100,14 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
           />
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button
+            <ButtonWithProgress
               type='submit'
               variant='contained'
               disabled={checkVerify()}
+              isLoading={isLoading}
             >
               更新
-            </Button>
+            </ButtonWithProgress>
           </Box>
         </Stack>
       </form>

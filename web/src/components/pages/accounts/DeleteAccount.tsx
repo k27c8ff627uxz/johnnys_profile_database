@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Container,
   Stack,
   TextField,
@@ -10,12 +9,12 @@ import {
 import { Navigate } from 'react-router-dom';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
-import { MyErrorMessage } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const DeleteAccount: React.FC = () => {
   const { authInfo } = AccountContainer.useContainer();
-  const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
+  const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [successDelete, setSuccessDelete] = useState(false);
   const [verifyText, setVerifyText] = useState('');
 
@@ -56,15 +55,16 @@ const DeleteAccount: React.FC = () => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => setVerifyText(event.target.value)}
         />
         <Box sx={{display: 'flex', justifyContent: 'flex-end', marginY: 4}}>
-          <Button
+          <ButtonWithProgress
             type='submit'
             variant='contained'
             color='error'
             disabled={checkVerify}
+            isLoading={isLoading}
             onClick={deleteAction}
           >
             アカウント削除
-          </Button>
+          </ButtonWithProgress>
         </Box>
       </Stack>
     </Container>

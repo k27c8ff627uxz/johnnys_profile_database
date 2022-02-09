@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
+import { ButtonWithProgress } from 'utils/mycomponents';
 
 const ResetPasswordInput: React.FC<{
   onSetPassword: (password: string) => void,
@@ -62,13 +62,14 @@ const ResetPasswordInput: React.FC<{
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(event.target.value)}
           />
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button
+            <ButtonWithProgress
               type='submit'
               variant='contained'
               disabled={checkVerify()}
+              isLoading={isLoading}
             >
               パスワード設定
-            </Button>
+            </ButtonWithProgress>
           </Box>
         </Stack>
       </form>

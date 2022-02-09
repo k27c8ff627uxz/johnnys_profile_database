@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
-  Button,
   Container,
   Stack,
   TextField,
@@ -12,7 +11,7 @@ import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { AuthInfoLogout, AuthInfoNotVerify } from 'models/auth';
 import FrameworkViewContainer from 'models/frameworkView';
-import { MyErrorMessage } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessage } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const AdditionalMessage = styled(Typography)(() => ({
@@ -74,13 +73,14 @@ const Login: React.FC<{authInfo: AuthInfoLogout | AuthInfoNotVerify}> = (props) 
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
           />
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button
+            <ButtonWithProgress
               type='submit'
               variant='contained'
               disabled={!email || !password || isLoading}
+              isLoading={isLoading}
             >
               ログイン
-            </Button>
+            </ButtonWithProgress>
           </Box>
         </Stack>
       </form>
