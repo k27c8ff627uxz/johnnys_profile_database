@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Container,
 } from '@mui/material';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
+import { MyModal } from 'utils/mycomponents';
 import { GetUserProfileRequest, GetUserProfileResponse } from 'common/api/user/getUserProfile';
-import UserTable, { RowItem } from './UserTable';
+import UserTable from './UserTable';
+import EditUserModal from './EditUserModal';
+import { RowItem } from './types';
 
 const UserEditor: React.FC = () => {
-  const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
+  const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
+  const [queryParams, setQueryParams] = useSearchParams();
   const [rows, setRows] = useState<RowItem[]>([]);
   const [alreadyLoad, setAlreadyLoad] = useState(false);
   const functions = getFunctions();
@@ -48,12 +53,36 @@ const UserEditor: React.FC = () => {
       setAlreadyLoad(true);
     }
   }, [alreadyLoad]);
+
+  const selectedRows = (() => {
+    const selectedUid = queryParams.get('uid');
+    if (selectedUid === null) {
+      return undefined;
+    }
+
+    return rows.find(value => value.id === selectedUid);
+  })();
+
+  const onModalClose = () => {
+    queryParams.delete('uid');
+    setQueryParams(queryParams);
+  };
   
   return (
     <Container sx={{textAlign: 'center', height: '100%', boxSizing:'border-box', paddingY: 3}}>
       <UserTable
         rowData={rows}
       />
+      <MyModal
+        open={selectedRows !== undefined}
+        onClose={onModalClose}
+        title={selectedRows === undefined ? '' : `${selectedRows.name}(${selectedRows.email})`}
+        isLoading={isLoading}
+      >
+        {selectedRows &&
+          <EditUserModal rows={selectedRows} onClose={onModalClose} />
+        }
+      </MyModal>
     </Container>
   );
 };

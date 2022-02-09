@@ -1,19 +1,12 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import {
   DataGrid,
   GridColDef,
 } from '@mui/x-data-grid';
-import { CustomUserClaim } from 'common/types/CustomUserClaim';
-
-export interface RowItem {
-  id: string;
-  name: string;
-  email: string;
-  customClaim: CustomUserClaim;
-  verified: boolean;
-}
+import { RowItem } from './types';
 
 interface Props {
   rowData: RowItem[];
@@ -22,10 +15,13 @@ interface Props {
 const iconWidth = 55;
 
 const UserTable: React.FC<Props> = ({rowData}) => {
+  const [queryParams, setQueryParams] = useSearchParams();
 
   const editCell = (row: RowItem) => {
     const onClick = () => {
       console.debug(row);
+      queryParams.append('uid', row.id);
+      setQueryParams(queryParams);
     };
   
     return (
