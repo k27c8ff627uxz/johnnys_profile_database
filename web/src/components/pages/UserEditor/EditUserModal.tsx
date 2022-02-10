@@ -17,22 +17,8 @@ export interface EditUserModalProps {
 const EditUserModal = (props: EditUserModalProps) => {
   const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
   const customClaim = props.rows.customClaim;
-  const [editData, setEditData] = useState((() => {
-    switch(customClaim.version) {
-    case '0.0.0':
-      return false;
-    case '1.0.0':
-      return customClaim.editData;
-    }
-  })());
-  const [userManage, setUserManage] = useState((() => {
-    switch(customClaim.version) {
-    case '0.0.0':
-      return false;
-    case '1.0.0':
-      return customClaim.userManage;
-    }
-  })());
+  const [editData, setEditData] = useState(customClaim.editData);
+  const [userManage, setUserManage] = useState(customClaim.userManage);
 
   const onSubmit = () => {
     beginLoading();
