@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { GetUserProfileRequest, GetUserProfileResponse } from 'common/api/user/getUserProfile';
-import { getCustomClaim } from 'common/utils/getCustomClaim';
+import { convertCustomClaim } from '../../common/utils/convertCustomClaim';
 
 const getUserProfile = functions.https.onCall(
   async (params: GetUserProfileRequest, context): Promise<GetUserProfileResponse> => {
@@ -20,7 +20,7 @@ const getUserProfile = functions.https.onCall(
           uid: record.uid,
           name: record.displayName,
           email: record.email,
-          customClaim: getCustomClaim(record.customClaims),
+          customClaim: convertCustomClaim(record.customClaims),
           verified: record.emailVerified,
         })),
       };

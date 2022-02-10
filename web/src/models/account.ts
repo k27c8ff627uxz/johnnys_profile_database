@@ -9,7 +9,7 @@ import {
   confirmPasswordReset as firebaseConfirmPasswordReset,
 } from 'firebase/auth';
 import AuthState, { AuthInfoUndefined, AuthInfoLogout, AuthInfoNotVerify, AuthInfoLogin } from './auth';
-import { getCustomClaim } from 'common/utils/getCustomClaim';
+import { convertCustomClaim } from 'common/utils/convertCustomClaim';
 
 const useAccountContainer = () => {
   const [onAuthStateChangeNotSet, setOnAuthStateChangeNotSet] = useState(true);
@@ -33,7 +33,7 @@ const useAccountContainer = () => {
       setAuthInfo(new AuthInfoNotVerify(auth, user));
     } else {
       user.getIdTokenResult(true).then((value) => {
-        const customClaim = getCustomClaim(value.claims);
+        const customClaim = convertCustomClaim(value.claims);
         setAuthInfo(new AuthInfoLogin(auth, user, customClaim));
       });      
     }
