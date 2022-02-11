@@ -8,6 +8,7 @@ import { RowItem } from './types';
 const userEditorContainer = () => {
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [rows, setRows] = useState<RowItem[]>([]);
+  const [selectedRow, setSelectedRow] = useState<RowItem | null>(null);
 
   const functions = getFunctions();
   const getUserProfile = httpsCallable<GetUserProfileRequest, GetUserProfileResponse>(functions, 'getUserProfile');
@@ -46,6 +47,9 @@ const userEditorContainer = () => {
 
   return {
     rows,
+    selectedRow,
+
+    setSelectedRow,
   };
 };
 

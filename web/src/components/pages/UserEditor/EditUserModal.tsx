@@ -10,13 +10,14 @@ import FrameworkViewContainer from 'models/frameworkView';
 import { RowItem } from './types';
 
 export interface EditUserModalProps {
-  rows: RowItem;
+  row: RowItem;
   onClose: () => void;
 }
 
 const EditUserModal = (props: EditUserModalProps) => {
+  const { row, onClose } = props;
   const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
-  const customClaim = props.rows.customClaim;
+  const customClaim = row.customClaim;
   const [editData, setEditData] = useState(customClaim.editData);
   const [userManage, setUserManage] = useState(customClaim.userManage);
 

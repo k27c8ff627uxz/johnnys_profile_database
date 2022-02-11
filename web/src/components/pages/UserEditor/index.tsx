@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import {
   Container,
 } from '@mui/material';
@@ -10,21 +9,11 @@ import UserTable from './UserTable';
 import EditUserModal from './EditUserModal';
 
 const Component: React.FC = () => {
-  const [queryParams, setQueryParams] = useSearchParams();
-  const { rows } = UserEditorContainer.useContainer();
+  const { rows, selectedRow, setSelectedRow } = UserEditorContainer.useContainer();
   const { isLoading } = FrameworkViewContainer.useContainer();
 
-  const selectedRows = (() => {
-    const selectedUid = queryParams.get('uid');
-    if (selectedUid === null) {
-      return undefined;
-    }
-    return rows.find(value => value.id === selectedUid);
-  })();
-
   const onModalClose = () => {
-    queryParams.delete('uid');
-    setQueryParams(queryParams);
+    setSelectedRow(null);
   };
   
   return (
@@ -33,13 +22,13 @@ const Component: React.FC = () => {
         rowData={rows}
       />
       <MyModal
-        open={selectedRows !== undefined}
+        open={selectedRow !== null}
         onClose={onModalClose}
-        title={selectedRows === undefined ? '' : `${selectedRows.name}(${selectedRows.email})`}
+        title={selectedRow === null ? '' : `${selectedRow.name}(${selectedRow.email})`}
         isLoading={isLoading}
       >
-        {selectedRows &&
-          <EditUserModal rows={selectedRows} onClose={onModalClose} />
+        {selectedRow &&
+          <EditUserModal row={selectedRow} onClose={onModalClose} />
         }
       </MyModal>
     </Container>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import {
   DataGrid,
   GridColDef,
 } from '@mui/x-data-grid';
+import UserEditorContainer from './UserEditorContainer';
 import { RowItem } from './types';
 
 interface Props {
@@ -15,13 +15,12 @@ interface Props {
 const iconWidth = 55;
 
 const UserTable: React.FC<Props> = ({rowData}) => {
-  const [queryParams, setQueryParams] = useSearchParams();
+  const { setSelectedRow } = UserEditorContainer.useContainer();
 
   const editCell = (row: RowItem) => {
     const onClick = () => {
       console.debug(row);
-      queryParams.append('uid', row.id);
-      setQueryParams(queryParams);
+      setSelectedRow(row);
     };
   
     return (
