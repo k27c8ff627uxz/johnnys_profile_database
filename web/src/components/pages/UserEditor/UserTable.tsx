@@ -1,6 +1,11 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
+import { IconButton, Tooltip } from '@mui/material';
+import {
+  Assignment as AssignmentIcon,
+  CheckCircle as CheckCircleIcon,
+  Edit as EditIcon,
+  PersonAddAlt as PersonAddAltIcon,
+} from '@mui/icons-material';
 import {
   DataGrid,
   GridColDef,
@@ -30,12 +35,46 @@ const UserTable: React.FC<Props> = ({rowData}) => {
     );
   };
 
+  const ifCheckIcon = (check: boolean) => {
+    return (
+      <React.Fragment>
+        {check && <CheckCircleIcon color='success' />}
+      </React.Fragment>
+    );
+  };
+
   const columns: GridColDef[] = [
     {
       field: 'edit',
       headerName: '',
       width: iconWidth,
+      disableColumnMenu: true,
+      sortable: false,
       renderCell: (params) => editCell(params.row),
+    },
+    {
+      field: 'editData',
+      width: iconWidth,
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell: (params) => ifCheckIcon((params.row as RowItem).customClaim.editData),
+      renderHeader: () => (
+        <Tooltip title='データ編集権限' placement='top'>
+          <AssignmentIcon />
+        </Tooltip>
+      ),
+    },
+    {
+      field: 'userManage',
+      width: iconWidth,
+      disableColumnMenu: true,
+      sortable: false,
+      renderCell: (params) => ifCheckIcon((params.row as RowItem).customClaim.userManage),
+      renderHeader: () => (
+        <Tooltip title='ユーザー権限' placement='top'>
+          <PersonAddAltIcon />
+        </Tooltip>
+      ),
     },
     {
       field: 'name',
