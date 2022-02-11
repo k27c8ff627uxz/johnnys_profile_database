@@ -26,7 +26,12 @@ const MainContents: React.FC = () => {
       <Route path='/' element={<Navigate to={literals.path.dashboard} />} />
       <Route path={literals.path.dashboard} element={<Dashboard />} />
       <Route path={literals.path.profileList} element={<ProfileList />} />
-      <Route path={literals.path.userEditor} element={<PrivateRoute component={() => <UserEditor /> } /> } />
+      <Route path={literals.path.userEditor} element={
+        <PrivateRoute
+          component={() => <UserEditor /> }
+          optionalCondition={(customClaim) => customClaim.userManage}
+        />
+      } />
       <Route path={literals.path.account.profile} element={<PrivateRoute component={(authInfo) => <UserProfile authInfo={authInfo} />} />} />
       <Route path={literals.path.account.login} element={<PublicRoute component={(authInfo) => <Login authInfo={authInfo} />} />} />
       <Route path={literals.path.account.signup} element={<PublicRoute component={() => <SignUp />} />} />

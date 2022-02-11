@@ -60,7 +60,9 @@ const MainMenu: React.FC<MainMenuProp> = ({ handleSelected }) => {
     <List onClick={handleSelected}>
       <MenuItem text='Dashboard' link={literals.path.dashboard} icon={<DashboardIcon />} />
       <MenuItem text='Profile Data' link={literals.path.profileList} icon={<FaceIcon />} />
-      {authInfo.state === 'login' && <MenuItem text='User Editor' link={literals.path.userEditor} icon={<AccountBoxIcon />} /> }
+      {authInfo.state === 'login' && authInfo.customClaim.userManage &&
+        <MenuItem text='User Editor' link={literals.path.userEditor} icon={<AccountBoxIcon />} />
+      }
     </List>
   );
 };

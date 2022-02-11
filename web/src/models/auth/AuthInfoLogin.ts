@@ -35,6 +35,10 @@ export class AuthInfoLogin {
     return this.user.email!;
   }
 
+  get customClaim() {
+    return this.customUserClaim;
+  }
+
   async reload() {
     await authReload(this.user);
     return this.user;
