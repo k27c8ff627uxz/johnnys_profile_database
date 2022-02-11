@@ -5,8 +5,10 @@ import {
   Stack,
   Switch,
 } from '@mui/material';
+import { MyErrorMessage } from 'utils/mycomponents';
 import { ButtonWithProgress } from 'utils/mycomponents';
 import FrameworkViewContainer from 'models/frameworkView';
+import UserEditorContainer from './UserEditorContainer';
 import { RowItem } from './types';
 
 export interface EditUserModalProps {
@@ -17,19 +19,52 @@ export interface EditUserModalProps {
 const EditUserModal = (props: EditUserModalProps) => {
   const { row, onClose } = props;
   const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
+  const { updateCustomClaim } = UserEditorContainer.useContainer();
   const customClaim = row.customClaim;
   const [editData, setEditData] = useState(customClaim.editData);
   const [userManage, setUserManage] = useState(customClaim.userManage);
+  const [error, setError] = useState<'error' | 'unauthenticated' | null>(null);
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     beginLoading();
-    // TODO: onSubmit
-    console.log('submit');
+    if (row === undefined) {
+      throw new Error('Unreach');
+    }
+    const result = await updateCustomClaim(
+      row.id,
+      {
+        version: '1.0.0',
+        editData,
+        userManage,
+      },
+    );
+    switch (result) {
+    case 'success':
+      setError(null);
+      onClose();
+      break;
+    case 'unauthenticated':
+      setError('unauthenticated');
+      break;
+    case 'error':
+      setError('error');
+      break;
+    }
     finishLoading();
   };
 
   return (
     <Stack spacing={2} sx={{m: 3}}>
+      {error === 'error' &&
+        <MyErrorMessage
+          text={['実行中にエラーが発生しました。']}
+        />
+      }
+      {error === 'unauthenticated' &&
+        <MyErrorMessage
+          text={['ユーザーを編集する権限がありません。']}
+        />
+      }
       <Box>
         <FormControlLabel
           control={

@@ -3,6 +3,8 @@ import { createContainer } from 'unstated-next';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { GetUserProfileRequest, GetUserProfileResponse } from 'common/api/user/getUserProfile';
+import { UpdateUserSettingRequest, UpdateUserSettingResponse } from 'common/api/user/updateUserSetting';
+import { CustomUserClaim } from 'common/types/CustomUserClaim';
 import { RowItem } from './types';
 
 const userEditorContainer = () => {
@@ -12,6 +14,8 @@ const userEditorContainer = () => {
 
   const functions = getFunctions();
   const getUserProfile = httpsCallable<GetUserProfileRequest, GetUserProfileResponse>(functions, 'getUserProfile');
+  const updateUserSetting = httpsCallable<UpdateUserSettingRequest, UpdateUserSettingResponse>(functions, 'updateUserSetting');
+
 
   const reloadData = () => {
     beginLoading();
@@ -45,11 +49,42 @@ const userEditorContainer = () => {
     reloadData();
   }, []);
 
+  const updateCustomClaim = async (uid: string, newCustomClaim: CustomUserClaim): Promise<'success' | 'unauthenticated' | 'error'> => {
+    try {
+      const funcResult = await updateUserSetting({
+        uid,
+        customClaim: newCustomClaim,
+      });
+
+      const data = funcResult.data;
+      switch(data.result) {
+      case 'success': {
+        const targetRows = rows.find(v => v.id === uid);
+        if (targetRows === undefined || data.userRecord.customClaim === undefined) {
+          throw new Error('Unreach');
+        }
+        targetRows.customClaim = data.userRecord.customClaim;
+        return 'success';
+      }
+      case 'unauthenticated':
+        return 'unauthenticated';
+      case 'error':
+        console.error(data.errorMessage);
+        return 'error';
+      }
+    } catch (e) {
+      console.error(e);
+      return 'error';
+    }
+  };
+
   return {
     rows,
     selectedRow,
 
     setSelectedRow,
+
+    updateCustomClaim,
   };
 };
 
