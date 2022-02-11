@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import FrameworkViewContainer from 'models/frameworkView';
 import { AuthInfoLogin } from 'models/auth';
-import { ButtonWithProgress, MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessages, MySuccessSnackbar } from 'utils/mycomponents';
 
 const ChangePassword: React.FC<{authInfo: AuthInfoLogin}> = (props) => {
   const { authInfo } = props;
@@ -61,13 +61,18 @@ const ChangePassword: React.FC<{authInfo: AuthInfoLogin}> = (props) => {
       <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
         パスワード変更
       </Typography>
-      {errorState === 'failChange'  && <MyErrorMessage text={[
-        'パスワードの変更に失敗しました。',
-      ]} />}
-      {errorState === 'failCredential'  && <MyErrorMessage text={[
-        'パスワードの変更に失敗しました。',
-        '再度、パスワードをご確認ください。',
-      ]} />}
+      <MyErrorMessages
+        errorState={errorState}
+        texts={{
+          failChange: [
+            'パスワードの変更に失敗しました。',
+          ],
+          failCredential: [
+            'パスワードの変更に失敗しました。',
+            '再度、パスワードをご確認ください。',
+          ],
+        }}
+      />
       <form onSubmit={onSubmit}>
         <Stack spacing={2}>
           <TextField

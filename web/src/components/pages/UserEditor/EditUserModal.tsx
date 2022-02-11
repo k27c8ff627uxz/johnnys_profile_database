@@ -5,7 +5,7 @@ import {
   Stack,
   Switch,
 } from '@mui/material';
-import { MyErrorMessage } from 'utils/mycomponents';
+import { MyErrorMessages } from 'utils/mycomponents';
 import { ButtonWithProgress } from 'utils/mycomponents';
 import FrameworkViewContainer from 'models/frameworkView';
 import UserEditorContainer from './UserEditorContainer';
@@ -23,7 +23,7 @@ const EditUserModal = (props: EditUserModalProps) => {
   const customClaim = row.customClaim;
   const [editData, setEditData] = useState(customClaim.editData);
   const [userManage, setUserManage] = useState(customClaim.userManage);
-  const [error, setError] = useState<'error' | 'unauthenticated' | null>(null);
+  const [errorState, setErrorState] = useState<'error' | 'unauthenticated' | null>(null);
 
   const onSubmit = async () => {
     beginLoading();
@@ -40,14 +40,14 @@ const EditUserModal = (props: EditUserModalProps) => {
     );
     switch (result) {
     case 'success':
-      setError(null);
+      setErrorState(null);
       onClose();
       break;
     case 'unauthenticated':
-      setError('unauthenticated');
+      setErrorState('unauthenticated');
       break;
     case 'error':
-      setError('error');
+      setErrorState('error');
       break;
     }
     finishLoading();
@@ -55,16 +55,13 @@ const EditUserModal = (props: EditUserModalProps) => {
 
   return (
     <Stack spacing={2} sx={{m: 3}}>
-      {error === 'error' &&
-        <MyErrorMessage
-          text={['実行中にエラーが発生しました。']}
-        />
-      }
-      {error === 'unauthenticated' &&
-        <MyErrorMessage
-          text={['ユーザーを編集する権限がありません。']}
-        />
-      }
+      <MyErrorMessages
+        errorState={errorState}
+        texts={{
+          error: ['実行中にエラーが発生しました。'],
+          unauthenticated: ['ユーザーを編集する権限がありません。'],
+        }}
+      />
       <Box>
         <FormControlLabel
           control={

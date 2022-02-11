@@ -13,7 +13,7 @@ import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
 import { AuthInfoLogin } from 'models/auth';
 import { UpdateAccountRequest, UpdateAccountResponse } from 'common/api/account/updateAccount';
-import { ButtonWithProgress, MyErrorMessage, MySuccessSnackbar } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessages, MySuccessSnackbar } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
@@ -77,13 +77,18 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
       <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
         プロフィール設定
       </Typography>
-      {errorState === 'APIError' && <MyErrorMessage text={[
-        'プロフィールの更新に失敗しました。',
-        '更新内容をもう一度ご確認ください。',
-      ]} />}
-      {errorState === 'AccessError' && <MyErrorMessage text={[
-        'プロフィール更新タスクの呼び出しに失敗しました。',
-      ]} />}
+      <MyErrorMessages
+        errorState={errorState}
+        texts={{
+          APIError: [
+            'プロフィールの更新に失敗しました。',
+            '更新内容をもう一度ご確認ください。',
+          ],
+          AccessError: [
+            'プロフィール更新タスクの呼び出しに失敗しました。',
+          ],
+        }}
+      />
       <form onSubmit={onSubmit}>
         <Stack spacing={2}>
           <TextField

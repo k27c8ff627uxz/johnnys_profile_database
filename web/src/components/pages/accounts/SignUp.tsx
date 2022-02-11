@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { CreateAccountRequest, CreateAccountResponse } from 'common/api/account/createAccount';
 import FrameworkViewContainer from 'models/frameworkView';
-import { ButtonWithProgress, MyErrorMessage } from 'utils/mycomponents';
+import { ButtonWithProgress, MyErrorMessages } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
 const SignUp: React.FC = () => {
@@ -95,12 +95,13 @@ const SignUp: React.FC = () => {
       <Typography variant='h4' sx={{textAlign: 'center', m: 2}}>
         アカウント作成
       </Typography>
-      {signUpError === 'alreadyExist' && <MyErrorMessage text={[
-        '指定されたメールアドレスは既にアカウント登録されています。',
-      ]} />}
-      {signUpError === 'error' && <MyErrorMessage text={[
-        'アカウント作成に失敗しました。',
-      ]} />}
+      <MyErrorMessages
+        errorState={signUpError}
+        texts={{
+          alreadyExist: ['指定されたメールアドレスは既にアカウント登録されています。'],
+          error: ['アカウント作成に失敗しました。'],
+        }}
+      />
       <form onSubmit={onSubmit}>
         <Stack spacing={2}>
           <TextField
