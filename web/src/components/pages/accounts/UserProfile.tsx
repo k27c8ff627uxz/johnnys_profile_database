@@ -8,11 +8,11 @@ import {
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
 import { AuthInfoLogin } from 'models/auth';
-import { UpdateAccountRequest, UpdateAccountResponse } from 'common/api/account/updateAccount';
+import { updateAccount } from 'utils/firebaseFunctions';
 import { ButtonWithProgress, MyErrorMessages, MySuccessSnackbar } from 'utils/mycomponents';
 import literals from 'utils/literals';
 
@@ -25,6 +25,7 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
   const [errorState, setErrorState] = useState<'APIError' | 'AccessError' | null>(null);
   const [isSuccessOpen, setSuccessOpen] = useState(false);
 
+  const functions = getFunctions();
   const navigate = useNavigate();
 
   const checkVerify = () => {
@@ -39,9 +40,7 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
 
     // プロフィール変更
     beginLoading();
-    const functions = getFunctions();
-    const call = httpsCallable<UpdateAccountRequest, UpdateAccountResponse>(functions, 'updateAccount');
-    call({
+    updateAccount(functions)({
       name,
     }).then((res) => {
       const data = res.data;

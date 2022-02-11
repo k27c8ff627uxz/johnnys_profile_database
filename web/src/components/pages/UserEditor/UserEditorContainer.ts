@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { createContainer } from 'unstated-next';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
-import { GetUserProfileRequest, GetUserProfileResponse } from 'common/api/user/getUserProfile';
-import { UpdateUserSettingRequest, UpdateUserSettingResponse } from 'common/api/user/updateUserSetting';
+import { getUserProfile, updateUserSetting } from 'utils/firebaseFunctions';
 import { CustomUserClaim } from 'common/types/CustomUserClaim';
 import { RowItem } from './types';
 
@@ -13,13 +12,10 @@ const userEditorContainer = () => {
   const [selectedRow, setSelectedRow] = useState<RowItem | null>(null);
 
   const functions = getFunctions();
-  const getUserProfile = httpsCallable<GetUserProfileRequest, GetUserProfileResponse>(functions, 'getUserProfile');
-  const updateUserSetting = httpsCallable<UpdateUserSettingRequest, UpdateUserSettingResponse>(functions, 'updateUserSetting');
-
 
   const reloadData = () => {
     beginLoading();
-    getUserProfile({}).then(apiResult => {
+    getUserProfile(functions)({}).then(apiResult => {
       const result = apiResult.data;
       switch (result.result) {
       case 'success':
@@ -51,7 +47,7 @@ const userEditorContainer = () => {
 
   const updateCustomClaim = async (uid: string, newCustomClaim: CustomUserClaim): Promise<'success' | 'unauthenticated' | 'error'> => {
     try {
-      const funcResult = await updateUserSetting({
+      const funcResult = await updateUserSetting(functions)({
         uid,
         customClaim: newCustomClaim,
       });

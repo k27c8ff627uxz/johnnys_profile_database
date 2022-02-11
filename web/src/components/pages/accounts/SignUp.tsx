@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getFunctions } from 'firebase/functions';
 import {
   Box,
   Container,
@@ -7,8 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import { CreateAccountRequest, CreateAccountResponse } from 'common/api/account/createAccount';
+import { createAccount } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { ButtonWithProgress, MyErrorMessages } from 'utils/mycomponents';
 import literals from 'utils/literals';
@@ -22,16 +22,15 @@ const SignUp: React.FC = () => {
   const [signUpError, setSignUpError] = useState<'alreadyExist' | 'error' | null>(null);
   const [successToCreateAccount, setSuccessToCreateAccount] = useState(false);
 
-  const functions = getFunctions();
-
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const call = httpsCallable<CreateAccountRequest, CreateAccountResponse>(functions, 'createAccount');
     beginLoading();
+
+    const functions = getFunctions();
 
     // アカウント作成
     try {
-      const apiResult = await call({
+      const apiResult = await createAccount(functions)({
         email,
         password,
         name,
