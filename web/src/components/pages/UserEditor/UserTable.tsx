@@ -57,7 +57,7 @@ const UserTable: React.FC<Props> = ({rowData}) => {
       width: iconWidth,
       disableColumnMenu: true,
       sortable: false,
-      renderCell: (params) => ifCheckIcon((params.row as RowItem).customClaim.editData),
+      renderCell: (params) => ifCheckIcon((params.row as RowItem).customClaim.role.editData),
       renderHeader: () => (
         <Tooltip title='データ編集権限' placement='top'>
           <AssignmentIcon />
@@ -69,7 +69,7 @@ const UserTable: React.FC<Props> = ({rowData}) => {
       width: iconWidth,
       disableColumnMenu: true,
       sortable: false,
-      renderCell: (params) => ifCheckIcon((params.row as RowItem).customClaim.userManage),
+      renderCell: (params) => ifCheckIcon((params.row as RowItem).customClaim.role.userManage),
       renderHeader: () => (
         <Tooltip title='ユーザー権限' placement='top'>
           <PersonAddAltIcon />

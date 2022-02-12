@@ -4,8 +4,10 @@ import { CustomUserClaim } from 'common/types/CustomUserClaim';
 
 const fullCustomClaim: CustomUserClaim = {
   version: '1.0.0',
-  editData: true,
-  userManage: true,
+  role: {
+    editData: true,
+    userManage: true,
+  },
 };
 
 const workaroundSetFullRoleToAdmin = functions.https.onCall(

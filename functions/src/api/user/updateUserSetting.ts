@@ -17,7 +17,7 @@ const updateUserSetting = functions.https.onCall(
   
     // 認証チェック(権限のないユーザー)
     const myCustomClaim = await getCustomClaim(uid);
-    if (!myCustomClaim.userManage) {
+    if (!myCustomClaim.role.userManage) {
       functions.logger.error('Not User Manager Account!');
       return {
         result: 'unauthenticated',

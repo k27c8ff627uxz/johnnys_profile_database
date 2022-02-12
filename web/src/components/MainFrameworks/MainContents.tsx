@@ -30,7 +30,7 @@ const MainContents: React.FC = () => {
       <Route path={literals.path.userEditor} element={
         <PrivateRoute
           component={() => <UserEditor /> }
-          optionalCondition={(customClaim) => customClaim.userManage}
+          optionalCondition={(customClaim) => customClaim.role.userManage}
         />
       } />
       <Route path={literals.path.account.profile} element={<PrivateRoute component={(authInfo) => <UserProfile authInfo={authInfo} />} />} />

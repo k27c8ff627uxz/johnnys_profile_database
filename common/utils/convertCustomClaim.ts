@@ -4,8 +4,10 @@ import { CustomUserClaim } from '../types/CustomUserClaim';
 export function convertCustomClaim(claim: {[key: string]: any} | undefined): CustomUserClaim {
   const defaultCustomUserClaim: CustomUserClaim = {
     version: '1.0.0',
-    editData: false,
-    userManage: false,
+    role: {
+      editData: false,
+      userManage: false,
+    },
   };
 
   if (claim === undefined) {
@@ -18,7 +20,9 @@ export function convertCustomClaim(claim: {[key: string]: any} | undefined): Cus
 
   return {
     version: '1.0.0',
-    editData: claim['editData'] ?? false,
-    userManage: claim['userManage'] ?? false,
+    role: {
+      editData: claim['role']?.editData ?? false,
+      userManage: claim['role']?.userManage ?? false,
+    },
   };
 }

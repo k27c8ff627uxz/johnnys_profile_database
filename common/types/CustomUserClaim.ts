@@ -1,6 +1,8 @@
 
 export type CustomUserClaim = {
   version: '1.0.0',
-  editData: boolean,
-  userManage: boolean,
+  role: {
+    editData: boolean,
+    userManage: boolean,
+  },
 };

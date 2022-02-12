@@ -21,8 +21,8 @@ const EditUserModal = (props: EditUserModalProps) => {
   const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
   const { updateCustomClaim } = UserEditorContainer.useContainer();
   const customClaim = row.customClaim;
-  const [editData, setEditData] = useState(customClaim.editData);
-  const [userManage, setUserManage] = useState(customClaim.userManage);
+  const [editData, setEditData] = useState(customClaim.role.editData);
+  const [userManage, setUserManage] = useState(customClaim.role.userManage);
   const [errorState, setErrorState] = useState<'error' | 'unauthenticated' | null>(null);
 
   const onSubmit = async () => {
@@ -34,8 +34,10 @@ const EditUserModal = (props: EditUserModalProps) => {
       row.id,
       {
         version: '1.0.0',
-        editData,
-        userManage,
+        role: {
+          editData,
+          userManage,
+        },
       },
     );
     switch (result) {

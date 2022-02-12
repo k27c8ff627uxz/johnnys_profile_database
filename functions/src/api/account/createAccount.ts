@@ -5,8 +5,10 @@ import { CustomUserClaim } from 'common/types/CustomUserClaim';
 
 const defaultCustomClaim: CustomUserClaim = {
   version: '1.0.0',
-  editData: false,
-  userManage: false,
+  role: {
+    editData: false,
+    userManage: false,
+  },
 };
 
 const createAccount = functions.https.onCall(
