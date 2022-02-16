@@ -4,7 +4,7 @@ import { getFunctions } from 'firebase/functions';
 import { getProfileList } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { convertToRowItem } from './utils';
-import { RowItem } from './ProfileTable';
+import { RowItem } from './types';
 
 const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);

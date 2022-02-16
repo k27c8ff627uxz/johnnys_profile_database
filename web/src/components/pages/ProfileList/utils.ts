@@ -1,5 +1,5 @@
 import { Profile, UncertainDate } from 'common/types/Profile';
-import { RowItem } from './ProfileTable';
+import { RowItem } from './types';
 
 export function getUncertainDate(udate: UncertainDate) {
   if (!('year' in udate)) {
@@ -20,8 +20,8 @@ export function convertToRowItem(id: string, profile: Profile): RowItem {
     name: profile.name,
     furigana: profile.furigana,
     bloodType: profile.bloodType,
-    dateOfBirth: profile.dateOfBirth,
-    entire: getUncertainDate(profile.enter),
-    retire: profile.retire ? getUncertainDate(profile.retire) : '-',
+    dateOfBirth: new Date(profile.dateOfBirth),
+    enter: profile.enter,
+    retire: profile.retire,
   };
 }

@@ -9,24 +9,12 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { RowItem, ColData } from './types';
+import { getUncertainDate } from './utils';
+import { dateToString } from 'common/utils/date';
 
 export interface ProfileTableProps {
   rowData: RowItem[];
-}
-
-export interface RowItem {
-  id: string;
-  name: string;
-  furigana: string;
-  dateOfBirth: string;
-  bloodType: string;
-  entire: string;
-  retire: string;
-}
-
-interface ColData {
-  id: string;
-  label: string;
 }
 
 const colData: ColData[] = [
@@ -81,16 +69,16 @@ const ProfileTable = (props: ProfileTableProps) => {
                   {value.furigana}
                 </TableCell>
                 <TableCell>
-                  {value.dateOfBirth}
+                  {dateToString(value.dateOfBirth)}
                 </TableCell>
                 <TableCell>
                   {value.bloodType}
                 </TableCell>
                 <TableCell>
-                  {value.entire}
+                  {getUncertainDate(value.enter)}
                 </TableCell>
                 <TableCell>
-                  {value.retire}
+                  {value.retire === undefined ? '-' : getUncertainDate(value.retire)}
                 </TableCell>
               </TableRow>
             ))}
