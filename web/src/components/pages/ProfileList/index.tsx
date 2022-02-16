@@ -2,26 +2,23 @@ import React from 'react';
 import {
   Box,
 } from '@mui/material';
-import ProfileTable, { RowItem } from './ProfileTable';
+import ProfileListContainer from './ProfileListContainer';
+import ProfileTable from './ProfileTable';
 
-const rowData: RowItem[] = 
-  [...Array(38)].map((_, i) => ({
-    id: `${i}`,
-    name: `item${i}-1`,
-    furigana: `item${i}-2`,
-    bloodType: 'A',
-    dateOfBirth: '2020/1/1',
-    entire: '1991/3/4',
-    retire: '-',
-  }));
-
-const ProfileList: React.FC = () => {
+const Component: React.FC = () => {
+  const { profileList } = ProfileListContainer.useContainer();
 
   return (
     <Box style={{display: 'flex', justifyContent: 'center'}}>
-      <ProfileTable rowData={rowData} />
+      <ProfileTable rowData={profileList} />
     </Box>
   );
 };
+
+const ProfileList: React.FC = () => (
+  <ProfileListContainer.Provider>
+    <Component />
+  </ProfileListContainer.Provider>
+);
 
 export default ProfileList;

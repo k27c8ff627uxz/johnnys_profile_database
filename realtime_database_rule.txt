@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "mainData": {
+      ".read": true,
+      ".write": false
+    }
+  }
+}
