@@ -2,7 +2,7 @@ import { Profile, UncertainDate } from 'common/types/Profile';
 import { RowItem } from './types';
 
 export function getUncertainDate(udate: UncertainDate) {
-  if (!('year' in udate)) {
+  if (udate === 'unknown') {
     return '-/-/-';
   }
   if (!('month' in udate)) {

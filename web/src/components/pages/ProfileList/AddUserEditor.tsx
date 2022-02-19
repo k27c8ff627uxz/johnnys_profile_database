@@ -67,7 +67,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
           bloodType,
           dateOfBirth: dateToString(dateOfBirth),
           enter: convertToUncertainDate(enterDate),
-          ... (retireDate ? {retire: convertToUncertainDate(retireDate)} : {}),
+          retire: retireDate ? convertToUncertainDate(retireDate) : undefined,
         },
       });
 

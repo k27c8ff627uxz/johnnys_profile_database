@@ -28,7 +28,7 @@ export interface UncertainDatePickerProps {
 
 export function convertToUncertainDate(date: UncertainDataPickerValue): UncertainDate {
   if (date.unknownYear) {
-    return {};
+    return 'unknown';
   }
 
   if (date.unknownMonth) {

@@ -8,8 +8,7 @@ export type UncertainDate = {
   month: number,
 } | {
   year: number,
-// eslint-disable-next-line @typescript-eslint/ban-types
-} | { };
+} | 'unknown';
 
 export type Profile = {
   name: string;
