@@ -8,7 +8,7 @@ import { RowItem } from './types';
 
 const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);
-  const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
+  const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
 
   const functions = getFunctions();
 
@@ -38,6 +38,7 @@ const profileListContainer = () => {
 
   return {
     profileList,
+    isLoading,
   };
 };
 

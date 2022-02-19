@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Paper,
-  SxProps,
   Table,
   TableBody,
   TableCell,
@@ -39,15 +38,11 @@ const colData: ColData[] = [
   },
 ];
 
-const style: SxProps = {
-  margin: 3,
-  width: '80%',
-};
 
 const ProfileTable = (props: ProfileTableProps) => {
   const { rowData } = props;
   return (
-    <Paper elevation={2} sx={style}>
+    <Paper elevation={2}>
       <TableContainer>
         <Table>
           <TableHead>
