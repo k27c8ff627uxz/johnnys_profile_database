@@ -19,12 +19,12 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { UncertainDataPickerValue, UncertainDatePicker } from 'utils/mycomponents';
 
 export interface ProfileEditorValue {
-  name: string | null;
-  furigana: string | null;
-  dateOfBirth: Date | null;
+  name: string | undefined;
+  furigana: string | undefined;
+  dateOfBirth: Date | undefined;
   bloodType: 'A' | 'B' | 'O' | 'AB' | '';
   enterDate: UncertainDataPickerValue;
-  retireDate: UncertainDataPickerValue | null;
+  retireDate: UncertainDataPickerValue | undefined;
 }
 
 interface ProfileEditorProps {
@@ -52,7 +52,7 @@ const ProfileEditor = (props: ProfileEditorProps) => {
     } else {
       onChange({
         ...value,
-        retireDate: null,
+        retireDate: undefined,
       });
     }
   };
@@ -82,7 +82,7 @@ const ProfileEditor = (props: ProfileEditorProps) => {
           <DatePicker
             label='誕生日'
             value={value.dateOfBirth}
-            onChange={v => onChange({...value, dateOfBirth: v})}
+            onChange={v => onChange({...value, dateOfBirth: v ?? undefined})}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
@@ -112,11 +112,11 @@ const ProfileEditor = (props: ProfileEditorProps) => {
       <Grid item xs={12}>
         <FormControlLabel
           control={
-            <Switch checked={value.retireDate !== null} onChange={v => initRetire(v.target.checked)} />
+            <Switch checked={value.retireDate !== undefined} onChange={v => initRetire(v.target.checked)} />
           }
-          label={value.retireDate !== null ? '事務所退所済' : '事務所所属中'}
+          label={value.retireDate !== undefined ? '事務所退所済' : '事務所所属中'}
         />
-        {value.retireDate !== null && (
+        {value.retireDate !== undefined && (
           <>
             <Typography>退所日</Typography>
             <UncertainDatePicker value={value.retireDate} onChange={v => onChange({...value, retireDate: v})} />

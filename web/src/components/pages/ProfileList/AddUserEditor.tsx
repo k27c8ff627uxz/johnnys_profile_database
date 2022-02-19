@@ -12,9 +12,9 @@ import { dateToString } from 'common/utils/date';
 import ProfileEditor, { ProfileEditorValue } from './ProfileEditor';
 
 const initialValue: ProfileEditorValue = {
-  name: null,
-  furigana: null,
-  dateOfBirth: null,
+  name: undefined,
+  furigana: undefined,
+  dateOfBirth: undefined,
   bloodType: '',
   enterDate: {
     year: (new Date()).getFullYear(),
@@ -24,7 +24,7 @@ const initialValue: ProfileEditorValue = {
     unknownMonth: false,
     unknownDay: false,
   },
-  retireDate: null,
+  retireDate: undefined,
 };
 
 interface AddUserEditorProps {
@@ -52,7 +52,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
   const onSubmit = async () => {
     const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate } = value;
   
-    if (name === null || furigana === null || dateOfBirth === null || bloodType === '') {
+    if (!name || !furigana || !dateOfBirth || bloodType === '') {
       throw new Error('Unreach');
     }
   
