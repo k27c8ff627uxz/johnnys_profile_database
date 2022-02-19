@@ -36,7 +36,7 @@ const Component: React.FC = () => {
         onClose={() => setAddProfileModal(false)}
         title='メンバーの追加'
       >
-        <AddUserEditor />
+        <AddUserEditor onClose={() => setAddProfileModal(false)} />
       </MyModal>
     </Box>
   );

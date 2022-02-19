@@ -9,6 +9,7 @@ import {
   Stack,
   SxProps,
 } from '@mui/material';
+import { UncertainDate } from 'common/types/Profile';
 
 export interface UncertainDataPickerValue {
   year: number;
@@ -23,6 +24,31 @@ export interface UncertainDatePickerProps {
   value: UncertainDataPickerValue;
   onChange: (v: UncertainDataPickerValue) => void;
   sx?: SxProps,
+}
+
+export function convertToUncertainDate(date: UncertainDataPickerValue): UncertainDate {
+  if (date.unknownYear) {
+    return {};
+  }
+
+  if (date.unknownMonth) {
+    return {
+      year: date.year,
+    };
+  }
+
+  if (date.unknownDay) {
+    return {
+      year: date.year,
+      month: date.month,
+    };
+  }
+
+  return {
+    year: date.year,
+    month: date.month,
+    day: date.day,
+  };
 }
 
 // TODO: 無効な日(2/31など)を防ぐ処理

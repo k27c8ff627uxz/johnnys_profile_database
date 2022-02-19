@@ -3,7 +3,7 @@ import MyErrorMessages from './MyErrorMessages';
 import { MySuccessSnackbar, MyErrorSnackbar } from './MySnackbar';
 import MyModal from './MyModal';
 import ButtonWithProgress from './ButtonWithProgress';
-import UncertainDatePicker, { UncertainDataPickerValue } from './UncertainDatePicker';
+import UncertainDatePicker, { UncertainDataPickerValue, convertToUncertainDate } from './UncertainDatePicker';
 
 export {
   MyErrorMessage,
@@ -13,6 +13,7 @@ export {
   MyModal,
   ButtonWithProgress,
   UncertainDatePicker,
+  convertToUncertainDate,
 };
 export type {
   UncertainDataPickerValue,
