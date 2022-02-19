@@ -22,7 +22,7 @@ export interface ProfileEditorValue {
   name: string | null;
   furigana: string | null;
   dateOfBirth: Date | null;
-  bloodType: 'A' | 'B' | 'O' | 'AB' | null;
+  bloodType: 'A' | 'B' | 'O' | 'AB' | '';
   enterDate: UncertainDataPickerValue;
   retireDate: UncertainDataPickerValue | null;
 }
@@ -92,7 +92,7 @@ const ProfileEditor = (props: ProfileEditorProps) => {
           <InputLabel>血液型</InputLabel>
           <Select
             value={value.bloodType}
-            onChange={e => onChange({...value, bloodType: e.target.value as 'A' | 'B' | 'O' | 'AB' | null})}
+            onChange={e => onChange({...value, bloodType: e.target.value as 'A' | 'B' | 'O' | 'AB' | ''})}
           >
             <MenuItem value=''>-</MenuItem>
             <MenuItem value='A'>A</MenuItem>

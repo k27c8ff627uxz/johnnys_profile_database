@@ -8,7 +8,7 @@ const initialValue: ProfileEditorValue = {
   name: null,
   furigana: null,
   dateOfBirth: null,
-  bloodType: null,
+  bloodType: '',
   enterDate: {
     year: (new Date()).getFullYear(),
     month: 1,
