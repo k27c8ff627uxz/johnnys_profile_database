@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { RowItem, ColData } from './types';
-import { getUncertainDate } from './utils';
+import { getUncertainDate } from 'utils/functions';
 import { dateToString } from 'common/utils/date';
 
 export interface ProfileTableProps {

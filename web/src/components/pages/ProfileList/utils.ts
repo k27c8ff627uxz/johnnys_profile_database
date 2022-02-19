@@ -1,18 +1,5 @@
-import { Profile, UncertainDate } from 'common/types/Profile';
+import { Profile } from 'common/types/Profile';
 import { RowItem } from './types';
-
-export function getUncertainDate(udate: UncertainDate) {
-  if (udate === 'unknown') {
-    return '-/-/-';
-  }
-  if (!('month' in udate)) {
-    return `${udate.year}/-/-`;
-  }
-  if (!('day' in udate)) {
-    return `${udate.year}/${udate.month}/-`;
-  }
-  return `${udate.year}/${udate.month}/${udate.day}`;
-}
 
 export function convertToRowItem(id: string, profile: Profile): RowItem {
   return {

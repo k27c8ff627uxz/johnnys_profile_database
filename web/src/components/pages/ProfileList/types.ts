@@ -1,4 +1,4 @@
-import { UncertainDate } from 'common/types/Profile';
+import { UncertainDate } from 'common/types/UncertainDate';
 
 export interface RowItem {
   id: string;

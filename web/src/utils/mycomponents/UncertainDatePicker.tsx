@@ -9,7 +9,7 @@ import {
   Stack,
   SxProps,
 } from '@mui/material';
-import { UncertainDate } from 'common/types/Profile';
+import { UncertainDate } from 'common/types/UncertainDate';
 
 export interface UncertainDataPickerValue {
   year: number;
