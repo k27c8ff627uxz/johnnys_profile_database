@@ -51,6 +51,50 @@ export function convertToUncertainDate(date: UncertainDataPickerValue): Uncertai
   };
 }
 
+export function convertToUncertainDataPickerValue(udate: UncertainDate): UncertainDataPickerValue {
+  if (udate === 'unknown') {
+    return {
+      year: (new Date()).getFullYear(),
+      month: 1,
+      day: 1,
+      unknownYear: true,
+      unknownMonth: true,
+      unknownDay: true,
+    };
+  }
+
+  if (!('month' in udate)) {
+    return {
+      year: udate.year,
+      month: 1,
+      day: 1,
+      unknownYear: false,
+      unknownMonth: true,
+      unknownDay: true,
+    };
+  }
+
+  if (!('day' in udate)) {
+    return {
+      year: udate.year,
+      month: udate.month,
+      day: 1,
+      unknownYear: false,
+      unknownMonth: false,
+      unknownDay: true,
+    };
+  }
+
+  return {
+    year: udate.year,
+    month: udate.month,
+    day: udate.day,
+    unknownYear: false,
+    unknownMonth: false,
+    unknownDay: false,
+  };
+}
+
 // TODO: 無効な日(2/31など)を防ぐ処理
 const UncertainDatePicker = (props: UncertainDatePickerProps) => {
   const { value, onChange, sx } = props;

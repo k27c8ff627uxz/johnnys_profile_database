@@ -13,4 +13,5 @@ export interface RowItem {
 export interface ColData {
   id: string;
   label: string;
+  width?: number | string;
 }

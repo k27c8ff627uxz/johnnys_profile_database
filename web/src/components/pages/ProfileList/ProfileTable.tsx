@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -8,15 +9,22 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { Edit as EditIcon } from '@mui/icons-material';
 import { RowItem, ColData } from './types';
 import { getUncertainDate } from 'utils/functions';
 import { dateToString } from 'common/utils/date';
 
 export interface ProfileTableProps {
   rowData: RowItem[];
+  onEditClick: (id: string) => void;
 }
 
 const colData: ColData[] = [
+  {
+    id: 'edit',
+    label: '',
+    width: 2,
+  },
   {
     id: 'name',
     label: '名前',
@@ -40,7 +48,7 @@ const colData: ColData[] = [
 
 
 const ProfileTable = (props: ProfileTableProps) => {
-  const { rowData } = props;
+  const { rowData, onEditClick } = props;
   return (
     <Paper elevation={2}>
       <TableContainer>
@@ -48,7 +56,7 @@ const ProfileTable = (props: ProfileTableProps) => {
           <TableHead>
             <TableRow>
               {colData.map((val, i) => (
-                <TableCell key={i}>
+                <TableCell key={i} width={val.width} >
                   {val.label}
                 </TableCell>
               ))}
@@ -57,6 +65,11 @@ const ProfileTable = (props: ProfileTableProps) => {
           <TableBody>
             {rowData.map((value, i) => (
               <TableRow key={i}>
+                <TableCell>
+                  <IconButton color='primary' onClick={() => onEditClick(value.id)}>
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
                 <TableCell>
                   {value.name}
                 </TableCell>

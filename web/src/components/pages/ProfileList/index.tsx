@@ -10,10 +10,16 @@ import { MyModal } from 'utils/mycomponents';
 import ProfileListContainer from './ProfileListContainer';
 import ProfileTable from './ProfileTable';
 import AddUserEditor from './AddUserEditor';
+import UpdateUserEditor from './UpdateUserEditor';
 
 const Component: React.FC = () => {
   const { profileList, isLoading } = ProfileListContainer.useContainer();
   const [addProfileModal, setAddProfileModal] = useState(false);
+  const [updateProfileModal, setUpdateProfileModal] = useState<string | null>(null);
+
+  const onEditClick = (id: string) => {
+    setUpdateProfileModal(id);
+  };
 
   return (
     <Box style={{display: 'flex', justifyContent: 'center'}}>
@@ -28,7 +34,7 @@ const Component: React.FC = () => {
             <AddCircleIcon color='primary' fontSize='large' />
           </IconButton>
         </Box>
-        <ProfileTable rowData={profileList} />
+        <ProfileTable rowData={profileList} onEditClick={onEditClick} />
       </Stack>
       <MyModal
         isLoading={isLoading}
@@ -37,6 +43,16 @@ const Component: React.FC = () => {
         title='メンバーの追加'
       >
         <AddUserEditor onClose={() => setAddProfileModal(false)} />
+      </MyModal>
+      <MyModal
+        isLoading={isLoading}
+        open={updateProfileModal !== null}
+        onClose={() => setUpdateProfileModal(null)}
+        title='メンバーの編集'
+      >
+        {updateProfileModal &&
+          <UpdateUserEditor id={updateProfileModal} onClose={() => setUpdateProfileModal(null)} />
+        }
       </MyModal>
     </Box>
   );
