@@ -33,7 +33,6 @@ interface ProfileEditorProps {
   sx?: SxProps;
 }
 
-// TODO: 画面が狭いと退所日の表示が画面外になってしまう
 const ProfileEditor = (props: ProfileEditorProps) => {
   const { value, onChange, sx } = props;
 

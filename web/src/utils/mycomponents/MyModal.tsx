@@ -26,12 +26,14 @@ const MyModal = (props: MyModalProp) => {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    maxHeight: '90vh',
   };
 
   return (
     <Modal
       open={open}
       onClose={onClose}
+      style={{overflowY: 'scroll'}}
     >
       <Box style={style}>
         <Paper>
