@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { 
   convertToUncertainDate,
   ButtonWithProgress,
+  MyModal,
   MyErrorMessages,
 } from 'utils/mycomponents';
 import { updateProfile } from 'utils/firebaseFunctions';
 import { convertToUncertainDataPickerValue } from 'utils/mycomponents';
 import { dateToString } from 'common/utils/date';
 import ProfileListContainer from './ProfileListContainer';
+import DeleteProfileConfirm from './DeleteProfileConfirm';
 import ProfileEditor, { ProfileEditorValue } from './ProfileEditor';
 
 interface UpdateUserEditorProps {
@@ -33,6 +35,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
     enterDate: convertToUncertainDataPickerValue(profile.enter),
     retireDate: profile.retire ? convertToUncertainDataPickerValue(profile.retire) : undefined,
   });
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [errorState, setErrorState] = useState<'error' | null>(null);
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
 
@@ -101,7 +104,17 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
         }}
       />
       <ProfileEditor value={value} onChange={v => setValue(v)} />
-      <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+      <Stack direction='row' justifyContent='flex-end' spacing={2}>
+        <ButtonWithProgress
+          type='submit'
+          variant='contained'
+          color='error'
+          disabled={isLoading}
+          isLoading={isLoading}
+          onClick={() => setDeleteModalOpen(true) }
+        >
+          削除
+        </ButtonWithProgress>
         <ButtonWithProgress
           type='submit'
           variant='contained'
@@ -111,7 +124,20 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
         >
           変更
         </ButtonWithProgress>
-      </Box>
+      </Stack>
+      <MyModal
+        isLoading={isLoading}
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        title='メンバーの削除'
+      >
+        <DeleteProfileConfirm
+          id={id}
+          deletingName={profile.name}
+          onClose={() => setDeleteModalOpen(false)}
+          onSuccess={() => { setDeleteModalOpen(false); onClose(); }}
+        />
+      </MyModal>
     </Stack>
   );
 };

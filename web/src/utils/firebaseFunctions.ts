@@ -6,6 +6,7 @@ import { UpdateUserSettingRequest, UpdateUserSettingResponse } from 'common/api/
 import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 import { AddProfileRequest, AddProfileResponse } from 'common/api/profile/addProfile';
 import { UpdateProfileRequest, UpdateProfileResponse } from 'common/api/profile/updateProfile';
+import { DeleteProfileRequest, DeleteProfileResponse } from 'common/api/profile/deleteProfile';
 
 const createAccount = (functions: Functions) => httpsCallable<CreateAccountRequest, CreateAccountResponse>(functions, 'createAccount');
 const updateAccount = (functions: Functions) => httpsCallable<UpdateAccountRequest, UpdateAccountResponse>(functions, 'updateAccount');
@@ -14,6 +15,7 @@ const updateUserSetting = (functions: Functions) => httpsCallable<UpdateUserSett
 const getProfileList = (functions: Functions) => httpsCallable<void, GetProfileListResponse>(functions, 'getProfileList');
 const addProfile = (functions: Functions) => httpsCallable<AddProfileRequest, AddProfileResponse>(functions, 'addProfile');
 const updateProfile = (functions: Functions) => httpsCallable<UpdateProfileRequest, UpdateProfileResponse>(functions, 'updateProfile');
+const deleteProfile = (functions: Functions) => httpsCallable<DeleteProfileRequest, DeleteProfileResponse>(functions, 'deleteProfile');
 
 export {
   createAccount,
@@ -23,4 +25,5 @@ export {
   getProfileList,
   addProfile,
   updateProfile,
+  deleteProfile,
 };
