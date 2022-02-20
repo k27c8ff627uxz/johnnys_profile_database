@@ -16,39 +16,40 @@ import { dateToString } from 'common/utils/date';
 
 export interface ProfileTableProps {
   rowData: RowItem[];
+  editable: boolean;
   onEditClick: (id: string) => void;
 }
 
-const colData: ColData[] = [
-  {
-    id: 'edit',
-    label: '',
-    width: 2,
-  },
-  {
-    id: 'name',
-    label: '名前',
-  }, {
-    id: 'furigana',
-    label: 'ふりがな',
-  }, {
-    id: 'dateOfBirth',
-    label: '生年月日',
-  }, {
-    id: 'bloodType',
-    label: '血液型',
-  }, {
-    id: 'entire',
-    label: '入所日',
-  }, {
-    id: 'retire',
-    label: '退所日',
-  },
-];
-
-
 const ProfileTable = (props: ProfileTableProps) => {
-  const { rowData, onEditClick } = props;
+  const { rowData, onEditClick, editable } = props;
+
+  const colData: ColData[] = [
+    ...(editable ? [{
+      id: 'edit',
+      label: '',
+      width: 2,
+    }] : []),
+    {
+      id: 'name',
+      label: '名前',
+    }, {
+      id: 'furigana',
+      label: 'ふりがな',
+    }, {
+      id: 'dateOfBirth',
+      label: '生年月日',
+    }, {
+      id: 'bloodType',
+      label: '血液型',
+    }, {
+      id: 'entire',
+      label: '入所日',
+    }, {
+      id: 'retire',
+      label: '退所日',
+    },
+  ];
+
   return (
     <Paper elevation={2}>
       <TableContainer>
@@ -65,11 +66,13 @@ const ProfileTable = (props: ProfileTableProps) => {
           <TableBody>
             {rowData.map((value, i) => (
               <TableRow key={i}>
-                <TableCell>
-                  <IconButton color='primary' onClick={() => onEditClick(value.id)}>
-                    <EditIcon />
-                  </IconButton>
-                </TableCell>
+                {editable && (
+                  <TableCell>
+                    <IconButton color='primary' onClick={() => onEditClick(value.id)}>
+                      <EditIcon />
+                    </IconButton>
+                  </TableCell>
+                )}
                 <TableCell>
                   {value.name}
                 </TableCell>

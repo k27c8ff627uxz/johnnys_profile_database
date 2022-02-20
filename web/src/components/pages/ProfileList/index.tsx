@@ -13,7 +13,7 @@ import AddUserEditor from './AddUserEditor';
 import UpdateUserEditor from './UpdateUserEditor';
 
 const Component: React.FC = () => {
-  const { profileList, isLoading, reload } = ProfileListContainer.useContainer();
+  const { profileList, isLoading, reload, editable } = ProfileListContainer.useContainer();
   const [addProfileModal, setAddProfileModal] = useState(false);
   const [updateProfileModal, setUpdateProfileModal] = useState<string | null>(null);
 
@@ -30,11 +30,13 @@ const Component: React.FC = () => {
             variant='standard'
             fullWidth
           />
-          <IconButton size='large' onClick={() => setAddProfileModal(true)}>
-            <AddCircleIcon color='primary' fontSize='large' />
-          </IconButton>
+          { editable && (
+            <IconButton size='large' onClick={() => setAddProfileModal(true)}>
+              <AddCircleIcon color='primary' fontSize='large' />
+            </IconButton>
+          )}
         </Box>
-        <ProfileTable rowData={profileList} onEditClick={onEditClick} />
+        <ProfileTable rowData={profileList} editable={editable} onEditClick={onEditClick} />
       </Stack>
       <MyModal
         isLoading={isLoading}

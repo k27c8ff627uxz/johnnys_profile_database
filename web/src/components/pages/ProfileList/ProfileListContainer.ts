@@ -3,6 +3,7 @@ import { createContainer } from 'unstated-next';
 import { getFunctions, HttpsCallableResult } from 'firebase/functions';
 import { getProfileList } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
+import AccountContainer from 'models/account';
 import { convertToRowItem } from './utils';
 import { RowItem } from './types';
 import { GetProfileListResponse } from 'common/api/profile/getProfileList';
@@ -10,6 +11,7 @@ import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
+  const { authInfo } = AccountContainer.useContainer();
 
   const functions = getFunctions();
 
@@ -45,9 +47,18 @@ const profileListContainer = () => {
     finishLoading();
   };
 
+  const editable = (() => {
+    if (authInfo.state !== 'login') {
+      return false;
+    }
+
+    return authInfo.customClaim.role.editData;
+  })();
+
   return {
     profileList,
     isLoading,
+    editable,
     reload,
   };
 };
