@@ -28,23 +28,28 @@ export interface UncertainDatePickerProps {
 
 export function convertToUncertainDate(date: UncertainDataPickerValue): UncertainDate {
   if (date.unknownYear) {
-    return 'unknown';
+    return {
+      type: 'unknown',
+    };
   }
 
   if (date.unknownMonth) {
     return {
+      type: 'year_only',
       year: date.year,
     };
   }
 
   if (date.unknownDay) {
     return {
+      type: 'year_month_only',
       year: date.year,
       month: date.month,
     };
   }
 
   return {
+    type: 'exact',
     year: date.year,
     month: date.month,
     day: date.day,
@@ -52,7 +57,8 @@ export function convertToUncertainDate(date: UncertainDataPickerValue): Uncertai
 }
 
 export function convertToUncertainDataPickerValue(udate: UncertainDate): UncertainDataPickerValue {
-  if (udate === 'unknown') {
+  switch(udate.type) {
+  case 'unknown':
     return {
       year: (new Date()).getFullYear(),
       month: 1,
@@ -61,9 +67,7 @@ export function convertToUncertainDataPickerValue(udate: UncertainDate): Uncerta
       unknownMonth: true,
       unknownDay: true,
     };
-  }
-
-  if (!('month' in udate)) {
+  case 'year_only':
     return {
       year: udate.year,
       month: 1,
@@ -72,9 +76,7 @@ export function convertToUncertainDataPickerValue(udate: UncertainDate): Uncerta
       unknownMonth: true,
       unknownDay: true,
     };
-  }
-
-  if (!('day' in udate)) {
+  case 'year_month_only':
     return {
       year: udate.year,
       month: udate.month,
@@ -83,16 +85,16 @@ export function convertToUncertainDataPickerValue(udate: UncertainDate): Uncerta
       unknownMonth: false,
       unknownDay: true,
     };
+  case 'exact':
+    return {
+      year: udate.year,
+      month: udate.month,
+      day: udate.day,
+      unknownYear: false,
+      unknownMonth: false,
+      unknownDay: false,
+    };
   }
-
-  return {
-    year: udate.year,
-    month: udate.month,
-    day: udate.day,
-    unknownYear: false,
-    unknownMonth: false,
-    unknownDay: false,
-  };
 }
 
 // TODO: 無効な日(2/31など)を防ぐ処理

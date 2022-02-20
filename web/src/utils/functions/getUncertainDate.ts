@@ -1,14 +1,14 @@
 import { UncertainDate } from 'common/types/UncertainDate';
 
 export default function getUncertainDate(udate: UncertainDate) {
-  if (udate === 'unknown') {
+  switch(udate.type) {
+  case 'unknown':
     return '-/-/-';
-  }
-  if (!('month' in udate)) {
+  case 'year_only':
     return `${udate.year}/-/-`;
-  }
-  if (!('day' in udate)) {
+  case 'year_month_only':
     return `${udate.year}/${udate.month}/-`;
+  case 'exact':
+    return `${udate.year}/${udate.month}/${udate.day}`;
   }
-  return `${udate.year}/${udate.month}/${udate.day}`;
 }
