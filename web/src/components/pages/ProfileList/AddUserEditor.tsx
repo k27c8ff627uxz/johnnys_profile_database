@@ -28,11 +28,11 @@ const initialValue: ProfileEditorValue = {
 };
 
 interface AddUserEditorProps {
-  onClose: () => void;
+  onSuccess: () => void;
 }
 
 const AddUserEditor = (props: AddUserEditorProps) => {
-  const { onClose } = props;
+  const { onSuccess } = props;
   const [value, setValue] = useState(initialValue);
   const [errorState, setErrorState] = useState<'error' | null>(null);
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
@@ -75,7 +75,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
       switch(data.result) {
       case 'success':
         setErrorState(null);
-        onClose();
+        onSuccess();
         break;
       case 'error':
         setErrorState('error');

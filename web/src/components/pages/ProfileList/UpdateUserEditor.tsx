@@ -17,11 +17,11 @@ import ProfileEditor, { ProfileEditorValue } from './ProfileEditor';
 
 interface UpdateUserEditorProps {
   id: string;
-  onClose: () => void;
+  onSuccess: () => void;
 }
 
 const UpdateUserEditor = (props: UpdateUserEditorProps) => {
-  const { id, onClose } = props;
+  const { id, onSuccess } = props;
   const { profileList } = ProfileListContainer.useContainer();
   const profile = profileList.find(profile => profile.id === id);
   if (profile === undefined) {
@@ -78,7 +78,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
       switch(data.result) {
       case 'success':
         setErrorState(null);
-        onClose();
+        onSuccess();
         break;
       case 'error':
         setErrorState('error');
@@ -135,7 +135,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
           id={id}
           deletingName={profile.name}
           onClose={() => setDeleteModalOpen(false)}
-          onSuccess={() => { setDeleteModalOpen(false); onClose(); }}
+          onSuccess={() => { setDeleteModalOpen(false); onSuccess(); }}
         />
       </MyModal>
     </Stack>

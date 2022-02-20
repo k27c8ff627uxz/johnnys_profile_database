@@ -13,7 +13,7 @@ import AddUserEditor from './AddUserEditor';
 import UpdateUserEditor from './UpdateUserEditor';
 
 const Component: React.FC = () => {
-  const { profileList, isLoading } = ProfileListContainer.useContainer();
+  const { profileList, isLoading, reload } = ProfileListContainer.useContainer();
   const [addProfileModal, setAddProfileModal] = useState(false);
   const [updateProfileModal, setUpdateProfileModal] = useState<string | null>(null);
 
@@ -42,7 +42,7 @@ const Component: React.FC = () => {
         onClose={() => setAddProfileModal(false)}
         title='メンバーの追加'
       >
-        <AddUserEditor onClose={() => setAddProfileModal(false)} />
+        <AddUserEditor onSuccess={() => { setAddProfileModal(false); reload(); } } />
       </MyModal>
       <MyModal
         isLoading={isLoading}
@@ -51,7 +51,7 @@ const Component: React.FC = () => {
         title='メンバーの編集'
       >
         {updateProfileModal &&
-          <UpdateUserEditor id={updateProfileModal} onClose={() => setUpdateProfileModal(null)} />
+          <UpdateUserEditor id={updateProfileModal} onSuccess={() => { setUpdateProfileModal(null); reload(); } } />
         }
       </MyModal>
     </Box>
