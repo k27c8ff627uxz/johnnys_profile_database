@@ -4,11 +4,11 @@ import { UpdateProfileRequest, UpdateProfileResponse } from '../../common/api/pr
 
 const updateProfile = functions.https.onCall(
   async (params: UpdateProfileRequest, context): Promise<UpdateProfileResponse> => {
-    const uid = params.uid;
+    const id = params.id;
     const ref = admin.database().ref('mainData/profile');
 
     const updateData = {
-      [`${uid}`]: params.profile,
+      [`${id}`]: params.profile,
     };
     functions.logger.info(`updateData: ${JSON.stringify(updateData)}`);
   
@@ -20,7 +20,7 @@ const updateProfile = functions.https.onCall(
       return {
         result: 'success',
         profile: params.profile,
-        id: uid,
+        id,
       };
     } catch(e) {
       return {

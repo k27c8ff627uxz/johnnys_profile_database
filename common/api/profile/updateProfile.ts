@@ -1,7 +1,7 @@
 import { Profile } from '../../types/Profile';
 
 export type UpdateProfileRequest = {
-  uid: string;
+  id: string;
   profile: Profile;
 }
 

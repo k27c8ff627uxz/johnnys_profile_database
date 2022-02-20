@@ -63,7 +63,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
     
     try {
       const apiResult = await updateProfile(functions)({
-        uid: id,
+        id,
         profile: {
           name,
           furigana,
