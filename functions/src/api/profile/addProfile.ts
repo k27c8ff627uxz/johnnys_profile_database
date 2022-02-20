@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { AddProfileRequest, AddProfileResponse } from '../../common/api/profile/addProfile';
 import { generateUUID } from '../../utils/generateUuid';
+import { getCustomClaim } from '../../utils/getCustomClaim';
 
 const ref = admin.database().ref('mainData/profile');
 
@@ -12,16 +13,34 @@ async function getAllId(): Promise<string[]> {
 
 const addProfile = functions.https.onCall(
   async (params: AddProfileRequest, context): Promise<AddProfileResponse> => {
+    const uid = context.auth?.uid;
+    // 認証チェック(非ログインユーザー)
+    if (!uid) {
+      functions.logger.error('Not Authenticated User!');
+      return {
+        result: 'unauthenticated',
+      };
+    }
+  
+    // 認証チェック(権限のないユーザー)
+    const myCustomClaim = await getCustomClaim(uid);
+    if (!myCustomClaim.role.editData) {
+      functions.logger.error('Not Edit Data Account!');
+      return {
+        result: 'unauthenticated',
+      };
+    }
+  
     try {
 
       // uidの重複を防ぐために、すべてのUIDを取得
       const existedIds = await getAllId();
-      const uid = generateUUID(existedIds);
-      functions.logger.info(`New Uid: ${uid}`);
+      const uuid = generateUUID(existedIds);
+      functions.logger.info(`New Uuid: ${uuid}`);
 
       // 登録
       const updateData = {
-        [`${uid}`]: params.profile,
+        [`${uuid}`]: params.profile,
       };
       functions.logger.info(`updateData: ${JSON.stringify(updateData)}`);
       await ref.update(updateData);
@@ -30,7 +49,7 @@ const addProfile = functions.https.onCall(
       return {
         result: 'success',
         profile: params.profile,
-        id: uid,
+        id: uuid,
       };
     } catch(e) {
       return {

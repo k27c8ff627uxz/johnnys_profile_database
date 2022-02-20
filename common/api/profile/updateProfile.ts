@@ -10,6 +10,8 @@ export type UpdateProfileResponse = {
   profile: Profile;
   id: string;
 } | {
+  result: 'unauthenticated';
+} | {
   result: 'error';
   errorMessage: string;
 }

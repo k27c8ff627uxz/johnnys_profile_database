@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Stack } from '@mui/material';
+import { Box } from '@mui/material';
 import { getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { 
@@ -34,7 +34,7 @@ interface AddUserEditorProps {
 const AddUserEditor = (props: AddUserEditorProps) => {
   const { onSuccess } = props;
   const [value, setValue] = useState(initialValue);
-  const [errorState, setErrorState] = useState<'error' | null>(null);
+  const [errorState, setErrorState] = useState<'error' | 'unauthenticated' | null>(null);
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
 
   const verify = (() => {
@@ -77,6 +77,9 @@ const AddUserEditor = (props: AddUserEditorProps) => {
         setErrorState(null);
         onSuccess();
         break;
+      case 'unauthenticated':
+        setErrorState('unauthenticated');
+        break;
       case 'error':
         setErrorState('error');
         console.error(data.errorMessage);
@@ -92,11 +95,12 @@ const AddUserEditor = (props: AddUserEditorProps) => {
   };
 
   return (
-    <Stack spacing={3} sx={{m: 3}}>
+    <Box sx={{p: 3}}>
       <MyErrorMessages
         errorState={errorState}
         texts={{
           error: ['実行中にエラーが発生しました。'],
+          unauthenticated: ['データを編集する権限がありません'],
         }}
       />
       <ProfileEditor value={value} onChange={v => setValue(v)} />
@@ -111,7 +115,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
           登録
         </ButtonWithProgress>
       </Box>
-    </Stack>
+    </Box>
   );
 };
 

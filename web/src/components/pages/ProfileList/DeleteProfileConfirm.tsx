@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { getFunctions } from 'firebase/functions';
 import { ButtonWithProgress, MyErrorMessages } from 'utils/mycomponents';
 import FrameworkViewContainer from 'models/frameworkView';
@@ -15,7 +15,7 @@ interface DeleteProfileConfirmProps {
 const DeleteProfileConfirm = (params: DeleteProfileConfirmProps) => {
   const { id, deletingName, onClose, onSuccess } = params;
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
-  const [errorState, setErrorState] = useState<'error' | null>(null);
+  const [errorState, setErrorState] = useState<'error' | 'unauthenticated' | null>(null);
 
   const onSubmit = async () => {
     beginLoading();
@@ -32,6 +32,9 @@ const DeleteProfileConfirm = (params: DeleteProfileConfirmProps) => {
         setErrorState(null);
         onSuccess();
         break;
+      case 'unauthenticated':
+        setErrorState('unauthenticated');
+        break;
       case 'error':
         setErrorState('error');
         console.error(data.errorMessage);
@@ -47,7 +50,7 @@ const DeleteProfileConfirm = (params: DeleteProfileConfirmProps) => {
   };
 
   return (
-    <Stack spacing={3} sx={{p: 2}}>
+    <Box sx={{p: 2}}>
       <Typography>
         本当に「{deletingName}」のデータを削除して宜しいですか？
       </Typography>
@@ -55,6 +58,7 @@ const DeleteProfileConfirm = (params: DeleteProfileConfirmProps) => {
         errorState={errorState}
         texts={{
           error: ['実行中にエラーが発生しました。'],
+          unauthenticated: ['データを編集する権限がありません'],
         }}
       />
       <Stack direction='row' justifyContent='flex-end' spacing={2}>
@@ -78,7 +82,7 @@ const DeleteProfileConfirm = (params: DeleteProfileConfirmProps) => {
           キャンセル
         </ButtonWithProgress>
       </Stack>
-    </Stack>
+    </Box>
   );
 };
 

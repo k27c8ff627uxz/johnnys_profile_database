@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import { getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { 
@@ -36,7 +36,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
     retireDate: profile.retire ? convertToUncertainDataPickerValue(profile.retire) : undefined,
   });
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [errorState, setErrorState] = useState<'error' | null>(null);
+  const [errorState, setErrorState] = useState<'error' | 'unauthenticated' | null>(null);
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
 
   const verify = (() => {
@@ -80,6 +80,9 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
         setErrorState(null);
         onSuccess();
         break;
+      case 'unauthenticated':
+        setErrorState('unauthenticated');
+        break;
       case 'error':
         setErrorState('error');
         console.error(data.errorMessage);
@@ -96,11 +99,12 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
   };
 
   return (
-    <Stack spacing={3} sx={{m: 3}}>
+    <Box sx={{p: 3}}>
       <MyErrorMessages
         errorState={errorState}
         texts={{
           error: ['実行中にエラーが発生しました。'],
+          unauthenticated: ['データを編集する権限がありません'],
         }}
       />
       <ProfileEditor value={value} onChange={v => setValue(v)} />
@@ -138,7 +142,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
           onSuccess={() => { setDeleteModalOpen(false); onSuccess(); }}
         />
       </MyModal>
-    </Stack>
+    </Box>
   );
 };
 

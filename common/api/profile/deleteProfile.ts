@@ -7,6 +7,8 @@ export type DeleteProfileResponse = {
   result: 'success';
   id: string;
 } | {
+  result: 'unauthenticated';
+} | {
   result: 'error';
   errorMessage: string;
 }
