@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   IconButton,
   Paper,
@@ -8,47 +8,54 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableSortLabel,
 } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
-import { RowItem, ColData } from './types';
+import { RowItem } from './types';
+import { columnData } from './columnData';
 import { getUncertainDate } from 'utils/functions';
+import { SortDir } from 'utils/types';
 import { dateToString } from 'common/utils/date';
 
 export interface ProfileTableProps {
   rowData: RowItem[];
   editable: boolean;
   onEditClick: (id: string) => void;
+  onSort: (compareFunc: (item1: RowItem, item2: RowItem) => number) => void;
+}
+
+interface SortState {
+  by: string;
+  dir: SortDir;
 }
 
 const ProfileTable = (props: ProfileTableProps) => {
-  const { rowData, onEditClick, editable } = props;
+  const { rowData, onEditClick, editable, onSort } = props;
+  const [sortState, setSortState] = useState<SortState>({by: 'name', dir: 'asc'});
 
-  const colData: ColData[] = [
-    ...(editable ? [{
-      id: 'edit',
-      label: '',
-      width: 2,
-    }] : []),
-    {
-      id: 'name',
-      label: '名前',
-    }, {
-      id: 'furigana',
-      label: 'ふりがな',
-    }, {
-      id: 'dateOfBirth',
-      label: '生年月日',
-    }, {
-      id: 'bloodType',
-      label: '血液型',
-    }, {
-      id: 'entire',
-      label: '入所日',
-    }, {
-      id: 'retire',
-      label: '退所日',
-    },
-  ];
+  const colData = columnData(editable);
+
+  const onSortClick = (
+    headerId: string,
+    compareFunc: (dir: SortDir) => (item1: RowItem, item2: RowItem) => number
+  ) => {
+    const newState: SortState = (() => {
+      if (sortState.by === headerId) {
+        return {
+          ...sortState,
+          dir: sortState.dir === 'desc' ? 'asc' : 'desc',
+        };
+      }
+      
+      return {
+        by: headerId,
+        dir: 'asc',
+      };
+    })();
+
+    setSortState(newState);
+    onSort(compareFunc(newState.dir));
+  };
 
   return (
     <Paper elevation={2}>
@@ -57,9 +64,29 @@ const ProfileTable = (props: ProfileTableProps) => {
           <TableHead>
             <TableRow>
               {colData.map((val, i) => (
-                <TableCell key={i} width={val.width} >
-                  {val.label}
-                </TableCell>
+                val.sort !== undefined ? (
+                  <TableCell
+                    key={i}
+                    width={val.width}
+                    sortDirection={sortState.by === val.id ? sortState.dir : undefined}
+                  >
+                    <TableSortLabel
+                      active={sortState.by === val.id}
+                      direction={sortState.by === val.id ? sortState.dir : undefined}
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      onClick={() => onSortClick(val.id, val.sort!)}
+                    >
+                      {val.label}
+                    </TableSortLabel>
+                  </TableCell>
+                ) : (
+                  <TableCell
+                    key={i}
+                    width={val.width}
+                  >
+                    {val.label}
+                  </TableCell>
+                )
               ))}
             </TableRow>
           </TableHead>

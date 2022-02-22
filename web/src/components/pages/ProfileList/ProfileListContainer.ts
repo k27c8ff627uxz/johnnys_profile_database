@@ -47,6 +47,11 @@ const profileListContainer = () => {
     finishLoading();
   };
 
+  const applySort = (compareFunc: (item1: RowItem, item2: RowItem) => number) => {
+    profileList.sort(compareFunc);
+    setProfileList(profileList);
+  };
+
   const editable = (() => {
     if (authInfo.state !== 'login') {
       return false;
@@ -60,6 +65,7 @@ const profileListContainer = () => {
     isLoading,
     editable,
     reload,
+    applySort,
   };
 };
 
