@@ -1,12 +1,12 @@
 import { UncertainDate } from 'common/types/UncertainDate';
-import { SortDir } from 'utils/types';
+import { SortDir, BloodType } from 'utils/types';
 
 export interface RowItem {
   id: string;
   name: string;
   furigana: string;
   dateOfBirth: Date;
-  bloodType: 'A' | 'B' | 'O' | 'AB';
+  bloodType: BloodType;
   enter: UncertainDate;
   retire?: UncertainDate;
 }

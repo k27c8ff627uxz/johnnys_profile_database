@@ -1,5 +1,5 @@
 import sortUncertainDate from 'utils/functions/sortUncertainDate';
-import { SortDir } from 'utils/types';
+import { SortDir, BloodType } from 'utils/types';
 import { ColData } from './types';
 
 export function columnData(editable: boolean): ColData[] {
@@ -63,7 +63,7 @@ export function columnData(editable: boolean): ColData[] {
       id: 'bloodType',
       label: '血液型',
       sort: (dir) => (item1, item2) => {
-        const blood2number = (type: 'A' | 'B' | 'O' | 'AB') => {
+        const blood2number = (type: BloodType) => {
           switch(type) {
           case 'A': return 1;
           case 'B': return 2;
