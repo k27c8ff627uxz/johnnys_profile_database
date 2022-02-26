@@ -1,13 +1,12 @@
-import * as admin from 'firebase-admin';
-admin.initializeApp();
+require('firebase-admin').initializeApp();
 import account from './api/account';
 import user from './api/user';
 import profile from './api/profile';
-import workaround from './api/workaround';
+import admin from './api/admin';
 
 module.exports = {
   ...account,
   ...user,
   ...profile,
-  ...workaround,
+  ...admin,
 };

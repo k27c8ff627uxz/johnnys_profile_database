@@ -10,7 +10,7 @@ import { httpsCallable, getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { ButtonWithProgress, MyErrorMessage } from 'utils/mycomponents';
 
-const WorkaroundExecuter = () => {
+const Workaround = () => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [funcName, setFuncName] = useState('');
   const [executeResult, setExecuteResult] = useState<null | 'success' | 'error'>(null);
@@ -61,4 +61,4 @@ const WorkaroundExecuter = () => {
   );
 };
 
-export default WorkaroundExecuter;
+export default Workaround;

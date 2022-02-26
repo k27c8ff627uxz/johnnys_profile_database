@@ -13,8 +13,8 @@ const literals = {
       deleteAccount: '/account/delete_account',
       action: '/account/action',
     },
-    workaround: {
-      executer: '/workaround/execute',
+    admin: {
+      workaround: '/admin/workaround',
     },
   },
 };

@@ -18,7 +18,7 @@ import ResetPassword from '../pages/accounts/ResetPassword';
 import ChangePassword from '..//pages/accounts/ChangePassword';
 import DeleteAccount from 'components/pages/accounts/DeleteAccount';
 import Action from '../pages/accounts/Action';
-import WorkaroundExecuter from 'components/pages/WorkaroungExecuter';
+import Workaround from 'components/pages/Admin/Workaround';
 import literals from '../../utils/literals';
 
 const MainContents: React.FC = () => {
@@ -41,8 +41,7 @@ const MainContents: React.FC = () => {
       <Route path={literals.path.account.changePassword} element={<PrivateRoute component={(authInfo) => <ChangePassword authInfo={authInfo}/>} />} />
       <Route path={literals.path.account.deleteAccount} element={<DeleteAccount />} />
       <Route path={literals.path.account.action} element={<Action />} />
-      {/* comment out when workaround execute */}
-      <Route path={literals.path.workaround.executer} element={<WorkaroundExecuter />} />
+      <Route path={literals.path.admin.workaround} element={<Workaround />} />
       <Route path='*' element={<Error404 />} />
     </Routes>
   );
