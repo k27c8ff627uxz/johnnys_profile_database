@@ -19,6 +19,8 @@ const deleteProfile = (functions: Functions) => httpsCallable<DeleteProfileReque
 const attachRolesToAdmin = (functions: Functions) => httpsCallable<void, boolean>(functions, 'attachRolesToAdmin');
 const getAllUserData = (functions: Functions) => httpsCallable<void, object>(functions, 'getAllUserData');
 const setAllUserData = (functions: Functions) => httpsCallable<string, boolean>(functions, 'setAllUserData');
+const getAllData = (functions: Functions) => httpsCallable<void, object>(functions, 'getAllData');
+const setAllData = (functions: Functions) => httpsCallable<string, boolean>(functions, 'setAllData');
 
 export {
   createAccount,
@@ -32,4 +34,6 @@ export {
   attachRolesToAdmin,
   getAllUserData,
   setAllUserData,
+  getAllData,
+  setAllData,
 };
