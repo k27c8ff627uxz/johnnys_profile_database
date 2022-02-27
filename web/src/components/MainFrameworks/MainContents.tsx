@@ -44,10 +44,25 @@ const MainContents: React.FC = () => {
       <Route path={literals.path.account.changePassword} element={<PrivateRoute component={(authInfo) => <ChangePassword authInfo={authInfo}/>} />} />
       <Route path={literals.path.account.deleteAccount} element={<DeleteAccount />} />
       <Route path={literals.path.account.action} element={<Action />} />
-      <Route path={literals.path.admin.workaround} element={<Workaround />} />
       <Route path={literals.path.admin.attachRolesToAdmin} element={<AttachRolesToAdmin />} />
-      <Route path={literals.path.admin.adminUserEditor} element={<AdminUserEditor />} />      
-      <Route path={literals.path.admin.adminDataEditor} element={<AdminDataEditor />} />      
+      <Route path={literals.path.admin.workaround} element={
+        <PrivateRoute
+          component={() => <Workaround />}
+          optionalCondition={(customClaim) => customClaim.role.admin}
+        />
+      } />
+      <Route path={literals.path.admin.adminUserEditor} element={
+        <PrivateRoute
+          component={() => <AdminUserEditor />}
+          optionalCondition={(customClaim) => customClaim.role.admin}
+        />
+      } />
+      <Route path={literals.path.admin.adminDataEditor} element={
+        <PrivateRoute
+          component={() => <AdminDataEditor />}
+          optionalCondition={(customClaim) => customClaim.role.admin}
+        />
+      } />   
       <Route path='*' element={<Error404 />} />
     </Routes>
   );
