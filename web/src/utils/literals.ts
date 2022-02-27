@@ -16,6 +16,7 @@ const literals = {
     admin: {
       workaround: '/admin/workaround',
       attachRolesToAdmin: '/admin/attach_roles_to_admin',
+      adminUserEditor: '/admin/user_editor',
     },
   },
 };
