@@ -19,6 +19,7 @@ import ChangePassword from '..//pages/accounts/ChangePassword';
 import DeleteAccount from 'components/pages/accounts/DeleteAccount';
 import Action from '../pages/accounts/Action';
 import Workaround from 'components/pages/Admin/Workaround';
+import AttachRolesToAdmin from 'components/pages/Admin/AttachRolesToAdmin';
 import literals from '../../utils/literals';
 
 const MainContents: React.FC = () => {
@@ -42,6 +43,7 @@ const MainContents: React.FC = () => {
       <Route path={literals.path.account.deleteAccount} element={<DeleteAccount />} />
       <Route path={literals.path.account.action} element={<Action />} />
       <Route path={literals.path.admin.workaround} element={<Workaround />} />
+      <Route path={literals.path.admin.attachRolesToAdmin} element={<AttachRolesToAdmin />} />
       <Route path='*' element={<Error404 />} />
     </Routes>
   );

@@ -6,6 +6,8 @@
   "scripts": {
     "build": "tsc",
     "eslint": "eslint src",
+    "help": "firebase deploy --help",
+    "predeploy": ". ../env/.env.${PRODUCT_STAGE} && firebase functions:config:set env.admin_email=\"${ADMIN_EMAIL}\" --project ${FIREBASE_PROJECT}",
     "deploy": ". ../env/.env.${PRODUCT_STAGE} && firebase deploy --only functions --project ${FIREBASE_PROJECT}"
   },
   "dependencies": {

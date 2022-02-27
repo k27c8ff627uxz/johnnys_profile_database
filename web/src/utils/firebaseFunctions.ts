@@ -16,6 +16,7 @@ const getProfileList = (functions: Functions) => httpsCallable<void, GetProfileL
 const addProfile = (functions: Functions) => httpsCallable<AddProfileRequest, AddProfileResponse>(functions, 'addProfile');
 const updateProfile = (functions: Functions) => httpsCallable<UpdateProfileRequest, UpdateProfileResponse>(functions, 'updateProfile');
 const deleteProfile = (functions: Functions) => httpsCallable<DeleteProfileRequest, DeleteProfileResponse>(functions, 'deleteProfile');
+const attachRolesToAdmin = (functions: Functions) => httpsCallable<void, boolean>(functions, 'attachRolesToAdmin');
 
 export {
   createAccount,
@@ -26,4 +27,5 @@ export {
   addProfile,
   updateProfile,
   deleteProfile,
+  attachRolesToAdmin,
 };
