@@ -7,6 +7,7 @@ export function convertCustomClaim(claim: {[key: string]: any} | undefined): Cus
     role: {
       editData: false,
       userManage: false,
+      admin: false,
     },
   };
 
@@ -23,6 +24,7 @@ export function convertCustomClaim(claim: {[key: string]: any} | undefined): Cus
     role: {
       editData: claim['role']?.editData ?? false,
       userManage: claim['role']?.userManage ?? false,
+      admin: claim['role']?.admin ?? false,
     },
   };
 }

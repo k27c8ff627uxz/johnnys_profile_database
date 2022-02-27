@@ -4,5 +4,6 @@ export type CustomUserClaim = {
   role: {
     editData: boolean,
     userManage: boolean,
+    admin: boolean,
   },
 };

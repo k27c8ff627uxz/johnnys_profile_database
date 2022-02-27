@@ -1,14 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { CustomUserClaim } from 'common/types/CustomUserClaim';
-
-const fullCustomClaim: CustomUserClaim = {
-  version: '1.0.0',
-  role: {
-    editData: true,
-    userManage: true,
-  },
-};
+import { getCustomClaim } from '../../utils/getCustomClaim';
 
 const attachRolesToAdmin = functions.https.onCall(
   async (): Promise<boolean> => {
@@ -17,9 +9,18 @@ const attachRolesToAdmin = functions.https.onCall(
       functions.logger.info(`email: ${email}`);
       if (email) {
         const record = await admin.auth().getUserByEmail(email);
-        functions.logger.info(`uid: ${record.uid}`);
+        const uid = record.uid;
+        functions.logger.info(`uid: ${uid}`);
 
-        await admin.auth().setCustomUserClaims(record.uid, fullCustomClaim);
+        const adminCustomClaim = await getCustomClaim(uid);
+
+        await admin.auth().setCustomUserClaims(uid, {
+          ...adminCustomClaim,
+          role: {
+            ...adminCustomClaim.role,
+            admin: true,
+          },
+        });
 
         return true;
       }

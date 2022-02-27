@@ -8,6 +8,7 @@ const defaultCustomClaim: CustomUserClaim = {
   role: {
     editData: false,
     userManage: false,
+    admin: false,
   },
 };
 
