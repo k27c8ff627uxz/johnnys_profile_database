@@ -3,7 +3,7 @@ import { createContainer } from 'unstated-next';
 import { getFunctions } from 'firebase/functions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { getUserProfile, updateUserSetting } from 'utils/firebaseFunctions';
-import { CustomUserClaim } from 'common/types/CustomUserClaim';
+import { UpdateUserSettingRequest } from 'common/api/user/updateUserSetting'; 
 import { RowItem } from './types';
 
 const userEditorContainer = () => {
@@ -45,17 +45,14 @@ const userEditorContainer = () => {
     reloadData();
   }, []);
 
-  const updateCustomClaim = async (uid: string, newCustomClaim: CustomUserClaim): Promise<'success' | 'unauthenticated' | 'error'> => {
+  const updateCustomClaim = async (userSetting: UpdateUserSettingRequest): Promise<'success' | 'unauthenticated' | 'error'> => {
     try {
-      const funcResult = await updateUserSetting(functions)({
-        uid,
-        customClaim: newCustomClaim,
-      });
+      const funcResult = await updateUserSetting(functions)(userSetting);
 
       const data = funcResult.data;
       switch(data.result) {
       case 'success': {
-        const targetRows = rows.find(v => v.id === uid);
+        const targetRows = rows.find(v => v.id === userSetting.uid);
         if (targetRows === undefined || data.userRecord.customClaim === undefined) {
           throw new Error('Unreach');
         }

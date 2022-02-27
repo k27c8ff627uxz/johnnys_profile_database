@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { UpdateUserSettingRequest, UpdateUserSettingResponse } from '../../common/api/user/updateUserSetting';
+import { CustomUserClaim } from '../../common/types/CustomUserClaim';
 import { getCustomClaim } from '../../utils/getCustomClaim';
 
 const updateUserSetting = functions.https.onCall(
@@ -25,17 +26,39 @@ const updateUserSetting = functions.https.onCall(
     }
 
     try {
-      const customClaim = params.customClaim;
-      if (customClaim) {
-        await admin.auth().setCustomUserClaims(params.uid, customClaim);
+      const uid = params.uid;
+      const prevCustomClaim = await getCustomClaim(uid);
+      const paramCustomClaim = params.customClaim;
+
+      if (paramCustomClaim) {
+
+        const newCustomClaim: CustomUserClaim = {
+          ...prevCustomClaim,
+          role: {
+            ...prevCustomClaim.role,
+            editData: paramCustomClaim.role?.editData ?? prevCustomClaim.role.editData,
+            userManage: paramCustomClaim.role?.userManage ?? prevCustomClaim.role.userManage,
+          },
+        };
+        await admin.auth().setCustomUserClaims(params.uid, newCustomClaim);
+
         return {
           result: 'success',
           userRecord: {
             uid: params.uid,
-            customClaim,
+            customClaim: newCustomClaim,
           },
         };
       }
+
+      return {
+        result: 'success',
+        userRecord: {
+          uid: params.uid,
+          customClaim: prevCustomClaim,
+        },
+      };
+
     } catch(e) {
       console.error(e);
       return {

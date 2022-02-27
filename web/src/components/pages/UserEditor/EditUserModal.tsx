@@ -30,16 +30,15 @@ const EditUserModal = (props: EditUserModalProps) => {
     if (row === undefined) {
       throw new Error('Unreach');
     }
-    const result = await updateCustomClaim(
-      row.id,
-      {
-        version: '1.0.0',
+    const result = await updateCustomClaim({
+      uid: row.id,
+      customClaim: {
         role: {
           editData,
           userManage,
         },
       },
-    );
+    });
     switch (result) {
     case 'success':
       setErrorState(null);

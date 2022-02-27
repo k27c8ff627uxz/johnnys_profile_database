@@ -2,7 +2,12 @@ import { CustomUserClaim } from '../../types/CustomUserClaim';
 
 export type UpdateUserSettingRequest = {
   uid: string;
-  customClaim?: CustomUserClaim;
+  customClaim?: {
+    role?: {
+      editData: boolean,
+      userManage: boolean,
+    }
+  };
 }
 
 export type UpdateUserSettingResponse = {
