@@ -4,16 +4,26 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  TextField,
 } from '@mui/material';
+import {
+  StaticDatePicker,
+  LocalizationProvider,
+} from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { useNavigate } from 'react-router-dom';
 import {
   AccountCircle as AccountCircleIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
   Menu as MenuIcon,
+  Today as TodayIcon,
 } from '@mui/icons-material';
+import { useSearchParams } from 'react-router-dom';
 import { MySuccessSnackbar } from 'utils/mycomponents';
 import AccountContainer from '../../models/account';
 import { AuthInfoLogin } from 'models/auth';
+import { dateToString } from 'common/utils/date';
+import { getToday } from 'utils/functions';
 import literals from 'utils/literals';
 
 export interface MainAppBarProps {
@@ -22,6 +32,45 @@ export interface MainAppBarProps {
   handleOpenPCDrawer: () => void;
   handleOpenMobileDrawer: () => void;
 }
+
+// TODO: getToday()もseachParamsも両方コールしてるので要リファクタリング
+const Today = () => {
+  const [todayMenuAnchor, setTodayMenuAnchor] = useState<Element | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSetToday = (v: any) => {
+    searchParams.set('today', dateToString(new Date(v), '.'));
+    setSearchParams(searchParams);
+    setTodayMenuAnchor(null);
+  };
+
+  return (
+    <React.Fragment>
+      <Button
+        startIcon={<TodayIcon />}
+        color='inherit'
+        onClick={(event) => setTodayMenuAnchor(event.currentTarget)}
+      >
+        {dateToString(getToday())}
+      </Button>
+      <Menu
+        anchorEl={todayMenuAnchor}
+        open={todayMenuAnchor !== null}
+        onClose={() => setTodayMenuAnchor(null)}
+      >
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <StaticDatePicker
+            displayStaticWrapperAs='desktop'
+            value={getToday()}
+            onChange={onSetToday}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      </Menu>
+    </React.Fragment>
+  );
+};
 
 const MainAppBar: React.FC<MainAppBarProps> = (props) => {
   const {
@@ -102,6 +151,7 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
           </Menu>
         </React.Fragment>
       }
+      <Today />
       <MySuccessSnackbar open={isLogoutOpen} autoHideDuration={6000} onClose={() => setLogoutOpen(false)}>
         ログアウトしました。
       </MySuccessSnackbar>
