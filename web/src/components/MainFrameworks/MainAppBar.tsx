@@ -14,6 +14,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { useNavigate } from 'react-router-dom';
 import {
   AccountCircle as AccountCircleIcon,
+  Cancel as CancelIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
   Menu as MenuIcon,
   Today as TodayIcon,
@@ -38,6 +39,8 @@ const Today = () => {
   const [todayMenuAnchor, setTodayMenuAnchor] = useState<Element | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const isSetToday = searchParams.has('today');
+  
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSetToday = (v: any) => {
     searchParams.set('today', dateToString(new Date(v), '.'));
@@ -45,14 +48,27 @@ const Today = () => {
     setTodayMenuAnchor(null);
   };
 
+  const todayOnCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    searchParams.delete('today');
+    setSearchParams(searchParams);
+  };
+
   return (
     <React.Fragment>
+      {/* TOOD: 日付が指定されたときの強調の方法 */}
       <Button
         startIcon={<TodayIcon />}
-        color='inherit'
+        color={isSetToday ? 'primary' : 'inherit'}
+        variant={isSetToday ? 'contained' : 'text'}
         onClick={(event) => setTodayMenuAnchor(event.currentTarget)}
       >
         {dateToString(getToday())}
+        { isSetToday && (
+          <IconButton size='small' onClick={todayOnCloseClick}>
+            <CancelIcon fontSize='inherit' />
+          </IconButton>
+        )}
       </Button>
       <Menu
         anchorEl={todayMenuAnchor}
