@@ -22,9 +22,19 @@ import Workaround from 'components/pages/Admin/Workaround';
 import AttachRolesToAdmin from 'components/pages/Admin/AttachRolesToAdmin';
 import AdminUserEditor from 'components/pages/Admin/AdminUserEditor';
 import AdminDataEditor from 'components/pages/Admin/AdminDataEditor';
+import { getToday } from 'utils/functions';
 import literals from '../../utils/literals';
 
 const MainContents: React.FC = () => {
+
+  // Validation Check (today)
+  const today = getToday();
+  if (isNaN(today.getFullYear()) || isNaN(today.getMonth()) || isNaN(today.getDate())) {
+    return (
+      <>Invalid Query Param: today</>
+    );
+  }
+
   return (
     <Routes>
       <Route path='/' element={<Navigate to={literals.path.dashboard} />} />
