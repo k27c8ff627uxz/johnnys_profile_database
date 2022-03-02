@@ -10,21 +10,35 @@ import {
   Dashboard as DashboardIcon,
   Face as FaceIcon,
 } from '@mui/icons-material';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useSearchParams } from 'react-router-dom';
 import AccountContainer from 'models/account';
 import literals from '../../utils/literals';
 
 const ListItemNavLink: React.FC<PropsWithChildren<{
   to: string,
 }>> = ({to, children}) => {
+  const searchParams = useSearchParams()[0];
   const location = useLocation();
   const paths = location.pathname.split('/');
   const selected = paths.some((value) => value === to.split('/')[1]);
+
+  // TODO: Queryの生成は共通コンポーネントで行う
+  const search = (() => {
+    const today = searchParams.get(literals.queryParam.today);
+    if (today === null) {
+      return '';
+    }
+    return `?${literals.queryParam.today}=${today}`;
+  })();
+
   return (
     <ListItemButton
       component={NavLink}
       selected={selected}
-      to={to}
+      to={{
+        pathname: to,
+        search,
+      }}
     >
       {children}
     </ListItemButton>
