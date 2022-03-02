@@ -39,18 +39,18 @@ const Today = () => {
   const [todayMenuAnchor, setTodayMenuAnchor] = useState<Element | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const isSetToday = searchParams.has('today');
+  const isSetToday = searchParams.has(literals.queryParam.today);
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSetToday = (v: any) => {
-    searchParams.set('today', dateToString(new Date(v), '.'));
+    searchParams.set(literals.queryParam.today, dateToString(new Date(v), '.'));
     setSearchParams(searchParams);
     setTodayMenuAnchor(null);
   };
 
   const todayOnCloseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    searchParams.delete('today');
+    searchParams.delete(literals.queryParam.today);
     setSearchParams(searchParams);
   };
 

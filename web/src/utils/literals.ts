@@ -20,6 +20,9 @@ const literals = {
       adminDataEditor: '/admin/data_editor',
     },
   },
+  queryParam: {
+    today: 'today',
+  },
 };
 
 export default literals;
