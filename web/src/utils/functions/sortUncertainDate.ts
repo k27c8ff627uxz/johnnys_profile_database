@@ -1,7 +1,6 @@
 import { UncertainDate } from 'common/types/UncertainDate';
 import { SortDir } from 'utils/types';
 
-// TODO: unit test
 export default function sortUncertainDate(dir: SortDir, date1: UncertainDate, date2: UncertainDate) {
   const sign = dir === 'asc' ? -1 : 1;
 
