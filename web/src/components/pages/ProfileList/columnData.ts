@@ -60,6 +60,12 @@ export function columnData(editable: boolean): ColData[] {
         return compareDate(dir)(item1.dateOfBirth, item2.dateOfBirth);
       },
     }, {
+      id: 'age',
+      label: '年齢',
+      sort: (dir) => (item1, item2) => {
+        return compareDate(dir)(item1.dateOfBirth, item2.dateOfBirth);
+      },
+    }, {
       id: 'bloodType',
       label: '血液型',
       sort: (dir) => (item1, item2) => {

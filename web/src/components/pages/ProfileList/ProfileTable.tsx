@@ -13,7 +13,7 @@ import {
 import { Edit as EditIcon } from '@mui/icons-material';
 import { RowItem } from './types';
 import { columnData } from './columnData';
-import { getUncertainDate } from 'utils/functions';
+import { getUncertainDate, calcDiffDate, getToday } from 'utils/functions';
 import { SortDir } from 'utils/types';
 import { dateToString } from 'common/utils/date';
 
@@ -32,6 +32,7 @@ interface SortState {
 const ProfileTable = (props: ProfileTableProps) => {
   const { rowData, onEditClick, editable, onSort } = props;
   const [sortState, setSortState] = useState<SortState>({by: 'name', dir: 'asc'});
+  const today = getToday();
 
   const colData = columnData(editable);
 
@@ -108,6 +109,12 @@ const ProfileTable = (props: ProfileTableProps) => {
                 </TableCell>
                 <TableCell>
                   {dateToString(value.dateOfBirth)}
+                </TableCell>
+                <TableCell>
+                  {(() => {
+                    const diff = calcDiffDate(today, value.dateOfBirth);
+                    return diff.year;
+                  })()}
                 </TableCell>
                 <TableCell>
                   {value.bloodType}
