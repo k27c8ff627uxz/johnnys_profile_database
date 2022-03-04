@@ -19,12 +19,11 @@ import {
   Menu as MenuIcon,
   Today as TodayIcon,
 } from '@mui/icons-material';
-import { useSearchParams } from 'react-router-dom';
+import FrameworkViewContainer from 'models/frameworkView';
 import { MySuccessSnackbar } from 'utils/mycomponents';
 import AccountContainer from '../../models/account';
 import { AuthInfoLogin } from 'models/auth';
 import { dateToString } from 'common/utils/date';
-import { getToday } from 'utils/functions';
 import literals from 'utils/literals';
 
 export interface MainAppBarProps {
@@ -34,24 +33,21 @@ export interface MainAppBarProps {
   handleOpenMobileDrawer: () => void;
 }
 
-// TODO: getToday()もseachParamsも両方コールしてるので要リファクタリング
 const Today = () => {
   const [todayMenuAnchor, setTodayMenuAnchor] = useState<Element | null>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { existsQueryParams, setQueryParams, resetQueryParams, getToday } = FrameworkViewContainer.useContainer();
 
-  const isSetToday = searchParams.has(literals.queryParam.today);
+  const isSetToday = existsQueryParams(literals.queryParam.today);
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSetToday = (v: any) => {
-    searchParams.set(literals.queryParam.today, dateToString(new Date(v), '.'));
-    setSearchParams(searchParams);
+    setQueryParams(literals.queryParam.today, dateToString(new Date(v), '.'));
     setTodayMenuAnchor(null);
   };
 
   const todayOnCloseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    searchParams.delete(literals.queryParam.today);
-    setSearchParams(searchParams);
+    resetQueryParams(literals.queryParam.today);
   };
 
   return (
