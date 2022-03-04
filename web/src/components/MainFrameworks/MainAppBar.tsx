@@ -60,12 +60,12 @@ const Today = () => {
         onClick={(event) => setTodayMenuAnchor(event.currentTarget)}
       >
         {dateToString(getToday())}
-        { isSetToday && (
-          <IconButton size='small' onClick={todayOnCloseClick}>
-            <CancelIcon fontSize='inherit' />
-          </IconButton>
-        )}
       </Button>
+      { isSetToday && (
+        <IconButton size='small' onClick={todayOnCloseClick}>
+          <CancelIcon fontSize='inherit' />
+        </IconButton>
+      )}
       <Menu
         anchorEl={todayMenuAnchor}
         open={todayMenuAnchor !== null}
