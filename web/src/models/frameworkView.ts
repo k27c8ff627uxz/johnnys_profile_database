@@ -41,7 +41,9 @@ const frameworkViewContainer = () => {
         return new Date();
       }
     
-      return new Date(paramToday);
+      // スマホ版だとnew Date()の挙動が違うみたいなので、変換
+      // TODO: 正規構文を使ったReplace
+      return new Date(paramToday.replace('.', '/').replace('.', '/'));
     },
 
   };
