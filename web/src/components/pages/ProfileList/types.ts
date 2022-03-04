@@ -15,5 +15,7 @@ export interface ColData {
   id: string;
   label: string;
   width?: number | string;
+  minWidth?: number | string;
+  show: boolean;
   sort?: (dir : SortDir) => (item1: RowItem, item2: RowItem) => number;
 }

@@ -42,32 +42,48 @@ export function columnData(editable: boolean): ColData[] {
 
   const baseColData: ColData[] = [
     {
+      id: 'edit',
+      label: '',
+      show: editable,
+      width: 2,
+    },
+    {
       id: 'name',
       label: '名前',
+      show: true,
+      minWidth: 100,
       sort: (dir) => (item1, item2) => {
         return compareString(dir)(item1.name, item2.name);
       },
     }, {
       id: 'furigana',
       label: 'ふりがな',
+      show: true,
+      minWidth: 130,
       sort: (dir) => (item1, item2) => {
         return compareString(dir)(item1.furigana, item2.furigana);
       },
     }, {
       id: 'dateOfBirth',
       label: '生年月日',
+      show: true,
+      minWidth: 120,
       sort: (dir) => (item1, item2) => {
         return compareDate(dir)(item1.dateOfBirth, item2.dateOfBirth);
       },
     }, {
       id: 'age',
       label: '年齢',
+      show: true,
+      minWidth: 90,
       sort: (dir) => (item1, item2) => {
         return compareDate(dir)(item1.dateOfBirth, item2.dateOfBirth);
       },
     }, {
       id: 'bloodType',
       label: '血液型',
+      show: true,
+      minWidth: 110,
       sort: (dir) => (item1, item2) => {
         const blood2number = (type: BloodType) => {
           switch(type) {
@@ -82,10 +98,14 @@ export function columnData(editable: boolean): ColData[] {
     }, {
       id: 'entire',
       label: '入所日',
+      show: true,
+      minWidth: 110,
       sort: (dir) => (item1, item2) => sortUncertainDate(dir, item1.enter, item2.enter),
     }, {
       id: 'retire',
       label: '退所日',
+      show: true,
+      minWidth: 110,
       sort: (dir) => (item1, item2) => {
         const sign = dir === 'asc' ? -1 : 1;
         if (!item1.retire && !item2.retire) {
@@ -102,16 +122,5 @@ export function columnData(editable: boolean): ColData[] {
     },
   ];
 
-  if (editable) {
-    return [
-      {
-        id: 'edit',
-        label: '',
-        width: 2,
-      },
-      ...baseColData,
-    ];
-  } else {
-    return baseColData;
-  }
+  return baseColData;
 }

@@ -67,12 +67,13 @@ const ProfileTable = (props: ProfileTableProps) => {
         <Table>
           <TableHead>
             <TableRow>
-              {colData.map((val, i) => (
+              {colData.filter(val => val.show).map((val, i) => (
                 val.sort !== undefined ? (
                   <TableCell
                     key={i}
                     width={val.width}
                     sortDirection={sortState.by === val.id ? sortState.dir : undefined}
+                    sx={{minWidth: val.minWidth}}
                   >
                     <TableSortLabel
                       active={sortState.by === val.id}
@@ -87,6 +88,7 @@ const ProfileTable = (props: ProfileTableProps) => {
                   <TableCell
                     key={i}
                     width={val.width}
+                    sx={{minWidth: val.minWidth}}
                   >
                     {val.label}
                   </TableCell>
