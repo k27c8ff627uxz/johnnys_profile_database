@@ -17,6 +17,7 @@ import { RowItem } from './types';
 import { columnData } from './columnData';
 import { getUncertainDate, calcDiffDate, sortUncertainDate } from 'utils/functions';
 import { SortDir } from 'utils/types';
+import { dateToUncertainDate } from 'common/utils/date';
 import { dateToString } from 'common/utils/date';
 import { UncertainDate } from 'common/types/UncertainDate';
 
@@ -72,15 +73,9 @@ const ProfileTable = (props: ProfileTableProps) => {
       return false;
     }
 
-    // TODO: Date -> UncertainDateへの変換関数
     return sortUncertainDate(
       'desc',
-      {
-        type: 'exact',
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        day: today.getDay(),
-      },
+      dateToUncertainDate(today),
       retireDate
     ) < 0;
   };
