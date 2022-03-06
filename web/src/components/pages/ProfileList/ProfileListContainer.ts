@@ -6,14 +6,17 @@ import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
 import { convertToRowItem } from './utils';
 import { RowItem } from './types';
+import { sortUncertainDate } from 'utils/functions';
+import { dateToUncertainDate } from 'common/utils/date';
 import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 
 const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);
-  const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
+  const { isLoading, beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
   const { authInfo } = AccountContainer.useContainer();
 
   const functions = getFunctions();
+  const today = getToday();
 
   useEffect(() => {
     (async () => {
@@ -52,6 +55,16 @@ const profileListContainer = () => {
     setProfileList(profileList);
   };
 
+  const applyFilter = (row: RowItem) => {
+
+    // 「今日」が、メンバーが入所前の日付かをチェック
+    if (sortUncertainDate('desc', row.enter, dateToUncertainDate(today)) < 0) {
+      return false;
+    }
+
+    return true;
+  };
+
   const editable = (() => {
     if (authInfo.state !== 'login') {
       return false;
@@ -66,6 +79,7 @@ const profileListContainer = () => {
     editable,
     reload,
     applySort,
+    applyFilter,
   };
 };
 

@@ -30,6 +30,7 @@ export interface ProfileTableProps {
   editable: boolean;
   onEditClick: (id: string) => void;
   onSort: (compareFunc: (item1: RowItem, item2: RowItem) => number) => void;
+  rowFilter: (row: RowItem) => boolean;
 }
 
 interface SortState {
@@ -38,7 +39,7 @@ interface SortState {
 }
 
 const ProfileTable = (props: ProfileTableProps) => {
-  const { rowData, onEditClick, editable, onSort } = props;
+  const { rowData, onEditClick, editable, onSort, rowFilter } = props;
   const [sortState, setSortState] = useState<SortState>({by: 'name', dir: 'asc'});
   const { getToday } = FrameworkViewContainer.useContainer();
 
@@ -116,7 +117,7 @@ const ProfileTable = (props: ProfileTableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowData.map((value, i) => (
+            {rowData.filter(row => rowFilter(row)).map((value, i) => (
               <CustomTableRow key={i} isEnable={calcIsRetireNow(value.retire)}>
                 {editable && (
                   <TableCell>

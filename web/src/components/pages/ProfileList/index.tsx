@@ -13,7 +13,7 @@ import AddUserEditor from './AddUserEditor';
 import UpdateUserEditor from './UpdateUserEditor';
 
 const Component: React.FC = () => {
-  const { profileList, isLoading, reload, editable, applySort } = ProfileListContainer.useContainer();
+  const { profileList, isLoading, reload, editable, applySort, applyFilter } = ProfileListContainer.useContainer();
   const [addProfileModal, setAddProfileModal] = useState(false);
   const [updateProfileModal, setUpdateProfileModal] = useState<string | null>(null);
 
@@ -41,6 +41,7 @@ const Component: React.FC = () => {
           editable={editable}
           onEditClick={onEditClick}
           onSort={applySort}
+          rowFilter={applyFilter}
         />
       </Stack>
       <MyModal
