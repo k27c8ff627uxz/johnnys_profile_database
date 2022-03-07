@@ -14,6 +14,7 @@ export interface RowItem {
 export interface ColData {
   id: string;
   label: string;
+  render: (row: RowItem) => React.ReactNode;
   width?: number | string;
   minWidth?: number | string;
   show: boolean;

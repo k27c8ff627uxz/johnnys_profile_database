@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  IconButton,
   Paper,
   Table,
   TableBody,
@@ -10,14 +9,11 @@ import {
   TableRow,
   TableSortLabel,
 } from '@mui/material';
-import { Edit as EditIcon } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import FrameworkViewContainer from 'models/frameworkView';
 import { RowItem } from './types';
 import { columnData } from './columnData';
-import { getUncertainDate, calcDiffDate } from 'utils/functions';
 import { SortDir } from 'utils/types';
-import { dateToString } from 'common/utils/date';
 import { calcIsRetireNow } from './utils';
 
 const CustomTableRow = styled(TableRow)<{isEnable: boolean}>(({isEnable, theme}) => ({
@@ -44,7 +40,10 @@ const ProfileTable = (props: ProfileTableProps) => {
 
   const today = getToday();
 
-  const colData = columnData(editable);
+  const colData = columnData(
+    today,
+    editable ? onEditClick : null,
+  );
 
   const onSortClick = (
     headerId: string,
@@ -104,39 +103,13 @@ const ProfileTable = (props: ProfileTableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowData.filter(row => rowFilter(row)).map((value, i) => (
-              <CustomTableRow key={i} isEnable={calcIsRetireNow(today, value.retire)}>
-                {editable && (
-                  <TableCell>
-                    <IconButton color='primary' onClick={() => onEditClick(value.id)}>
-                      <EditIcon />
-                    </IconButton>
+            {rowData.filter(row => rowFilter(row)).map((row, i) => (
+              <CustomTableRow key={`row-${i}`} isEnable={calcIsRetireNow(today, row.retire)}>
+                {colData.filter(val => val.show).map((val, j) => (
+                  <TableCell key={`row-${i}-${j}`}>
+                    {val.render(row)}
                   </TableCell>
-                )}
-                <TableCell>
-                  {value.name}
-                </TableCell>
-                <TableCell>
-                  {value.furigana}
-                </TableCell>
-                <TableCell>
-                  {dateToString(value.dateOfBirth)}
-                </TableCell>
-                <TableCell>
-                  {(() => {
-                    const diff = calcDiffDate(today, value.dateOfBirth);
-                    return diff.year;
-                  })()}
-                </TableCell>
-                <TableCell>
-                  {value.bloodType}
-                </TableCell>
-                <TableCell>
-                  {getUncertainDate(value.enter)}
-                </TableCell>
-                <TableCell>
-                  {value.retire === undefined ? '-' : getUncertainDate(value.retire)}
-                </TableCell>
+                ))}
               </CustomTableRow>
             ))}
           </TableBody>
