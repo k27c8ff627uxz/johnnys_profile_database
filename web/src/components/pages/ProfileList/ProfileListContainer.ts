@@ -13,6 +13,8 @@ import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);
   const [isShowRetireMember, setIsShowRetireMember] = useState(false);
+  // TOOD: 列のID名が'columnData.tsx'と'ProfileHeader.tsx'と↓の３箇所にちらばっているので、まとめる
+  const [visibleColumns, setVisibleColumns] = useState(['name', 'dateOfBirth', 'age', 'enter', 'retire']);
   const { isLoading, beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
   const { authInfo } = AccountContainer.useContainer();
 
@@ -83,10 +85,12 @@ const profileListContainer = () => {
 
   return {
     isShowRetireMember,
+    visibleColumns,
     profileList,
     isLoading,
     editable,
     setIsShowRetireMember,
+    setVisibleColumns,
     reload,
     applySort,
     applyFilter,

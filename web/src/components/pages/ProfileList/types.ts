@@ -17,6 +17,5 @@ export interface ColData {
   render: (row: RowItem) => React.ReactNode;
   width?: number | string;
   minWidth?: number | string;
-  show: boolean;
   sort?: (dir : SortDir) => (item1: RowItem, item2: RowItem) => number;
 }

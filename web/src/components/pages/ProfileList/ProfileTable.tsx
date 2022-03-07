@@ -26,6 +26,7 @@ export interface ProfileTableProps {
   onEditClick: (id: string) => void;
   onSort: (compareFunc: (item1: RowItem, item2: RowItem) => number) => void;
   rowFilter: (row: RowItem) => boolean;
+  visibleColumns: string[];
 }
 
 interface SortState {
@@ -34,13 +35,14 @@ interface SortState {
 }
 
 const ProfileTable = (props: ProfileTableProps) => {
-  const { rowData, onEditClick, editable, onSort, rowFilter } = props;
+  const { rowData, onEditClick, editable, onSort, rowFilter, visibleColumns } = props;
   const [sortState, setSortState] = useState<SortState>({by: 'name', dir: 'asc'});
   const { getToday } = FrameworkViewContainer.useContainer();
 
   const today = getToday();
 
   const colData = columnData(
+    visibleColumns,
     today,
     editable ? onEditClick : null,
   );
@@ -73,7 +75,7 @@ const ProfileTable = (props: ProfileTableProps) => {
         <Table>
           <TableHead>
             <TableRow>
-              {colData.filter(val => val.show).map((val, i) => (
+              {colData.map((val, i) => (
                 val.sort !== undefined ? (
                   <TableCell
                     key={i}
@@ -105,7 +107,7 @@ const ProfileTable = (props: ProfileTableProps) => {
           <TableBody>
             {rowData.filter(row => rowFilter(row)).map((row, i) => (
               <CustomTableRow key={`row-${i}`} isEnable={calcIsRetireNow(today, row.retire)}>
-                {colData.filter(val => val.show).map((val, j) => (
+                {colData.map((val, j) => (
                   <TableCell key={`row-${i}-${j}`}>
                     {val.render(row)}
                   </TableCell>

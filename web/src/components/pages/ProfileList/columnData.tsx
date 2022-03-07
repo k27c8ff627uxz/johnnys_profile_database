@@ -9,6 +9,7 @@ import { ColData } from './types';
 
 // TODO: 引数を見直す
 export function columnData(
+  visibleColumns: string[],
   today: Date,
   onEdit: ((id: string) => void) | null,
 ): ColData[] {
@@ -51,20 +52,8 @@ export function columnData(
 
   const baseColData: ColData[] = [
     {
-      id: 'edit',
-      label: '',
-      show: onEdit !== null,
-      width: 2,
-      render: (row) => (
-        <IconButton color='primary' onClick={() => onEdit?.(row.id)}>
-          <EditIcon />
-        </IconButton>
-      ),
-    },
-    {
       id: 'name',
       label: '名前',
-      show: true,
       minWidth: 100,
       sort: (dir) => (item1, item2) => {
         return compareString(dir)(item1.name, item2.name);
@@ -73,7 +62,6 @@ export function columnData(
     }, {
       id: 'furigana',
       label: 'ふりがな',
-      show: true,
       minWidth: 130,
       sort: (dir) => (item1, item2) => {
         return compareString(dir)(item1.furigana, item2.furigana);
@@ -82,7 +70,6 @@ export function columnData(
     }, {
       id: 'dateOfBirth',
       label: '生年月日',
-      show: true,
       minWidth: 120,
       sort: (dir) => (item1, item2) => {
         return compareDate(dir)(item1.dateOfBirth, item2.dateOfBirth);
@@ -91,7 +78,6 @@ export function columnData(
     }, {
       id: 'age',
       label: '年齢',
-      show: true,
       minWidth: 90,
       sort: (dir) => (item1, item2) => {
         return compareDate(dir)(item1.dateOfBirth, item2.dateOfBirth);
@@ -103,7 +89,6 @@ export function columnData(
     }, {
       id: 'bloodType',
       label: '血液型',
-      show: true,
       minWidth: 110,
       sort: (dir) => (item1, item2) => {
         const blood2number = (type: BloodType) => {
@@ -120,14 +105,12 @@ export function columnData(
     }, {
       id: 'enter',
       label: '入所日',
-      show: true,
       minWidth: 110,
       sort: (dir) => (item1, item2) => sortUncertainDate(dir, item1.enter, item2.enter),
       render: (row) => <>{getUncertainDate(row.enter)}</>,
     }, {
       id: 'retire',
       label: '退所日',
-      show: true,
       minWidth: 110,
       sort: (dir) => (item1, item2) => {
         const sign = dir === 'asc' ? -1 : 1;
@@ -146,5 +129,20 @@ export function columnData(
     },
   ];
 
-  return baseColData;
+  const editColumn: ColData[] = onEdit !== null
+    ? [{
+      id: 'edit',
+      label: '',
+      width: 2,
+      render: (row) => (
+        <IconButton color='primary' onClick={() => onEdit(row.id)}>
+          <EditIcon />
+        </IconButton>
+      ),
+    }]: [];
+
+  return [
+    ...editColumn,
+    ...baseColData.filter(columnData => visibleColumns.find(id => id === columnData.id) !== undefined),
+  ];
 }
