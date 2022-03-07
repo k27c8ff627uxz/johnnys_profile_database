@@ -4,7 +4,7 @@ import { getFunctions, HttpsCallableResult } from 'firebase/functions';
 import { getProfileList } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
 import AccountContainer from 'models/account';
-import { convertToRowItem } from './utils';
+import { convertToRowItem, calcIsRetireNow } from './utils';
 import { RowItem } from './types';
 import { sortUncertainDate } from 'utils/functions';
 import { dateToUncertainDate } from 'common/utils/date';
@@ -61,6 +61,13 @@ const profileListContainer = () => {
     // 「今日」が、メンバーが入所前の日付かをチェック
     if (sortUncertainDate('desc', row.enter, dateToUncertainDate(today)) < 0) {
       return false;
+    }
+
+    // 「退所メンバーも表示する」にチェックがなかった場合
+    if (!isShowRetireMember) {
+      if (calcIsRetireNow(today, row.retire)) {
+        return false;
+      }
     }
 
     return true;

@@ -15,11 +15,10 @@ import { styled } from '@mui/material/styles';
 import FrameworkViewContainer from 'models/frameworkView';
 import { RowItem } from './types';
 import { columnData } from './columnData';
-import { getUncertainDate, calcDiffDate, sortUncertainDate } from 'utils/functions';
+import { getUncertainDate, calcDiffDate } from 'utils/functions';
 import { SortDir } from 'utils/types';
-import { dateToUncertainDate } from 'common/utils/date';
 import { dateToString } from 'common/utils/date';
-import { UncertainDate } from 'common/types/UncertainDate';
+import { calcIsRetireNow } from './utils';
 
 const CustomTableRow = styled(TableRow)<{isEnable: boolean}>(({isEnable, theme}) => ({
   background: isEnable ? theme.palette.grey[400] : undefined,
@@ -69,18 +68,6 @@ const ProfileTable = (props: ProfileTableProps) => {
     onSort(compareFunc(newState.dir));
   };
 
-  const calcIsRetireNow = (retireDate?: UncertainDate) => {
-    if (retireDate === undefined) {
-      return false;
-    }
-
-    return sortUncertainDate(
-      'desc',
-      dateToUncertainDate(today),
-      retireDate
-    ) < 0;
-  };
-
   return (
     <Paper elevation={2}>
       <TableContainer>
@@ -118,7 +105,7 @@ const ProfileTable = (props: ProfileTableProps) => {
           </TableHead>
           <TableBody>
             {rowData.filter(row => rowFilter(row)).map((value, i) => (
-              <CustomTableRow key={i} isEnable={calcIsRetireNow(value.retire)}>
+              <CustomTableRow key={i} isEnable={calcIsRetireNow(today, value.retire)}>
                 {editable && (
                   <TableCell>
                     <IconButton color='primary' onClick={() => onEditClick(value.id)}>
