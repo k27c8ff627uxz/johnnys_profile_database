@@ -118,7 +118,7 @@ export function columnData(
       },
       render: (row) => <>{row.bloodType}</>,
     }, {
-      id: 'entire',
+      id: 'enter',
       label: '入所日',
       show: true,
       minWidth: 110,
