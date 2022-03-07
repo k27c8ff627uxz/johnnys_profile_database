@@ -12,6 +12,7 @@ import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 
 const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);
+  const [isShowRetireMember, setIsShowRetireMember] = useState(false);
   const { isLoading, beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
   const { authInfo } = AccountContainer.useContainer();
 
@@ -74,9 +75,11 @@ const profileListContainer = () => {
   })();
 
   return {
+    isShowRetireMember,
     profileList,
     isLoading,
     editable,
+    setIsShowRetireMember,
     reload,
     applySort,
     applyFilter,

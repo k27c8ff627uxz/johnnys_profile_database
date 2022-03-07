@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import {
   Box,
-  IconButton,
   Stack,
-  TextField,
 } from '@mui/material';
-import { AddCircle as AddCircleIcon } from '@mui/icons-material';
 import { MyModal } from 'utils/mycomponents';
 import ProfileListContainer from './ProfileListContainer';
+import ProfileHeader from './ProfileHeader';
 import ProfileTable from './ProfileTable';
 import AddUserEditor from './AddUserEditor';
 import UpdateUserEditor from './UpdateUserEditor';
 
 const Component: React.FC = () => {
-  const { profileList, isLoading, reload, editable, applySort, applyFilter } = ProfileListContainer.useContainer();
+  const { profileList, isLoading, reload, applySort, editable, applyFilter } = ProfileListContainer.useContainer();
   const [addProfileModal, setAddProfileModal] = useState(false);
   const [updateProfileModal, setUpdateProfileModal] = useState<string | null>(null);
 
@@ -24,18 +22,9 @@ const Component: React.FC = () => {
   return (
     <Box style={{display: 'flex', justifyContent: 'center'}}>
       <Stack sx={{margin: 3, width: '80%'}} spacing={1}>
-        <Box style={{display: 'flex'}}>
-          <TextField
-            label='検索'
-            variant='standard'
-            fullWidth
-          />
-          { editable && (
-            <IconButton size='large' onClick={() => setAddProfileModal(true)}>
-              <AddCircleIcon color='primary' fontSize='large' />
-            </IconButton>
-          )}
-        </Box>
+        <ProfileHeader
+          onAddProfileClick={() => setAddProfileModal(true)}
+        />
         <ProfileTable
           rowData={profileList}
           editable={editable}
