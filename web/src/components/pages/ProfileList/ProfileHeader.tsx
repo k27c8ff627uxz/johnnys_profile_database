@@ -88,7 +88,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
                 {id: 'enter', name: '入所日'},
                 {id: 'retire', name: '退所日'},
               ].map((item) => (
-                <ListItem sx={{pl: 4}}>
+                <ListItem sx={{pl: 4}} key={`item-${item.id}`}>
                   <ListItemIcon>
                     <Checkbox
                       onChange={(event) => {

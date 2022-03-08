@@ -75,10 +75,10 @@ const ProfileTable = (props: ProfileTableProps) => {
         <Table>
           <TableHead>
             <TableRow>
-              {colData.map((val, i) => (
+              {colData.map(val => (
                 val.sort !== undefined ? (
                   <TableCell
-                    key={i}
+                    key={`{column-${val.id}}`}
                     width={val.width}
                     sortDirection={sortState.by === val.id ? sortState.dir : undefined}
                     sx={{minWidth: val.minWidth}}
@@ -94,7 +94,7 @@ const ProfileTable = (props: ProfileTableProps) => {
                   </TableCell>
                 ) : (
                   <TableCell
-                    key={i}
+                    key={`{column-${val.id}}`}
                     width={val.width}
                     sx={{minWidth: val.minWidth}}
                   >
