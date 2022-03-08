@@ -26,7 +26,7 @@ const ResetPassword: React.FC = () => {
       .then(() => {
         setSendOpen('success');
       }).catch(e => {
-        console.log(e);
+        console.error(e);
         setSendOpen('error');
       }).finally(() => {
         finishLoading();

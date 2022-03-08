@@ -51,10 +51,10 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
         reload().then();
         break;
       case 'unauthenticated':
-        console.log('unauthenticated!!!');
+        console.error('unauthenticated!!!');
         throw new Error('Unreach');
       case 'error':
-        console.log(data.errorMessage);
+        console.error(data.errorMessage);
         setErrorState('APIError');
         break;
       default:
@@ -64,7 +64,7 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
       if (e.message === 'Unreach') {
         throw e;
       }
-      console.log(e);
+      console.error(e);
       setErrorState('AccessError');
     }).finally(() => {
       finishLoading();

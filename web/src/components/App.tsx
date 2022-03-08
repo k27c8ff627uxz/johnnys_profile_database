@@ -18,7 +18,7 @@ const App: React.FC = () => {
       appId: process.env.REACT_APP_APP_ID,
     });
   } catch(e) {
-    console.log(e);
+    console.error(e);
     return (<InitializingError />);
   }
 

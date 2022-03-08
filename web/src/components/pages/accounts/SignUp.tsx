@@ -38,7 +38,6 @@ const SignUp: React.FC = () => {
 
       finishLoading();
       const result = apiResult.data;
-      console.log(result);
       switch (result.result) {
       case 'success':
         setSuccessToCreateAccount(true);
@@ -53,7 +52,7 @@ const SignUp: React.FC = () => {
         break;
       }
     } catch(e) {
-      console.log(e);
+      console.error(e);
       setSignUpError('error');
       finishLoading();
       return;

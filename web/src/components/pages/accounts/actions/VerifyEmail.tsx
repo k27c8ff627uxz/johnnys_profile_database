@@ -32,7 +32,7 @@ const VerifyEmail: React.FC<{
         setState('success');
         reload().then();
       }).catch((e) => {
-        console.log(e);
+        console.error(e);
         setState('failVerifying');
       }).finally(() => {
         finishLoading();

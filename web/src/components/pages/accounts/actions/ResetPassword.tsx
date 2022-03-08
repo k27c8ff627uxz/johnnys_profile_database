@@ -39,7 +39,7 @@ const ResetPassword: React.FC<{code: string | null}> = ({code}) => {
       .then(() => {
         setState('setPassword');
       }).catch((e) => {
-        console.log(e);
+        console.error(e);
         setState('failReset');
       }).finally(() => {
         finishLoading();
@@ -56,7 +56,7 @@ const ResetPassword: React.FC<{code: string | null}> = ({code}) => {
       .then(() => {
         setState('allSuccess');
       }).catch((e) => {
-        console.log(e);
+        console.error(e);
         setState('failSettingPassword');
       }).finally(() => {
         finishLoading();
