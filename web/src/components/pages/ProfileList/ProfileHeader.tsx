@@ -35,6 +35,8 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
     setIsShowRetireMember,
     visibleColumns,
     setVisibleColumns,
+    searchText,
+    setSearchText,
   } = ProfileListContainer.useContainer();
   const [menuAnchor, setMenuAnchor] = useState<Element | null>(null);
   const [selectRowOpen, setSelectRowOpen] = useState(false);
@@ -43,6 +45,8 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
     <Box style={{display: 'flex'}}>
       <TextField
         label='検索'
+        value={searchText}
+        onChange={e => setSearchText(e.target.value)}
         variant='standard'
         fullWidth
       />

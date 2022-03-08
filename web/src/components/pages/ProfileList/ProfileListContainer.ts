@@ -15,6 +15,7 @@ const profileListContainer = () => {
   const [isShowRetireMember, setIsShowRetireMember] = useState(false);
   // TOOD: 列のID名が'columnData.tsx'と'ProfileHeader.tsx'と↓の３箇所にちらばっているので、まとめる
   const [visibleColumns, setVisibleColumns] = useState(['name', 'dateOfBirth', 'age', 'enter', 'retire']);
+  const [searchText, setSearchText] = useState('');
   const { isLoading, beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
   const { authInfo } = AccountContainer.useContainer();
 
@@ -72,6 +73,13 @@ const profileListContainer = () => {
       }
     }
 
+    // 検索フィルター
+    if (searchText) {
+      if (!`${row.name} ${row.furigana}`.includes(searchText)) {
+        return false;
+      }
+    }
+
     return true;
   };
 
@@ -86,11 +94,13 @@ const profileListContainer = () => {
   return {
     isShowRetireMember,
     visibleColumns,
+    searchText,
     profileList,
     isLoading,
     editable,
     setIsShowRetireMember,
     setVisibleColumns,
+    setSearchText,
     reload,
     applySort,
     applyFilter,
