@@ -13,11 +13,11 @@ import { RowItem } from './types';
 
 export interface EditUserModalProps {
   row: RowItem;
-  onClose: () => void;
+  onSuccess: () => void;
 }
 
 const EditUserModal = (props: EditUserModalProps) => {
-  const { row, onClose } = props;
+  const { row, onSuccess } = props;
   const { beginLoading, finishLoading, isLoading } = FrameworkViewContainer.useContainer();
   const { updateCustomClaim } = UserEditorContainer.useContainer();
   const customClaim = row.customClaim;
@@ -42,7 +42,7 @@ const EditUserModal = (props: EditUserModalProps) => {
     switch (result) {
     case 'success':
       setErrorState(null);
-      onClose();
+      onSuccess();
       break;
     case 'unauthenticated':
       setErrorState('unauthenticated');

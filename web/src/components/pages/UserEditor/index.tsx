@@ -9,7 +9,7 @@ import UserTable from './UserTable';
 import EditUserModal from './EditUserModal';
 
 const Component: React.FC = () => {
-  const { rows, selectedRow, setSelectedRow } = UserEditorContainer.useContainer();
+  const { rows, selectedRow, setSelectedRow, reload } = UserEditorContainer.useContainer();
   const { isLoading } = FrameworkViewContainer.useContainer();
 
   const onModalClose = () => {
@@ -28,7 +28,7 @@ const Component: React.FC = () => {
         isLoading={isLoading}
       >
         {selectedRow &&
-          <EditUserModal row={selectedRow} onClose={onModalClose} />
+          <EditUserModal row={selectedRow} onSuccess={() => {onModalClose(); reload(); } } />
         }
       </MyModal>
     </Container>

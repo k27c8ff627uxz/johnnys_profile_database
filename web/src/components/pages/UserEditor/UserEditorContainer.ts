@@ -13,7 +13,7 @@ const userEditorContainer = () => {
 
   const functions = getFunctions();
 
-  const reloadData = () => {
+  const reload = () => {
     beginLoading();
     getUserProfile(functions)({}).then(apiResult => {
       const result = apiResult.data;
@@ -42,7 +42,7 @@ const userEditorContainer = () => {
   };
 
   useEffect(() => {
-    reloadData();
+    reload();
   }, []);
 
   const updateCustomClaim = async (userSetting: UpdateUserSettingRequest): Promise<'success' | 'unauthenticated' | 'error'> => {
@@ -78,6 +78,8 @@ const userEditorContainer = () => {
     setSelectedRow,
 
     updateCustomClaim,
+
+    reload,
   };
 };
 
