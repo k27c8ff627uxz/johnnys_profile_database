@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import * as firebase from 'firebase/app';
+import { getFunctions } from 'firebase/functions';
 import InitializingError from './InitializingError';
 import AccountContainer from 'models/account';
 import FrameworkViewContainer from 'models/frameworkView';
+import { isConstruction as isConstructionFunc } from 'utils/firebaseFunctions';
 import MainFramework from './MainFrameworks/MainFramework';
 
 const App: React.FC = () => {
+  const [isConstruction, setIsConstruction] = useState<boolean | undefined>(undefined);
 
   try {
     firebase.initializeApp({
@@ -20,6 +23,25 @@ const App: React.FC = () => {
   } catch(e) {
     console.error(e);
     return (<InitializingError />);
+  }
+
+  // 工事中か読み込み
+  isConstructionFunc(getFunctions())().then((result) => {
+    setIsConstruction(result.data === true);
+  });
+
+  if (isConstruction === undefined) {
+    return (
+      <React.Fragment></React.Fragment>
+    );
+  }
+
+  if (isConstruction) {
+    return (
+      <div>
+        工事中です...
+      </div>
+    );
   }
 
   return (
