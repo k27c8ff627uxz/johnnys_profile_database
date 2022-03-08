@@ -16,8 +16,8 @@ import { columnData } from './columnData';
 import { SortDir } from 'utils/types';
 import { calcIsRetireNow } from './utils';
 
-const CustomTableRow = styled(TableRow)<{isEnable: boolean}>(({isEnable, theme}) => ({
-  background: isEnable ? theme.palette.grey[400] : undefined,
+const CustomTableRow = styled(TableRow)<{isgray: boolean}>(({isgray, theme}) => ({
+  background: isgray ? theme.palette.grey[400] : undefined,
 }));
 
 export interface ProfileTableProps {
@@ -106,7 +106,7 @@ const ProfileTable = (props: ProfileTableProps) => {
           </TableHead>
           <TableBody>
             {rowData.filter(row => rowFilter(row)).map((row, i) => (
-              <CustomTableRow key={`row-${i}`} isEnable={calcIsRetireNow(today, row.retire)}>
+              <CustomTableRow key={`row-${i}`} isgray={calcIsRetireNow(today, row.retire)}>
                 {colData.map((val, j) => (
                   <TableCell key={`row-${i}-${j}`}>
                     {val.render(row)}
