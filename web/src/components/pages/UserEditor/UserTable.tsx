@@ -24,7 +24,6 @@ const UserTable: React.FC<Props> = ({rowData}) => {
 
   const editCell = (row: RowItem) => {
     const onClick = () => {
-      console.debug(row);
       setSelectedRow(row);
     };
   
