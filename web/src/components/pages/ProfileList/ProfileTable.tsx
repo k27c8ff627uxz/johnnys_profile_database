@@ -14,7 +14,7 @@ import FrameworkViewContainer from 'models/frameworkView';
 import { RowItem } from './types';
 import { columnData } from './columnData';
 import { SortDir } from 'utils/types';
-import { calcIsRetireNow } from './utils';
+import { calcDuringSpan } from 'utils/functions';
 
 const CustomTableRow = styled(TableRow)<{isgray: boolean}>(({isgray, theme}) => ({
   background: isgray ? theme.palette.grey[400] : undefined,
@@ -106,7 +106,7 @@ const ProfileTable = (props: ProfileTableProps) => {
           </TableHead>
           <TableBody>
             {rowData.filter(row => rowFilter(row)).map((row, i) => (
-              <CustomTableRow key={`row-${i}`} isgray={calcIsRetireNow(today, row.retire)}>
+              <CustomTableRow key={`row-${i}`} isgray={calcDuringSpan(row.enter, today, row.retire) === 'over'}>
                 {colData.map((val, j) => (
                   <TableCell key={`row-${i}-${j}`}>
                     {val.render(row)}
