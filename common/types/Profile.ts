@@ -4,7 +4,7 @@ export type Profile = {
   name: string;
   furigana: string;
   dateOfBirth: string;
-  bloodType: string;
+  bloodType?: string;
   enter: UncertainDate;
   retire?: UncertainDate;
 };

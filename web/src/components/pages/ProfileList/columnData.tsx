@@ -91,17 +91,26 @@ export function columnData(
       label: '血液型',
       minWidth: 110,
       sort: (dir) => (item1, item2) => {
-        const blood2number = (type: BloodType) => {
-          switch(type) {
-          case 'A': return 1;
-          case 'B': return 2;
-          case 'O': return 3;
-          case 'AB': return 4;
-          }
-        };
-        return (dir === 'asc' ? 1 : -1) * (blood2number(item1.bloodType) - blood2number(item2.bloodType));
+        if (item1.bloodType  && item2.bloodType) {
+          const blood2number = (type: BloodType) => {
+            switch(type) {
+            case 'A': return 1;
+            case 'B': return 2;
+            case 'O': return 3;
+            case 'AB': return 4;
+            }
+          };
+          return (dir === 'asc' ? 1 : -1) * (blood2number(item1.bloodType) - blood2number(item2.bloodType));
+        }
+        if (!item1.bloodType && item2.bloodType) {
+          return 1;
+        }
+        if (item1.bloodType && !item2.bloodType) {
+          return -1;
+        }
+        return 0;
       },
-      render: (row) => <>{row.bloodType}</>,
+      render: (row) => <>{row.bloodType ?? '-'}</>,
     }, {
       id: 'enter',
       label: '入所日',

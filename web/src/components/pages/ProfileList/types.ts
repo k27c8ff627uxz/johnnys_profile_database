@@ -6,7 +6,7 @@ export interface RowItem {
   name: string;
   furigana: string;
   dateOfBirth: Date;
-  bloodType: BloodType;
+  bloodType?: BloodType;
   enter: UncertainDate;
   retire?: UncertainDate;
 }

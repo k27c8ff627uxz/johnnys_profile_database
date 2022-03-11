@@ -9,7 +9,7 @@ export function convertToRowItem(id: string, profile: Profile): RowItem {
     id,
     name: profile.name,
     furigana: profile.furigana,
-    bloodType: convertToBloodType(profile.bloodType),
+    bloodType: profile.bloodType !== undefined ? convertToBloodType(profile.bloodType) : undefined,
     dateOfBirth: new Date(profile.dateOfBirth),
     enter: profile.enter,
     retire: profile.retire,
