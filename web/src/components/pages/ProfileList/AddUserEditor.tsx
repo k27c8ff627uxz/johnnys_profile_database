@@ -15,7 +15,7 @@ import ProfileEditor, { ProfileEditorValue } from './ProfileEditor';
 const initialValue: ProfileEditorValue = {
   name: undefined,
   furigana: undefined,
-  dateOfBirth: undefined,
+  dateOfBirth: null,
   bloodType: '',
   enterDate: initialUncertainDatePickerValue,
   retireDate: undefined,

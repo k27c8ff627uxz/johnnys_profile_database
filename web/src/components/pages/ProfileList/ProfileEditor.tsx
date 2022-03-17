@@ -21,7 +21,7 @@ import { UncertainDataPickerValue, UncertainDatePicker, initialUncertainDatePick
 export interface ProfileEditorValue {
   name: string | undefined;
   furigana: string | undefined;
-  dateOfBirth: Date | undefined;
+  dateOfBirth: Date | null;
   bloodType: 'A' | 'B' | 'O' | 'AB' | '';
   enterDate: UncertainDataPickerValue;
   retireDate: UncertainDataPickerValue | undefined;
@@ -75,7 +75,7 @@ const ProfileEditor = (props: ProfileEditorProps) => {
           <DatePicker
             label='誕生日'
             value={value.dateOfBirth}
-            onChange={v => onChange({...value, dateOfBirth: v ?? undefined})}
+            onChange={v => onChange({...value, dateOfBirth: v ?? null})}
             renderInput={(params) => <TextField {...params} />}
           />
         </LocalizationProvider>
