@@ -1,24 +1,32 @@
 import React from 'react';
 import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
+  Box,
   MenuItem,
   Select,
   Stack,
   SxProps,
+  TextField,
 } from '@mui/material';
-import { UncertainDate } from 'common/types/UncertainDate';
+import {
+  DatePicker,
+  LocalizationProvider,
+} from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { UncertainDate, UncertainDateType } from 'common/types/UncertainDate';
 
 export interface UncertainDataPickerValue {
-  year: number;
-  month: number;
-  day: number;
-  unknownYear: boolean;
-  unknownMonth: boolean;
-  unknownDay: boolean;
+  type: UncertainDateType;
+  date: Date | null
+  yearMonth: Date | null;
+  year: Date | null;
 }
+
+export const initialUncertainDatePickerValue: UncertainDataPickerValue = {
+  type: 'unknown',
+  date: null,
+  yearMonth: null,
+  year: null,
+};
 
 export interface UncertainDatePickerProps {
   value: UncertainDataPickerValue;
@@ -26,135 +34,138 @@ export interface UncertainDatePickerProps {
   sx?: SxProps,
 }
 
-export function convertToUncertainDate(date: UncertainDataPickerValue): UncertainDate {
-  if (date.unknownYear) {
+export function convertToUncertainDate(data: UncertainDataPickerValue): UncertainDate | undefined {
+  switch(data.type) {
+  case 'unknown':
     return {
       type: 'unknown',
     };
-  }
-
-  if (date.unknownMonth) {
+  case 'year_only': {
+    const year = data.year?.getFullYear();
+    if (!year) {
+      return undefined;
+    }
     return {
+      year,
       type: 'year_only',
-      year: date.year,
     };
   }
-
-  if (date.unknownDay) {
+  case 'year_month_only': {
+    const date = data.yearMonth;
+    if (!date) {
+      return undefined;
+    }
     return {
       type: 'year_month_only',
-      year: date.year,
-      month: date.month,
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
     };
   }
-
-  return {
-    type: 'exact',
-    year: date.year,
-    month: date.month,
-    day: date.day,
-  };
+  case 'exact': {
+    const date = data.date;
+    if (!date) {
+      return undefined;
+    }
+    return {
+      type: 'exact',
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    };
+  }
+  }
 }
 
 export function convertToUncertainDataPickerValue(udate: UncertainDate): UncertainDataPickerValue {
   switch(udate.type) {
   case 'unknown':
     return {
-      year: (new Date()).getFullYear(),
-      month: 1,
-      day: 1,
-      unknownYear: true,
-      unknownMonth: true,
-      unknownDay: true,
+      type: 'unknown',
+      year: null,
+      yearMonth: null,
+      date: null,
     };
   case 'year_only':
     return {
-      year: udate.year,
-      month: 1,
-      day: 1,
-      unknownYear: false,
-      unknownMonth: true,
-      unknownDay: true,
+      type: 'year_only',
+      year: new Date(udate.year, 0, 1),
+      yearMonth: new Date(udate.year, 0, 1),
+      date: new Date(udate.year, 0, 1),
     };
   case 'year_month_only':
     return {
-      year: udate.year,
-      month: udate.month,
-      day: 1,
-      unknownYear: false,
-      unknownMonth: false,
-      unknownDay: true,
+      type: 'year_month_only',
+      year: new Date(udate.year, 0, 1),
+      yearMonth: new Date(udate.year, udate.month - 1, 1),
+      date: new Date(udate.year, udate.month - 1, 1),
     };
   case 'exact':
     return {
-      year: udate.year,
-      month: udate.month,
-      day: udate.day,
-      unknownYear: false,
-      unknownMonth: false,
-      unknownDay: false,
+      type: 'exact',
+      year: new Date(udate.year, 0, 1),
+      yearMonth: new Date(udate.year, udate.month - 1, 1),
+      date: new Date(udate.year, udate.month - 1, udate.day),
     };
   }
 }
 
-// TODO: 無効な日(2/31など)を防ぐ処理
 const UncertainDatePicker = (props: UncertainDatePickerProps) => {
   const { value, onChange, sx } = props;
 
-  const unknownYear = value.unknownYear;
-  const unknownMonth = unknownYear || value.unknownMonth;
-  const unknownDay = unknownMonth || value.unknownDay;
+  const choiceBody = (uType: UncertainDateType) => {
+    switch (uType) {
+    case 'unknown':
+      return <React.Fragment></React.Fragment>;
+    case 'year_only':
+      return (
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            views={['year']}
+            value={value.year}
+            onChange={v => onChange({...value, year: v ?? null})}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      );
+    case 'year_month_only':
+      return (
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            views={['year', 'month']}
+            value={value.yearMonth}
+            onChange={v => onChange({...value, yearMonth: v ?? null})}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      );
+    case 'exact':
+      return (
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            value={value.date}
+            onChange={v => onChange({...value, date: v ?? null})}
+            renderInput={(params) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+      );
+    }
+  };
 
   return (
-    <Stack spacing={2} direction={{ sm: 'column', md: 'row' }} sx={sx} >
-      <FormControl variant='standard' >
-        <FormLabel>年</FormLabel>
-        <Select
-          value={value.year}
-          onChange={e => onChange({...value, year: Number(e.target.value)})}
-          disabled={unknownYear}
-        >
-          {[...Array(200)].map((_, i) => (
-            <MenuItem value={i + 1900} key={i}>{i + 1900}</MenuItem>
-          ))}
-        </Select>
-        <FormControlLabel
-          control={<Checkbox checked={value.unknownYear} onChange={e => onChange({...value, unknownYear: e.target.checked})} />}
-          label="年は不明"
-        />
-      </FormControl>
-      <FormControl variant='standard' disabled={unknownYear}>
-        <FormLabel>月</FormLabel>
-        <Select
-          value={value.month}
-          onChange={e => onChange({...value, month: Number(e.target.value)})}
-          disabled={unknownMonth}
-        >
-          {[...Array(12)].map((_, i) => (
-            <MenuItem value={i + 1} key={i}>{i + 1}</MenuItem>
-          ))}
-        </Select>
-        <FormControlLabel
-          control={<Checkbox checked={value.unknownMonth} onChange={e => onChange({...value, unknownMonth: e.target.checked})} />}
-          label="月は不明"
-        />
-      </FormControl>
-      <FormControl variant='standard' disabled={unknownMonth}>
-        <FormLabel>日</FormLabel>
-        <Select
-          value={value.month}
-          onChange={e => onChange({...value, day: Number(e.target.value)})}
-          disabled={unknownDay}
-        >
-          {[...Array(31)].map((_, i) => (
-            <MenuItem value={i + 1} key={i}>{i + 1}</MenuItem>
-          ))}
-        </Select>
-        <FormControlLabel
-          control={<Checkbox checked={value.unknownDay} onChange={e => onChange({...value, unknownDay: e.target.checked})} />}
-          label="日は不明"
-        />
-      </FormControl>
+    <Stack spacing={2} direction='column' sx={sx}>
+      <Select
+        value={value.type}
+        sx={{width: '200px'}}
+        onChange={e => onChange({...value, type: e.target.value as UncertainDateType})}
+      >
+        <MenuItem value='unknown'>不明</MenuItem>
+        <MenuItem value='year_only'>年だけ分かる</MenuItem>
+        <MenuItem value='year_month_only'>年と月が分かる</MenuItem>
+        <MenuItem value='exact'>年と月と日が分かる</MenuItem>
+      </Select>
+      <Box>
+        {choiceBody(value.type)}
+      </Box>
     </Stack>
   );
 };

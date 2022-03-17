@@ -16,7 +16,7 @@ import {
   LocalizationProvider,
 } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { UncertainDataPickerValue, UncertainDatePicker } from 'utils/mycomponents';
+import { UncertainDataPickerValue, UncertainDatePicker, initialUncertainDatePickerValue } from 'utils/mycomponents';
 
 export interface ProfileEditorValue {
   name: string | undefined;
@@ -40,14 +40,7 @@ const ProfileEditor = (props: ProfileEditorProps) => {
     if (isRetire) {
       onChange({
         ...value,
-        retireDate: {
-          year: (new Date()).getFullYear(),
-          month: 1,
-          day: 1,
-          unknownYear: false,
-          unknownMonth: false,
-          unknownDay: false,
-        },
+        retireDate: initialUncertainDatePickerValue,
       });
     } else {
       onChange({

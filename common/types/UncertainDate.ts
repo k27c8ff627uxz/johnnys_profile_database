@@ -1,3 +1,4 @@
+export type UncertainDateType = 'exact' | 'year_month_only' | 'year_only' | 'unknown';
 
 export type UncertainDate = {
   type: 'exact',

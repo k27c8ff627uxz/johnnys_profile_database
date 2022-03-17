@@ -7,6 +7,7 @@ import {
   ButtonWithProgress,
   MyErrorMessages,
 } from 'utils/mycomponents';
+import { initialUncertainDatePickerValue } from 'utils/mycomponents';
 import { addProfile } from 'utils/firebaseFunctions';
 import { dateToString } from 'common/utils/date';
 import ProfileEditor, { ProfileEditorValue } from './ProfileEditor';
@@ -16,14 +17,7 @@ const initialValue: ProfileEditorValue = {
   furigana: undefined,
   dateOfBirth: undefined,
   bloodType: '',
-  enterDate: {
-    year: (new Date()).getFullYear(),
-    month: 1,
-    day: 1,
-    unknownYear: false,
-    unknownMonth: false,
-    unknownDay: false,
-  },
+  enterDate: initialUncertainDatePickerValue,
   retireDate: undefined,
 };
 
@@ -38,7 +32,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
 
   const verify = (() => {
-    if (!value.name || !value.furigana || !value.dateOfBirth) {
+    if (!value.name || !value.furigana || !value.dateOfBirth || !convertToUncertainDate(value.enterDate)) {
       return true;
     }
 
@@ -52,7 +46,8 @@ const AddUserEditor = (props: AddUserEditorProps) => {
   const onSubmit = async () => {
     const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate } = value;
   
-    if (!name || !furigana || !dateOfBirth) {
+    const enter = convertToUncertainDate(enterDate);
+    if (!name || !furigana || !dateOfBirth || !enter) {
       throw new Error('Unreach');
     }
   
@@ -64,9 +59,9 @@ const AddUserEditor = (props: AddUserEditorProps) => {
         profile: {
           name,
           furigana,
+          enter,
           bloodType: bloodType === '' ? undefined: bloodType,
           dateOfBirth: dateToString(dateOfBirth),
-          enter: convertToUncertainDate(enterDate),
           retire: retireDate ? convertToUncertainDate(retireDate) : undefined,
         },
       });

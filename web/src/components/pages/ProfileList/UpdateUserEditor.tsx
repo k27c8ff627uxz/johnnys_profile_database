@@ -40,7 +40,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
   const { isLoading, beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
 
   const verify = (() => {
-    if (!value.name || !value.furigana || !value.dateOfBirth) {
+    if (!value.name || !value.furigana || !value.dateOfBirth || !convertToUncertainDate(value.enterDate)) {
       return true;
     }
 
@@ -54,7 +54,8 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
   const onSubmit = async () => {
     const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate } = value;
   
-    if (!name || !furigana || !dateOfBirth) {
+    const enter = convertToUncertainDate(enterDate);
+    if (!name || !furigana || !dateOfBirth || !enter) {
       throw new Error('Unreach');
     }
 
@@ -67,9 +68,9 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
         profile: {
           name,
           furigana,
+          enter,
           bloodType: bloodType === '' ? undefined: bloodType,
           dateOfBirth: dateToString(dateOfBirth),
-          enter: convertToUncertainDate(enterDate),
           retire: retireDate ? convertToUncertainDate(retireDate) : undefined,
         },
       });
