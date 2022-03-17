@@ -7,4 +7,5 @@ export type Profile = {
   bloodType?: string;
   enter: UncertainDate;
   retire?: UncertainDate;
+  note: string;
 };

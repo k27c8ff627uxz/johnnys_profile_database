@@ -9,6 +9,7 @@ export interface RowItem {
   bloodType?: BloodType;
   enter: UncertainDate;
   retire?: UncertainDate;
+  note: string;
 }
 
 export interface ColData {

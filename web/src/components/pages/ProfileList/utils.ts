@@ -11,5 +11,6 @@ export function convertToRowItem(id: string, profile: Profile): RowItem {
     dateOfBirth: new Date(profile.dateOfBirth),
     enter: profile.enter,
     retire: profile.retire,
+    note: profile.note,
   };
 }

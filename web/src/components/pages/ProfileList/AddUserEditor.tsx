@@ -19,6 +19,7 @@ const initialValue: ProfileEditorValue = {
   bloodType: '',
   enterDate: initialUncertainDatePickerValue,
   retireDate: undefined,
+  note: '',
 };
 
 interface AddUserEditorProps {
@@ -44,7 +45,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
   })();
 
   const onSubmit = async () => {
-    const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate } = value;
+    const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate, note } = value;
   
     const enter = convertToUncertainDate(enterDate);
     if (!name || !furigana || !dateOfBirth || !enter) {
@@ -60,6 +61,7 @@ const AddUserEditor = (props: AddUserEditorProps) => {
           name,
           furigana,
           enter,
+          note,
           bloodType: bloodType === '' ? undefined: bloodType,
           dateOfBirth: dateToString(dateOfBirth),
           retire: retireDate ? convertToUncertainDate(retireDate) : undefined,

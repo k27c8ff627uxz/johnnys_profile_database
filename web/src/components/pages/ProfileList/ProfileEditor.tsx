@@ -25,6 +25,7 @@ export interface ProfileEditorValue {
   bloodType: 'A' | 'B' | 'O' | 'AB' | '';
   enterDate: UncertainDataPickerValue;
   retireDate: UncertainDataPickerValue | undefined;
+  note: string;
 }
 
 interface ProfileEditorProps {
@@ -115,6 +116,16 @@ const ProfileEditor = (props: ProfileEditorProps) => {
             <UncertainDatePicker value={value.retireDate} onChange={v => onChange({...value, retireDate: v})} />
           </>
         )}
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          label="備考"
+          multiline
+          fullWidth
+          rows={4}
+          value={value.note}
+          onChange={e => onChange({...value, note: e.target.value})}
+        />
       </Grid>
     </Grid>
   );

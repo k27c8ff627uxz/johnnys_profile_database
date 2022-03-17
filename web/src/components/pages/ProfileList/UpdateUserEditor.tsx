@@ -34,6 +34,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
     bloodType: profile.bloodType ?? '' as 'A' | 'B' | 'O' | 'AB' | '',
     enterDate: convertToUncertainDataPickerValue(profile.enter),
     retireDate: profile.retire ? convertToUncertainDataPickerValue(profile.retire) : undefined,
+    note: profile.note,
   });
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [errorState, setErrorState] = useState<'error' | 'unauthenticated' | null>(null);
@@ -52,7 +53,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
   })();
 
   const onSubmit = async () => {
-    const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate } = value;
+    const { name, furigana, dateOfBirth, bloodType, enterDate, retireDate, note } = value;
   
     const enter = convertToUncertainDate(enterDate);
     if (!name || !furigana || !dateOfBirth || !enter) {
@@ -69,6 +70,7 @@ const UpdateUserEditor = (props: UpdateUserEditorProps) => {
           name,
           furigana,
           enter,
+          note,
           bloodType: bloodType === '' ? undefined: bloodType,
           dateOfBirth: dateToString(dateOfBirth),
           retire: retireDate ? convertToUncertainDate(retireDate) : undefined,
