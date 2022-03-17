@@ -75,7 +75,7 @@ const profileListContainer = () => {
 
     // 検索フィルター
     if (searchText) {
-      if (!`${row.name} ${row.furigana}`.includes(searchText)) {
+      if (!`${row.name} ${row.furigana} ${row.note}`.includes(searchText)) {
         return false;
       }
     }
