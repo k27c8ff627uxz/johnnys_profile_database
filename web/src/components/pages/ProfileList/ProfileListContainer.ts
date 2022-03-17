@@ -13,7 +13,7 @@ const profileListContainer = () => {
   const [profileList, setProfileList] = useState<RowItem[]>([]);
   const [isShowRetireMember, setIsShowRetireMember] = useState(false);
   // TOOD: 列のID名が'columnData.tsx'と'ProfileHeader.tsx'と↓の３箇所にちらばっているので、まとめる
-  const [visibleColumns, setVisibleColumns] = useState(['name', 'dateOfBirth', 'age', 'enter', 'retire']);
+  const [visibleColumns, setVisibleColumns] = useState(['name', 'dateOfBirth', 'age', 'enter', 'retire', 'note']);
   const [searchText, setSearchText] = useState('');
   const { isLoading, beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
   const { authInfo } = AccountContainer.useContainer();

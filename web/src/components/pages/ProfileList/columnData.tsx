@@ -1,7 +1,9 @@
 import React from 'react';
 import {
   IconButton,
-} from '@mui/material';import { Edit as EditIcon } from '@mui/icons-material';
+  Tooltip,
+} from '@mui/material';
+import { Edit as EditIcon, StickyNote2 as StickyNote2Icon } from '@mui/icons-material';
 import { dateToString } from 'common/utils/date';
 import { sortUncertainDate, getUncertainDate, calcDiffDate } from 'utils/functions';
 import { SortDir, BloodType } from 'utils/types';
@@ -135,6 +137,16 @@ export function columnData(
         return sortUncertainDate(dir, item1.enter, item2.enter);
       },
       render: (row) => <>{row.retire === undefined ? '-' : getUncertainDate(row.retire)}</>,
+    }, {
+      id: 'note',
+      label: '備考',
+      render: (row) => <>{ row.note && (
+        <Tooltip title={row.note.split('\n').map((value, i) => <div key={i}>{value}</div>)}>
+          <IconButton>
+            <StickyNote2Icon />
+          </IconButton>
+        </Tooltip>
+      )}</>,
     },
   ];
 

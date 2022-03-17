@@ -87,6 +87,7 @@ const ProfileHeader = (props: ProfileHeaderProps) => {
                 {id: 'bloodType', name: '血液型'},
                 {id: 'enter', name: '入所日'},
                 {id: 'retire', name: '退所日'},
+                {id: 'note', name: '備考'},
               ].map((item) => (
                 <ListItem sx={{pl: 4}} key={`item-${item.id}`}>
                   <ListItemIcon>
