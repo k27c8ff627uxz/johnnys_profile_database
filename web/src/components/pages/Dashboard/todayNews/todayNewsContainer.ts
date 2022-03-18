@@ -4,6 +4,7 @@ import { getFunctions, HttpsCallableResult } from 'firebase/functions';
 import { getProfileList } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { GetProfileListResponse } from 'common/api/profile/getProfileList';
+import { calcDuringSpan } from 'utils/functions';
 import { Profile, Article } from './types';
 
 const todayNewsContainer = () => {
@@ -58,6 +59,18 @@ const todayNewsContainer = () => {
 
   const applyFilter = () => {
     const list = profileList.flatMap(profile => {
+
+      const isBelonging = calcDuringSpan(profile.enter, today, profile.retire);
+      // 「今日」が、メンバーが入所前の日付かをチェック
+      if (isBelonging === 'notStart') {
+        return [];
+      }
+
+      // 「今日」はすでに退所しているか
+      if (isBelonging === 'over') {
+        return [];
+      }
+
       const result: Article[] = [];
 
       // 誕生日の追加
