@@ -20,7 +20,6 @@ import {
   Today as TodayIcon,
 } from '@mui/icons-material';
 import FrameworkViewContainer from 'models/frameworkView';
-import { MySuccessSnackbar } from 'utils/mycomponents';
 import AccountContainer from '../../models/account';
 import { AuthInfoLogin } from 'models/auth';
 import { dateToString } from 'common/utils/date';
@@ -93,14 +92,14 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
   } = props;
 
   const { authInfo } = AccountContainer.useContainer();
+  const { modalsOpen, setModalsOpen } = FrameworkViewContainer.useContainer();
   const [userMenuAnchor, setUserMenuAnchor] = useState<Element | null>(null);
-  const [isLogoutOpen, setLogoutOpen] = useState(false);
 
   const navigate = useNavigate();
 
   const onLogout = (authInfo: AuthInfoLogin) => {
     authInfo.logout()
-      .then(() => setLogoutOpen(true));
+      .then(() => setModalsOpen({ ...modalsOpen, logout: true }));
   };
 
   return (
@@ -164,9 +163,7 @@ const MainAppBar: React.FC<MainAppBarProps> = (props) => {
         </React.Fragment>
       }
       <Today />
-      <MySuccessSnackbar open={isLogoutOpen} autoHideDuration={6000} onClose={() => setLogoutOpen(false)}>
-        ログアウトしました。
-      </MySuccessSnackbar>
+
     </React.Fragment>
   );
 };

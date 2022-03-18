@@ -7,11 +7,21 @@ const frameworkViewContainer = () => {
   const [searchParams, setSeachParams] = useSearchParams();
   const [isLoading, setLoading] = useState(false);
 
+  const [modalsOpen, setModalsOpen] = useState<{
+    logout: boolean;
+  }>({
+    logout: false,
+  });
+
   return {
     isLoading,
     beginLoading: () => { setLoading(true); },
     finishLoading: () => { setLoading(false); },
 
+    // modals
+    modalsOpen,
+    setModalsOpen,
+  
     // QueryParams
     existsQueryParams: (param: string) => {
       return searchParams.get(param) !== null;

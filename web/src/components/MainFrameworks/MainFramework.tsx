@@ -16,6 +16,7 @@ import { styled } from '@mui/material/styles';
 import MainAppBar from './MainAppBar';
 import MainMenu from './MainMenu';
 import MainContents from './MainContents';
+import Modals from './Modals';
 import FrameworkViewContainer from 'models/frameworkView';
 
 const DrawerHeader = styled(Toolbar)(({ theme }) => ({
@@ -115,6 +116,7 @@ const MainFramework: React.FC<MainFrameworkProps> = (props) => {
           <MainContents />
         </Box>
       </MainBox>
+      <Modals />
     </Box>
   );
 };
