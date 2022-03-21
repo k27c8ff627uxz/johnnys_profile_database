@@ -48,7 +48,7 @@ const UserProfile: React.FC<{authInfo: AuthInfoLogin}> = (params) => {
       case 'success':
         setErrorState(null);
         setSuccessOpen(true);
-        reload().then();
+        reload();
         break;
       case 'unauthenticated':
         console.error('unauthenticated!!!');

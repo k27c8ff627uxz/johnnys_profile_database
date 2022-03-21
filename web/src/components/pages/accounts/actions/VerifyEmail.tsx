@@ -30,7 +30,7 @@ const VerifyEmail: React.FC<{
     applyActionCode(code)
       .then(() => {
         setState('success');
-        reload().then();
+        reload();
       }).catch((e) => {
         console.error(e);
         setState('failVerifying');
