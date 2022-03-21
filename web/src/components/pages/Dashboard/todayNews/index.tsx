@@ -37,7 +37,7 @@ const Component = () => {
   }
 
   return (
-    <React.Fragment>
+    <Box>
       <Typography variant='h6'>
         今日のお知らせ
       </Typography>
@@ -52,7 +52,7 @@ const Component = () => {
           </Card>
         )}
       </Box>
-    </React.Fragment>
+    </Box>
   );
 };
 

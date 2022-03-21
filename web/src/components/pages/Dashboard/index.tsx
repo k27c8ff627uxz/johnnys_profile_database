@@ -8,7 +8,7 @@ import TodayNews from './todayNews';
 const Dashboard: React.FC = () => {
   return (
     <Box style={{display: 'flex', justifyContent: 'center'}}>
-      <Stack sx={{margin: 3, width: '80%'}} spacing={1}>
+      <Stack sx={{margin: 3, width: '80%'}} spacing={3}>
         <TodayNews />
       </Stack>
     </Box>
