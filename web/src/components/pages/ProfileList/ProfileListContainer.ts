@@ -73,6 +73,11 @@ const profileListContainer = () => {
       }
     }
 
+    // まだ生まれていないメンバーをここではじく
+    if (today < row.dateOfBirth) {
+      return false;
+    }
+
     // 検索フィルター
     if (searchText) {
       if (!`${row.name} ${row.furigana} ${row.note}`.includes(searchText)) {
