@@ -7,6 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TableRowProps,
   TableSortLabel,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -16,9 +17,31 @@ import { columnData } from './columnData';
 import { SortDir } from 'utils/types';
 import { calcDuringSpan } from 'utils/functions';
 
-const CustomTableRow = styled(TableRow)<{isgray: boolean}>(({isgray, theme}) => ({
-  background: isgray ? theme.palette.grey[400] : undefined,
+const GrayTableRow = styled(TableRow)(({theme}) => ({
+  background: theme.palette.grey[400],
 }));
+
+// styledを使ったコンポーネントにパラメータを入れる方法が分からないので、暫定的に以下の実装
+// TODO: CustomStyleにパラメータを入れる実装にする
+const CustomTableRow = (props: {isGray: boolean} & TableRowProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tableProps: any = { ...props };
+  delete tableProps.isGray;
+  
+  if (props.isGray) {
+    return (
+      <GrayTableRow {...tableProps}>
+        {props.children}
+      </GrayTableRow>
+    );
+  }
+
+  return (
+    <TableRow {...tableProps}>
+      {props.children}
+    </TableRow>
+  );
+};
 
 export interface ProfileTableProps {
   rowData: RowItem[];
@@ -106,7 +129,7 @@ const ProfileTable = (props: ProfileTableProps) => {
           </TableHead>
           <TableBody>
             {rowData.filter(row => rowFilter(row)).map((row, i) => (
-              <CustomTableRow key={`row-${i}`} isgray={calcDuringSpan(row.enter, today, row.retire) === 'over'}>
+              <CustomTableRow key={`row-${i}`} isGray={calcDuringSpan(row.enter, today, row.retire) === 'over'}>
                 {colData.map((val, j) => (
                   <TableCell key={`row-${i}-${j}`}>
                     {val.render(row)}
