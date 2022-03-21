@@ -10,8 +10,8 @@ import { Profile, Article } from './types';
 const todayNewsContainer = () => {
   const { beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
 
-  const [profileList, setProfileList] = useState<Profile[]>([]);
-  const [articleList, setArticleList] = useState<Article[]>([]);
+  const [profileList, setProfileList] = useState<Profile[] | null>(null);
+  const [articleList, setArticleList] = useState<Article[] | null>(null);
 
   const functions = getFunctions();
   const today = getToday();
@@ -58,6 +58,11 @@ const todayNewsContainer = () => {
   };
 
   const applyFilter = () => {
+    if (profileList === null) {
+      setArticleList(null);
+      return;
+    }
+  
     const list = profileList.flatMap(profile => {
 
       const isBelonging = calcDuringSpan(profile.enter, today, profile.retire);
