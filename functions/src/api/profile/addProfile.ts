@@ -8,6 +8,9 @@ const ref = admin.database().ref('mainData/profile');
 
 async function getAllId(): Promise<string[]> {
   const snapshot = await ref.get();
+  if (!snapshot.val()) {
+    return [];
+  }
   return Object.keys(snapshot.val());
 }
 
