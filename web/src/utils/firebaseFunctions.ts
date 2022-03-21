@@ -9,6 +9,7 @@ import { UpdateProfileRequest, UpdateProfileResponse } from 'common/api/profile/
 import { DeleteProfileRequest, DeleteProfileResponse } from 'common/api/profile/deleteProfile';
 
 const isConstruction = (functions: Functions) => httpsCallable<void, boolean>(functions, 'isConstruction');
+const getNews = (functions: Functions) => httpsCallable<void, string[]>(functions, 'getNews');
 const createAccount = (functions: Functions) => httpsCallable<CreateAccountRequest, CreateAccountResponse>(functions, 'createAccount');
 const updateAccount = (functions: Functions) => httpsCallable<UpdateAccountRequest, UpdateAccountResponse>(functions, 'updateAccount');
 const getUserProfile = (functions: Functions) => httpsCallable<GetUserProfileRequest, GetUserProfileResponse>(functions, 'getUserProfile');
@@ -25,6 +26,7 @@ const setAllData = (functions: Functions) => httpsCallable<string, boolean>(func
 
 export {
   isConstruction,
+  getNews,
   createAccount,
   updateAccount,
   getUserProfile,
