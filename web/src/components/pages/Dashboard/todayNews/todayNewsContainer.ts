@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { createContainer } from 'unstated-next';
 import { getFunctions, HttpsCallableResult } from 'firebase/functions';
 import { getProfileList } from 'utils/firebaseFunctions';
@@ -9,7 +10,7 @@ import { Profile, Article } from './types';
 
 const todayNewsContainer = () => {
   const { beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
-
+  const [searchParams] = useSearchParams();
   const [profileList, setProfileList] = useState<Profile[] | null>(null);
   const [articleList, setArticleList] = useState<Article[] | null>(null);
 
@@ -22,9 +23,10 @@ const todayNewsContainer = () => {
     })();
   }, []);
 
+  // クエリの変化を取得するため、searchParamsを追加
   useEffect(() => {
     applyFilter();
-  }, [profileList, today]);
+  }, [profileList, searchParams]);
 
   const reload = async () => {
     beginLoading();
