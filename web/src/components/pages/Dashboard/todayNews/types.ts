@@ -7,12 +7,16 @@ export type Profile = {
   retire?: UncertainDate,
 }
 
-export type Article = {
+export type BirthdayArticle = {
   type: 'birthday';
   name: string;
   year: number;
-} | {
+}
+
+export type EnterdayArticle = {
   type: 'enterday';
   name: string;
   year: number;
 }
+
+export type Article = BirthdayArticle | EnterdayArticle;

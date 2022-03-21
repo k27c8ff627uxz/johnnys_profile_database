@@ -4,10 +4,22 @@ import {
   Card,
   Typography,
 } from '@mui/material';
+import BirthdayNews from './birthdayNews';
+import EnterdayNews from './enterdayNews';
 import TodayNewsContainer from './todayNewsContainer';
+import { Article } from './types';
 
 const Component = () => {
   const { articleList } = TodayNewsContainer.useContainer();
+
+  const topic = (article: Article) => {
+    switch(article.type) {
+    case 'birthday':
+      return <BirthdayNews article={article} />;
+    case 'enterday':
+      return <EnterdayNews article={article} />;
+    }
+  };
 
   return (
     <React.Fragment>
@@ -17,8 +29,7 @@ const Component = () => {
       <Box>
         {articleList.map((article, index) => 
           <Card key={`article-${index}`} sx={{width: '100%', margin: 2}} >
-            {/* TODO: 正書 */}
-            {`${article.type}, ${article.name}, ${article.year}`}
+            {topic(article)}
           </Card>
         )}
       </Box>
