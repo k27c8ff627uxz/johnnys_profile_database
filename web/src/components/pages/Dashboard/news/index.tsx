@@ -6,14 +6,23 @@ import {
 } from '@mui/material';
 import { getFunctions } from 'firebase/functions';
 import { getNews } from 'utils/firebaseFunctions';
+import DashboardContainer from '../dashboardContainer';
 
 const News = () => {
+  const { beginNewsIsLoading, finishNewsIsLoading} = DashboardContainer.useContainer();
   const [news, setNews] = useState<string[] | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
-      const result = await getNews(getFunctions())();
-      setNews(result.data);
+      beginNewsIsLoading();
+      try {
+        const result = await getNews(getFunctions())();
+        setNews(result.data);
+      } catch(e) {
+        console.error(e);
+      } finally {
+        finishNewsIsLoading();
+      }
     })();
   }, []);
 

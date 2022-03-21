@@ -6,10 +6,12 @@ import { getProfileList } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
 import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 import { calcDuringSpan } from 'utils/functions';
+import DashboardContainer from '../dashboardContainer';
 import { Profile, Article } from './types';
 
 const todayNewsContainer = () => {
-  const { beginLoading, finishLoading, getToday } = FrameworkViewContainer.useContainer();
+  const { getToday } = FrameworkViewContainer.useContainer();
+  const { beginTodayNewsIsLoading, finishTodayNewsIsLoading} = DashboardContainer.useContainer();
   const [searchParams] = useSearchParams();
   const [profileList, setProfileList] = useState<Profile[] | null>(null);
   const [articleList, setArticleList] = useState<Article[] | null>(null);
@@ -29,13 +31,13 @@ const todayNewsContainer = () => {
   }, [profileList, searchParams]);
 
   const reload = async () => {
-    beginLoading();
+    beginTodayNewsIsLoading();
     let funcRes: HttpsCallableResult<GetProfileListResponse>;
     try {
       funcRes = await getProfileList(functions)();
     } catch(e) {
       console.error(e);
-      finishLoading();
+      finishTodayNewsIsLoading();
       return;
     } 
 
@@ -56,7 +58,7 @@ const todayNewsContainer = () => {
       console.error(funcRes.data.errorMessage);
     }
 
-    finishLoading();
+    finishTodayNewsIsLoading();
   };
 
   const applyFilter = () => {

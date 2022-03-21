@@ -5,8 +5,9 @@ import {
 } from '@mui/material';
 import News from './news';
 import TodayNews from './todayNews';
+import DashboardContainer from './dashboardContainer';
 
-const Dashboard: React.FC = () => {
+const Component: React.FC = () => {
   return (
     <Box style={{display: 'flex', justifyContent: 'center'}}>
       <Stack sx={{margin: 3, width: '80%'}} spacing={3}>
@@ -17,4 +18,12 @@ const Dashboard: React.FC = () => {
   );
 };
 
+// TODO: コンテナを使わずにLoading処理をする
+const Dashboard = () => {
+  return (
+    <DashboardContainer.Provider>
+      <Component />
+    </DashboardContainer.Provider>
+  );
+};
 export default Dashboard;
