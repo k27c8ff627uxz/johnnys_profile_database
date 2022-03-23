@@ -56,8 +56,16 @@ const Component = () => {
   );
 };
 
-const TodayNews = () => (
-  <TodayNewsContainer.Provider>
+interface TodayNewsProps {
+  beginLoading: () => void;
+  finishLoading: () => void;
+}
+
+const TodayNews = (props: TodayNewsProps) => (
+  <TodayNewsContainer.Provider initialState={{
+    beginLoading: props.beginLoading,
+    finishLoading: props.finishLoading,
+  }}>
     <Component />
   </TodayNewsContainer.Provider>
 );
