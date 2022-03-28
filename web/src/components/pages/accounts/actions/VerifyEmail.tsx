@@ -9,14 +9,22 @@ const VerifyEmail: React.FC<{
   code: string | null,
 }> = (params) => {
   const { code } = params;
-  const { reload, applyActionCode } = AccountContainer.useContainer();
+  const { reload, applyActionCode, authInfo } = AccountContainer.useContainer();
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
-  const [state, setState] = useState<'doing' | 'success' | 'failVerifying' | 'nothingCode' | null>(null);
+  const [state, setState] = useState<'ready' | 'doing' | 'success' | 'failVerifying' | 'nothingCode' | null>(null);
   const [isExcuted, setExcuted] = useState(false);
+
+  // ページロード直後はAuth情報が読み込まれていないのでauthInfo.stateはundefinedである
+  // Auth情報が読まれたら、Code認証を実行するようにする
+  useEffect(() => {
+    if (authInfo.state === 'notVerify') {
+      setState('ready');
+    }
+  }, [authInfo]);
 
   useEffect(() => {
     // 初期時しか実行させない
-    if (state !== null) {
+    if (state !== 'ready') {
       return;
     }
 
