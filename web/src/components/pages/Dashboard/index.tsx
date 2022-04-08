@@ -10,15 +10,15 @@ import TodayNews from './todayNews';
 const Dashboard: React.FC = () => {
   const { beginLoading, finishLoading } = FrameworkViewContainer.useContainer();
   const [newsIsLoading, setNewsIsLoading] = useState(false);
-  const [todayNewsIsLoading, setTodayNewsIsLoading] = useState(false);
 
   useEffect(() => {
-    if (newsIsLoading || todayNewsIsLoading) {
+    if (newsIsLoading) {
       beginLoading();
     } else {
+      // TODO: 初期表示時のProfile List取得が終了していないにもかかわらず、ここでLoadingが終わってしまう可能性もあるので、その対処
       finishLoading();
     }
-  }, [newsIsLoading, todayNewsIsLoading]);
+  }, [newsIsLoading]);
 
   return (
     <Box style={{display: 'flex', justifyContent: 'center'}}>
@@ -27,10 +27,7 @@ const Dashboard: React.FC = () => {
           beginLoading={() => setNewsIsLoading(true)}
           finishLoading={() => setNewsIsLoading(false)}
         />
-        <TodayNews
-          beginLoading={() => setTodayNewsIsLoading(true)}
-          finishLoading={() => setTodayNewsIsLoading(false)}
-        />
+        <TodayNews />
       </Stack>
     </Box>
   );

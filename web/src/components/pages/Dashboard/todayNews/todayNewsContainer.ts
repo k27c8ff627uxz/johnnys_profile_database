@@ -1,68 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { createContainer } from 'unstated-next';
-import { getFunctions, HttpsCallableResult } from 'firebase/functions';
-import { getProfileList } from 'utils/firebaseFunctions';
 import FrameworkViewContainer from 'models/frameworkView';
-import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 import { calcDuringSpan } from 'utils/functions';
-import { Profile, Article } from './types';
+import { Article } from './types';
 
-interface TodayNewsInitialState {
-  beginLoading: () => void;
-  finishLoading: () => void;
-}
-
-const todayNewsContainer = (initialState?: TodayNewsInitialState) => {
-  const { getToday } = FrameworkViewContainer.useContainer();
+const todayNewsContainer = () => {
+  const { getToday, profileList } = FrameworkViewContainer.useContainer();
   const [searchParams] = useSearchParams();
-  const [profileList, setProfileList] = useState<Profile[] | null>(null);
   const [articleList, setArticleList] = useState<Article[] | null>(null);
 
-  const functions = getFunctions();
   const today = getToday();
-
-  useEffect(() => {
-    (async () => {
-      await reload();
-    })();
-  }, []);
 
   // クエリの変化を取得するため、searchParamsを追加
   useEffect(() => {
     applyFilter();
   }, [profileList, searchParams]);
-
-  const reload = async () => {
-    initialState?.beginLoading();
-    let funcRes: HttpsCallableResult<GetProfileListResponse>;
-    try {
-      funcRes = await getProfileList(functions)();
-    } catch(e) {
-      console.error(e);
-      initialState?.finishLoading();
-      return;
-    } 
-
-    switch(funcRes.data.result) {
-    case 'success': {
-      const list = Object.values(funcRes.data.profileList)
-        .map<Profile>(value => ({
-          name: value.name,
-          dateOfBirth: new Date(value.dateOfBirth),
-          enter: value.enter,
-          retire: value.retire,
-        }))
-        .sort((a, b) => b.dateOfBirth < a.dateOfBirth ? -1 : 1);
-      setProfileList(list);
-      break;
-    }
-    case 'error':
-      console.error(funcRes.data.errorMessage);
-    }
-
-    initialState?.finishLoading();
-  };
 
   const applyFilter = () => {
     if (profileList === null) {
@@ -70,7 +23,8 @@ const todayNewsContainer = (initialState?: TodayNewsInitialState) => {
       return;
     }
   
-    const list = profileList.flatMap(profile => {
+    const list = Object.values(profileList).flatMap(profile => {
+      const dateOfBirth = new Date(profile.dateOfBirth);
 
       const isBelonging = calcDuringSpan(profile.enter, today, profile.retire);
       // 「今日」が、メンバーが入所前の日付かをチェック
@@ -87,13 +41,13 @@ const todayNewsContainer = (initialState?: TodayNewsInitialState) => {
 
       // 誕生日の追加
       if (
-        profile.dateOfBirth.getMonth() === today.getMonth() &&
-        profile.dateOfBirth.getDate() === today.getDate()
+        dateOfBirth.getMonth() === today.getMonth() &&
+        dateOfBirth.getDate() === today.getDate()
       ) {
         result.push({
           type: 'birthday',
           name: profile.name,
-          year: today.getFullYear() - profile.dateOfBirth.getFullYear(),
+          year: today.getFullYear() - dateOfBirth.getFullYear(),
         });
       }
 
