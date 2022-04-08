@@ -1,15 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { createContainer } from 'unstated-next';
+import { getFunctions, HttpsCallableResult } from 'firebase/functions';
+import { getProfileList } from 'utils/firebaseFunctions';
+import { GetProfileListResponse } from 'common/api/profile/getProfileList';
+import { Profile } from 'common/types/Profile';
 import literals from 'utils/literals';
 
 const frameworkViewContainer = () => {
   const [searchParams, setSeachParams] = useSearchParams();
   const [isLoading, setLoading] = useState(false);
+  const [profileList, setProfileList] = useState<{[id: string] : Profile}>({});
+
+  const functions = getFunctions();
+
+  useEffect(() => {
+    (async () => {
+      await reloadProfileList();
+    })();
+  }, []);
 
   // Loading関連
   const beginLoading = () => setLoading(true);
   const finishLoading = () => setLoading(false);
+
+  // Prifile関連
+  const reloadProfileList = async () => {
+    beginLoading();
+    let funcRes: HttpsCallableResult<GetProfileListResponse>;
+    try {
+      funcRes = await getProfileList(functions)();
+    } catch(e) {
+      console.error(e);
+      finishLoading();
+      return;
+    } 
+
+    switch(funcRes.data.result) {
+    case 'success': {
+      setProfileList(funcRes.data.profileList);
+      break;
+    }
+    case 'error':
+      console.error(funcRes.data.errorMessage);
+    }
+
+    finishLoading();
+  };
 
   const [modalsOpen, setModalsOpen] = useState<{
     logout: boolean;
@@ -22,6 +59,10 @@ const frameworkViewContainer = () => {
     beginLoading,
     finishLoading,
 
+    // Profiles
+    reloadProfileList,
+    profileList,
+  
     // modals
     modalsOpen,
     setModalsOpen,
