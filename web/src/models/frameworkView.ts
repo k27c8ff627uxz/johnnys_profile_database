@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { createContainer } from 'unstated-next';
 import { getFunctions, HttpsCallableResult } from 'firebase/functions';
+import { getNews } from 'utils/firebaseFunctions';
 import { getProfileList } from 'utils/firebaseFunctions';
 import { GetProfileListResponse } from 'common/api/profile/getProfileList';
 import { Profile } from 'common/types/Profile';
@@ -10,13 +11,17 @@ import literals from 'utils/literals';
 const frameworkViewContainer = () => {
   const [searchParams, setSeachParams] = useSearchParams();
   const [isLoading, setLoading] = useState(false);
+  const [news, setNews] = useState<string[]>([]);
+  const [isNewsLoading, setNewsLoading] = useState(false);
   const [profileList, setProfileList] = useState<{[id: string] : Profile}>({});
+  const [isProfileListLoading, setProfileListLoading] = useState(false);
 
   const functions = getFunctions();
 
   useEffect(() => {
     (async () => {
       await reloadProfileList();
+      await reloadNews();
     })();
   }, []);
 
@@ -24,15 +29,32 @@ const frameworkViewContainer = () => {
   const beginLoading = () => setLoading(true);
   const finishLoading = () => setLoading(false);
 
+  useEffect(() => {
+    setLoading(isNewsLoading || isProfileListLoading);
+  }, [isNewsLoading, isProfileListLoading]);
+
+  // お知らせ関連
+  const reloadNews = async () => {
+    setNewsLoading(true);
+    try {
+      const result = await getNews(getFunctions())();
+      setNews(result.data);
+    } catch(e) {
+      console.error(e);
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
   // Prifile関連
   const reloadProfileList = async () => {
-    beginLoading();
+    setProfileListLoading(true);
     let funcRes: HttpsCallableResult<GetProfileListResponse>;
     try {
       funcRes = await getProfileList(functions)();
     } catch(e) {
       console.error(e);
-      finishLoading();
+      setProfileListLoading(false);
       return;
     } 
 
@@ -45,7 +67,7 @@ const frameworkViewContainer = () => {
       console.error(funcRes.data.errorMessage);
     }
 
-    finishLoading();
+    setProfileListLoading(false);
   };
 
   const [modalsOpen, setModalsOpen] = useState<{
@@ -58,6 +80,9 @@ const frameworkViewContainer = () => {
     isLoading,
     beginLoading,
     finishLoading,
+
+    // News
+    news,
 
     // Profiles
     reloadProfileList,

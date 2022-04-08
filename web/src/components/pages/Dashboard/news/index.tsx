@@ -1,36 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Box,
   Card,
   Typography,
 } from '@mui/material';
-import { getFunctions } from 'firebase/functions';
-import { getNews } from 'utils/firebaseFunctions';
 
 interface NewsProps {
-  beginLoading: () => void;
-  finishLoading: () => void;
+  news: string[]
 }
 
 const News = (props: NewsProps) => {
-  const { beginLoading, finishLoading } = props;
-  const [news, setNews] = useState<string[] | undefined>(undefined);
+  const { news } = props;
 
-  useEffect(() => {
-    (async () => {
-      beginLoading();
-      try {
-        const result = await getNews(getFunctions())();
-        setNews(result.data);
-      } catch(e) {
-        console.error(e);
-      } finally {
-        finishLoading();
-      }
-    })();
-  }, []);
-
-  if (news === undefined || news.length === 0) {
+  if (news.length === 0) {
     return <React.Fragment></React.Fragment>;
   }
 
