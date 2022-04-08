@@ -7,6 +7,10 @@ const frameworkViewContainer = () => {
   const [searchParams, setSeachParams] = useSearchParams();
   const [isLoading, setLoading] = useState(false);
 
+  // Loading関連
+  const beginLoading = () => setLoading(true);
+  const finishLoading = () => setLoading(false);
+
   const [modalsOpen, setModalsOpen] = useState<{
     logout: boolean;
   }>({
@@ -15,8 +19,8 @@ const frameworkViewContainer = () => {
 
   return {
     isLoading,
-    beginLoading: () => { setLoading(true); },
-    finishLoading: () => { setLoading(false); },
+    beginLoading,
+    finishLoading,
 
     // modals
     modalsOpen,
